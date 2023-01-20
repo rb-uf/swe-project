@@ -3,7 +3,7 @@
 ## Group Members
 
 ### Frontend
-- Devala (Nimai) Griffith :kangaroo:
+- Devala (Nimai) Griffith :kangaroo: 
 - Richard Bachmann :smile:
 
 ### Backend
