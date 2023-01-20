@@ -1,17 +1,14 @@
-# swe-project
-
-TODO: come up with name ("gator-raters" or "gator-ratings" maybe?)
-TODO: make a description
+# rater-gator
 
 ## Group Members
 
 ### Frontend
-- Devala (Nimai) Griffith
-- Richard Bachmann
+- Devala (Nimai) Griffith :kangaroo:
+- Richard Bachmann :smile:
 
 ### Backend
 - Emmett Kogan :skull:
-- Shane Ferrell
+- Shane Ferrell :monkey:
 
 ## Project Description:
 ### Definite Features
@@ -43,11 +40,4 @@ TODO: make a description
 ### Possible Components
 1. https://github.com/JacobSamro/ngx-spellchecker
 2. https://timdeschryver.dev/blog/google-maps-as-an-angular-component#angular
-
-class Room
--- elements
-
-elements
--- ratings // [0, 5]
--- reviews // max 255
    
