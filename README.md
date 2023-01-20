@@ -40,4 +40,7 @@
 ### Possible Components
 1. https://github.com/JacobSamro/ngx-spellchecker
 2. https://timdeschryver.dev/blog/google-maps-as-an-angular-component#angular
+
+### Stucture
+We plan to utilize REST API for fully-reactive communication
    
