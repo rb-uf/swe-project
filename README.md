@@ -10,6 +10,44 @@ TODO: make a description
 - Richard Bachmann
 
 ### Backend
-- Emmett Kogan
+- Emmett Kogan :skull:
 - Shane Ferrell
 
+## Project Description:
+### Definite Features
+- (Create) Users should be able to add locations, and leave reviews for 
+  elements within them. For example, a user should be able to search
+  a lecture hall, and then leave a review for the chairs within it.
+- (Read) They should also be able to search for existing locations, and look
+  at reviews for that location, or leave a new review
+- (Create) When looking at locations, they should be able to leave reviews of 
+  their own
+- (Update) Users should be able to edit their posts/reviews
+- (Delete) Users/moderators should be able to delete posts
+- (Read) Should be able to filter search by elements, ratings, or reviews;
+  e.g. they can query for the room with the best chairs. (For this to work
+  better we may want to add specific categories or do some processing of user
+  strings)
+- Basic login screen and account system (just a name like When2Meet)
+
+### Possible Features
+- (Read) Maybe implement a map, where locations/rooms can be displayed, maybe
+  an information sidebar is also displayed (including a picture of the location
+  if available, and some type of summary of statistics for the ratings)
+- Functionality for users to be able to post pictures within their reviews. For
+  instance, so that if someone is reviewing a chair they can include a picture for
+  other users
+- The ability to comment on other people's ratings or reviews
+- Sophisticated login screen and account system (actual authentication)
+
+### Possible Components
+1. https://github.com/JacobSamro/ngx-spellchecker
+2. https://timdeschryver.dev/blog/google-maps-as-an-angular-component#angular
+
+class Room
+-- elements
+
+elements
+-- ratings // [0, 5]
+-- reviews // max 255
+   
