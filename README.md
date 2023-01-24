@@ -54,8 +54,8 @@ We plan to utilize REST API for fully-reactive communication
 2. Install Angular CLI: https://angular.io/guide/setup-local#install-the-angular-cli
 
 3. Verify everything is working by running the application:
-```
-cd angular-front-end
-ng serve --open
-```
-The application should open in your web browser.
+   ```
+   cd angular-front-end
+   ng serve --open
+   ```
+   The application should open in your web browser.
