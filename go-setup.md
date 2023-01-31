@@ -21,15 +21,15 @@
 2. If there are any issues or clarifications with the steps I loosely outlined I'm happy to update and clarify anything, just dm or ping me on discord or email me at emmett.kogan@ufl.edu
 ---
 ## References/Links
-A video I'm currently watching to figure out more about go, I also used it to check against what I figured out from reading documentation as far as setting up a project is concerned:
-&nbsp;&nbsp;&nbsp;&nbsp;https://www.youtube.com/watch?v=lf_kiH_NPvM
-Go Documentation:
-&nbsp;&nbsp;&nbsp;&nbsp;https://go.dev/learn/
-Go Package Search:
-&nbsp;&nbsp;&nbsp;&nbsp;https://pkg.go.dev/
-GORM Documentation:
-&nbsp;&nbsp;&nbsp;&nbsp;https://gorm.io/
-Gin Documentation:
-&nbsp;&nbsp;&nbsp;&nbsp;https://gin-gonic.com/docs/
-gorilla/mux Documentation (this is just from pkg.go.dev):
-&nbsp;&nbsp;&nbsp;&nbsp;https://pkg.go.dev/github.com/gorilla/mux#section-readme
+A video I'm currently watching to figure out more about go, I also used it to check against what I figured out from reading documentation as far as setting up a project is concerned: https://www.youtube.com/watch?v=lf_kiH_NPvM
+
+Go Documentation: https://go.dev/learn/
+
+Go Package Search: https://pkg.go.dev/
+
+GORM Documentation: https://gorm.io/
+
+Gin Documentation: https://gin-gonic.com/docs/
+
+gorilla/mux Documentation (this is just from pkg.go.dev): https://pkg.go.dev/github.com/gorilla/mux#section-readme
+
