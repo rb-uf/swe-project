@@ -1,4 +1,4 @@
-module github.com/Emmett-Kogan/backend
+module github.com/shaneferrellwv/backend
 
 go 1.19
 

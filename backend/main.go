@@ -3,9 +3,9 @@ package main
 import (
 	"fmt"
 
-	"github.com/Emmett-Kogan/swe-project/backend/handlers"
-	"github.com/Emmett-Kogan/swe-project/backend/initializers"
 	"github.com/gin-gonic/gin"
+	"github.com/shaneferrellwv/backend/handlers"
+	"github.com/shaneferrellwv/backend/initializers"
 )
 
 func init() {
