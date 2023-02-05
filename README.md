@@ -41,6 +41,9 @@
 1. https://github.com/JacobSamro/ngx-spellchecker
 2. https://timdeschryver.dev/blog/google-maps-as-an-angular-component#angular
 
+[Postman Link](https://app.getpostman.com/join-team?invite_code=93eeacce0902283fe854b0f8cedadc87&target_code=26326ce816c118a21b7b8f868fab1030)
+
+
 ### Stucture
 We plan to utilize REST API for fully-reactive communication
    
