@@ -13,6 +13,7 @@ import (
 	"fmt"
 
 	"github.com/Emmett-Kogan/go-crud/initializers"
+	"github.com/Emmett-Kogan/go-crud/models"
 	"github.com/gin-gonic/gin"
 )
 
@@ -32,11 +33,45 @@ func main() {
 	r := gin.Default()
 
 	// Default port is 8080, port is currently set in .env to 3000
+
 	r.GET("/", func(c *gin.Context) {
 		c.JSON(200, gin.H{
 			"message": "hello",
 		})
 	})
 
+	r.POST("/test", CreateTest)
+
 	r.Run()
+}
+
+func CreateTest(c *gin.Context) {
+	// Get data off req body
+	var body struct {
+		Body string
+	}
+
+	c.Bind(&body)
+
+	// Create test struct
+	newTest := models.Test{Text: body.Body}
+	result := initializers.DB.Create(&newTest)
+
+	// I don't understand why yet but the test is not being pushed
+	// to the database
+
+	if result.Error != nil {
+		fmt.Println(result.Error)
+		fmt.Println("Error doing result?")
+		c.Status(400)
+		return
+	}
+
+	newTest.Text = "Server's response: " + newTest.Text
+
+	// return to sender
+	c.JSON(200, gin.H{
+		"test": newTest,
+	})
+
 }
