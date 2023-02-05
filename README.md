@@ -4,13 +4,14 @@
 
 ### Frontend
 - Devala (Nimai) Griffith :kangaroo: 
-- Richard Bachmann :smile:
+- Richard Bachmann :)
 
 ### Backend
 - Emmett Kogan :skull:
 - Shane Ferrell :monkey:
 
-## Project Description:
+## Project Description
+
 ### Definite Features
 - (Create) Users should be able to add locations, and leave reviews for 
   elements within them. For example, a user should be able to search
@@ -43,4 +44,18 @@
 
 ### Stucture
 We plan to utilize REST API for fully-reactive communication
-   
+
+## Instructions
+
+### Angular Front-end
+
+1. Install node.js: https://nodejs.org/en/download/
+
+2. Install Angular CLI: https://angular.io/guide/setup-local#install-the-angular-cli
+
+3. Verify everything is working by running the application:
+   ```
+   cd angular-front-end
+   ng serve --open
+   ```
+   The application should open in your web browser.
