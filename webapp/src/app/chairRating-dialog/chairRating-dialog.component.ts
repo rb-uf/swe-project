@@ -26,7 +26,7 @@ export class ChairRatingDialog implements OnDestroy {
     this.controlGroup = new FormGroup({
       classroomName: new FormControl(chairRating.classroomName, Validators.required),
       rating: new FormControl(chairRating.rating, [
-        Validators.required, Validators.min(0), Validators.max(100)
+        Validators.required, Validators.min(0), Validators.max(5)
       ])
     });
   }
