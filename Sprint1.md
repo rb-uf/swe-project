@@ -33,11 +33,17 @@
 ---
 User story 14 was completed.
 
+We successfully got an angular front end setup and running. We have also started to make edits to it.
+
+We also found a github repository involving and angular front end and a go back end that we plan on reading through and learning from.
+
 ## Which ones didn't and why
 ---
 The rest of the user stories were not completed because most were written to describe the ending features/state of the project,
 not necessarilly intermediate steps. Currently, user story 13 is next to be completed and from there, adding features, that are
 supported by the backend, should be implemented at a better rate.
+
+For the front end, we still need to learn how to make http requests, as well as continue to implement features. 
 
 ## Links
 [Frontend Demo Video](https://youtu.be/_WyK8L4BWkg)
