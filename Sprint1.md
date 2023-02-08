@@ -40,6 +40,6 @@ not necessarilly intermediate steps. Currently, user story 13 is next to be comp
 supported by the backend, should be implemented at a better rate.
 
 ## Links
-[Frontend Demo Video]()
+[Frontend Demo Video](https://youtu.be/_WyK8L4BWkg)
 
 [Backend Demo Video](https://youtu.be/grQdQmjnzPc)
