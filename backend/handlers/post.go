@@ -4,8 +4,8 @@ import (
 	"log"
 
 	"github.com/gin-gonic/gin"
-	"github.com/shaneferrellwv/backend/initializers"
-	"github.com/shaneferrellwv/backend/objects"
+	"swe-project/backend/initializers"
+	"swe-project/backend/objects"
 )
 
 func Post(c *gin.Context) {

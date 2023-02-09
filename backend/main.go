@@ -4,8 +4,8 @@ import (
 	"fmt"
 
 	"github.com/gin-gonic/gin"
-	"github.com/shaneferrellwv/backend/handlers"
-	"github.com/shaneferrellwv/backend/initializers"
+	"swe-project/backend/handlers"
+	"swe-project/backend/initializers"
 )
 
 func init() {

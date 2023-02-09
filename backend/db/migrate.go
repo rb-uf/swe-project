@@ -1,8 +1,8 @@
 package main
 
 import (
-	"github.com/shaneferrellwv/backend/initializers"
-	"github.com/shaneferrellwv/backend/objects"
+	"swe-project/backend/initializers"
+	"swe-project/backend/objects"
 )
 
 func main() {
