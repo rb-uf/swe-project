@@ -64,13 +64,18 @@ cd swe-project
 
 ### Backend
 
-- If you want to import a package created within this project, add to the import list `"swe-project/backend/package-name"`.
+- If you want to import a package created within this project, add `"swe-project/backend/package-name"` to the import list.
+  "swe-project/backend" is the name of the go module created for this project.
 
 
 
 ## Ideas
 
 ### Data Structures
+
+These are data structures the backend could implement for basic functionality.
+They can be modified or added-to later.
+"Subject" refers to the subject of a review (for example, a classroom at UF).
 
 subject:
 - subject_id (int)
@@ -86,6 +91,10 @@ review:
 
 ### API
 
+This is a description of a basic API the backend could implement.
+The "create" actions could be implemented with an http POST request, and the "get" actions with an http GET request.
+The data could be sent in a JSON format.
+
 Create new subject
 - client provides name
 - server generates subject_id
@@ -97,3 +106,10 @@ Create new review
 - server generates review_id
 - server adds review_id to subject's review_list
 - server recomputes subject's average_rating
+
+Get list of subjects
+- server returns a list with a subject_id, name, and average_rating for each subject
+
+Get list of reviews
+- client provides subject_id
+- server returns a list with a review_id, rating, and text for each review
