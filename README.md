@@ -1,6 +1,6 @@
 # Rater-Gator
 
-Rater-Gator is an app for reviewing things (buildings, classrooms, chairs, etc.) around UF campus.
+Rater-Gator is a webapp for reviewing things around UF campus (such as buildings, classrooms, and chairs).
 
 Created for CEN3031 Intro to Software Engineering.
 
@@ -12,7 +12,15 @@ Backend team:
 - Emmett Kogan :skull:
 - Shane Ferrell :monkey:
 
+
+
 ## Setup Instructions
+
+First, open a terminal, clone the repository, and enter the newly-created directory:
+```
+git clone https://github.com/rb-uf/swe-project.git
+cd swe-project
+```
 
 ### Frontend
 
@@ -25,13 +33,42 @@ Backend team:
    cd angular-front-end
    ng serve --open
    ```
-   The application should open in your web browser. This may take a few moments.
+   The application should open in your web browser.
+   This may take a few moments.
 
 ### Backend
 
-## Internal Design
+1. Install Go: https://go.dev/doc/install
+   Notes for installing on Linux:
+   Your package manager may offer a `golang` package, but the version offered may not be new enough for this project.
+   If that's the case, follow the installation instructions linked above.
+   Be sure to follow the instructions exactly, including the note about sudo, changing the PATH variable, and logging out/in.
+
+2. Enter the `backend/` directory (from within `swe-project/`) and build the project:
+   ```
+   cd backend
+   go build
+   ```
+   This should automatically download any required dependencies as well.
+
+3. Start the backend server:
+   ```
+   go run swe-project/backend
+   ```
+   Several lines should print out starting with `[GIN-debug]`.
+   Press `Ctrl-C` to stop the server.
 
 
+
+## Developer Notes
+
+### Backend
+
+- If you want to import a package created within this project, add to the import list `"swe-project/backend/package-name"`.
+
+
+
+## Ideas
 
 ### Data Structures
 
