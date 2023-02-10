@@ -39,6 +39,7 @@ cd swe-project
 ### Backend
 
 1. Install Go: https://go.dev/doc/install
+   
    Notes for installing on Linux:
    Your package manager may offer a `golang` package, but the version offered may not be new enough for this project.
    If that's the case, follow the installation instructions linked above.
