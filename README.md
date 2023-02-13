@@ -52,7 +52,12 @@ cd swe-project
    go run swe-project/backend
    ```
    Several lines should print out starting with `[GIN-debug]`.
-   Press `Ctrl-C` to stop the server.
+
+4. Open a web browser and go to `localhost:3000`.
+
+   You should see the front end.
+
+5. From the terminal, ress `Ctrl-C` to stop the server.
 
 
 

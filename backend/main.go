@@ -14,7 +14,7 @@ func init() {
 }
 
 func main() {
-	fmt.Println("tet")
+	fmt.Println("Starting swe-project/backend server.")
 
 	r := gin.Default()
 
