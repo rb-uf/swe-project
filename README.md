@@ -14,6 +14,13 @@ Backend team:
 
 
 
+## Announcements
+
+- Backend setup process has been simplified.
+- The backend is now serving the frontend.
+
+
+
 ## Setup Instructions
 
 First, open a terminal, clone the repository, and enter the newly-created directory:
