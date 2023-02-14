@@ -62,9 +62,9 @@ cd swe-project
 
 4. Open a web browser and go to `localhost:3000`.
 
-   You should see the frontend.
+   You should see the front end.
 
-5. From the terminal, press `Ctrl-C` to stop the server.
+5. From the terminal, ress `Ctrl-C` to stop the server.
 
 
 
