@@ -1,9 +1,11 @@
 package handlers
 
-import "github.com/gin-gonic/gin"
+import (
+	"net/http"
+)
 
-func Get(c *gin.Context) {
-	c.JSON(200, gin.H{
-		"message": "hello",
-	})
+
+
+func GetTest(w http.ResponseWriter, r *http.Request) {
+	w.Write([]byte("Hello\n"))
 }

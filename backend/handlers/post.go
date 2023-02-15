@@ -2,13 +2,13 @@ package handlers
 
 import (
 	"log"
+	"net/http"
 
-	"github.com/gin-gonic/gin"
 	"swe-project/backend/initializers"
 	"swe-project/backend/objects"
 )
 
-func Post(c *gin.Context) {
+func PostTest(w http.ResponseWriter, r *http.Request) {
 	// Get data off request body
 
 	// Create test struct
@@ -24,7 +24,5 @@ func Post(c *gin.Context) {
 	}
 
 	// Return to sender
-	c.JSON(200, gin.H{
-		"User": postTest,
-	})
+	w.Write([]byte("PostTest\n"))
 }

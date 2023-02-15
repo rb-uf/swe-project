@@ -2,8 +2,10 @@ package main
 
 import (
 	"fmt"
+	"net/http"
+	"log"
 
-	"github.com/gin-gonic/gin"
+	"github.com/gorilla/mux"
 	"swe-project/backend/handlers"
 	"swe-project/backend/initializers"
 )
@@ -16,10 +18,9 @@ func init() {
 func main() {
 	fmt.Println("Starting swe-project/backend server.")
 
-	r := gin.Default()
-
+	r := mux.NewRouter()
 	handlers.MasterHandler(r)
 
-	r.Run()
+	log.Fatal(http.ListenAndServe(":3000", r))
 
 }
