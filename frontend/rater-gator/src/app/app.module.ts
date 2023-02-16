@@ -12,7 +12,7 @@ import { MatIconModule } from '@angular/material/icon'
 @NgModule({
   declarations: [
     AppComponent,
-    ReviewsComponent
+    ReviewsComponent,
   ],
   imports: [
     BrowserModule,
@@ -24,4 +24,9 @@ import { MatIconModule } from '@angular/material/icon'
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule { 
+
+  openNewReviewDialog() {
+    
+  }
+}

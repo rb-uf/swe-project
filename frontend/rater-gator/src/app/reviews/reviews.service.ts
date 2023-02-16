@@ -1,34 +1,34 @@
 import { Injectable } from '@angular/core';
 
-export interface Review {
+export class Review {
   title: string;
   rating: number; // TODO: restrict range from 0 to 5
   building: string; // TODO: make this an enum of acceptable buildings on campus
   //description: string;
   reviewer: string;
+
+  constructor(title: string, rating: number, building: string, reviewer: string) {
+    this.title = title;
+    this.rating = rating;
+    this.building = building;
+    this.reviewer = reviewer;
+  }
 }
 
 @Injectable({
   providedIn: 'root'
 })
 export class ReviewsService {
+  private _reviews : Review[] = [];
 
   constructor() { }
 
-  get(): Review[] {
-    return [
-      {
-        title: "Uncomfortable and Squeaky",
-        rating: 2,
-        building: "Carleton Auditorium",
-        reviewer: "ShaneF"
-      },
-      {
-        title: "Nicest chairs ever",
-        rating: 5,
-        building: "Marston Science Library",
-        reviewer: "DevalaG"
-      }
-    ];
+  add(review: Review): Review[] {
+    this._reviews.push(review);
+    return this._reviews;
+  }
+
+  get(): readonly Review[] {
+    return this._reviews;
   }
 }

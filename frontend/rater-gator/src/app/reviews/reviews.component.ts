@@ -7,9 +7,13 @@ import { Review, ReviewsService } from './reviews.service';
   styleUrls: ['./reviews.component.css'],
 })
 export class ReviewsComponent {
-  reviews: Review[] = [];
+  reviews: readonly Review[] = [];
 
   constructor(private reviewsService: ReviewsService) {
     this.reviews = reviewsService.get();
+  }
+
+  addReview(title: string, rating: number, building: string, reviewer: string) {
+    this.reviews = this.reviewsService.add(new Review(title, rating, building, reviewer));
   }
 }
