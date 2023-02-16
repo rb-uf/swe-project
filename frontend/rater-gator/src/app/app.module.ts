@@ -24,9 +24,4 @@ import { MatIconModule } from '@angular/material/icon'
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { 
-
-  openNewReviewDialog() {
-    
-  }
-}
+export class AppModule { }
