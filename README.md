@@ -75,6 +75,29 @@ cd swe-project
 - If you want to import a package created within this project, add `"swe-project/backend/package-name"` to the import list.
   "swe-project/backend" is the name of the go module created for this project.
 
+- gorilla/mux
+  - The purpose of gorilla/mux is to take an HTTP request, pick it apart, and try matching it against "descriptions" of HTTP Requests.
+  - If the request matches a particular description, the request is given to a "handler" function.
+  - You make both the descriptions and the handler functions.
+  - A description can involve things like "the requested URL should start with /app" or "only match POST requests".
+
+- The http.ResponseWriter and http.Request stuff comes from net/http, which is part of Go's standard library.
+  The only thing gorilla/mux provides is the pattern-matching functionality.
+ 
+- Documentation on Go's http.Request data structure: https://pkg.go.dev/net/http#Request
+
+- JSON 
+  - Stands for "JavaScript Object Notation".
+  - It is a text-based (string) data format for describing an object or struct.
+  - It was inspired by Javascript's syntax for objects, but it's use is not limited to just with Javascript.
+    It is widely-used as a general-purpose format for saving and sending data structures.
+  - encoding/json is a library for converting between Go structs and JSON strings.
+    It is part of Go's standard library.
+
+- Useful parts of "The Go Programming Language":
+  - Section 1.7, p19 - A Web Server
+  - Section 4.5, p107 - JSON
+  - Section 7.7, p191 - The http.Handler Interface
 
 
 ## Ideas
