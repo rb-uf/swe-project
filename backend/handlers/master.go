@@ -14,6 +14,7 @@ func MasterHandler(r *mux.Router) {
 	r.HandleFunc("/create-subject", CreateSubject).
 	  Methods("POST")
 
+	// If nothing else matches, try matching frontend files.
 	r.PathPrefix("/").
-	  Handler(http.StripPrefix("/", http.FileServer(http.Dir(os.Getenv("FRONTEND_PATH")))))
+	  Handler(http.FileServer(http.Dir(os.Getenv("FRONTEND_PATH"))))
 }
