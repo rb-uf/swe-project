@@ -8,15 +8,15 @@ import (
 	"github.com/gorilla/mux"
 	"swe-project/backend/handlers"
 	"swe-project/backend/initializers"
+	"swe-project/backend/objects"
 )
-
-func init() {
-	initializers.LoadEnv()
-	initializers.Connect_db()
-}
 
 func main() {
 	fmt.Println("Starting swe-project/backend server.")
+
+	initializers.LoadEnv()
+	initializers.Connect_db()
+	initializers.DB.AutoMigrate(&objects.User{}, &objects.Subject{})
 
 	r := mux.NewRouter()
 	handlers.MasterHandler(r)
