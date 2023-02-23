@@ -15,7 +15,7 @@ func CreateSubject(w http.ResponseWriter, r *http.Request) {
 	// Convert JSON description into a Subject struct
 	var newSubject datamgr.Subject
 	json.NewDecoder(r.Body).Decode(&newSubject)
-	fmt.Printf("New subject received. \"Name\": %s", newSubject.Name)
+	fmt.Printf("New subject received: Name: \"%s\"\n", newSubject.Name)
 	r.Body.Close()
 
 	// Store new subject in database.

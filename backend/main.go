@@ -15,17 +15,18 @@ import (
 func main() {
 	fmt.Println("Starting swe-project/backend server.")
 
-	// Load environment variables, used for filenames and port numbers.
-	// Access an env variable with os.Getenv("ENV_VAR").
-	err := godotenv.Load(); if err != nil {
-		log.Fatal("Error loading .env file")
-	}
-
-
+	loadEnv()
 	datamgr.ConnectDB()
 
 	r := mux.NewRouter()
 	handlers.MasterHandler(r)
-
 	log.Fatal(http.ListenAndServe(":3000", r))
+}
+
+// Load environment variables, used for filenames and port numbers.
+// Access an env variable with os.Getenv("ENV_VAR").
+func loadEnv() {
+	err := godotenv.Load(); if err != nil {
+		log.Fatal("Error loading .env file")
+	}
 }

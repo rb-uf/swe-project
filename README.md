@@ -6,11 +6,11 @@ Created for CEN3031 Intro to Software Engineering.
 
 Frontend team:
 - Devala (Nimai) Griffith :kangaroo: 
-- Richard Bachmann :)
+- Shane Ferrell :monkey:
 
 Backend team:
 - Emmett Kogan :skull:
-- Shane Ferrell :monkey:
+- Richard Bachmann :)
 
 
 
@@ -58,7 +58,6 @@ cd swe-project
    ```
    go run swe-project/backend
    ```
-   Several lines should print out starting with `[GIN-debug]`.
 
 4. Open a web browser and go to `localhost:3000`.
 
