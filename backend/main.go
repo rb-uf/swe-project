@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"net/http"
 	"log"
+	"os"
 
 	"github.com/gorilla/mux"
 	"github.com/joho/godotenv"
@@ -20,10 +21,11 @@ func main() {
 
 	r := mux.NewRouter()
 	handlers.MasterHandler(r)
-	log.Fatal(http.ListenAndServe(":3000", r))
+	log.Fatal(http.ListenAndServe(os.Getenv("PORT"), r))
 }
 
-// Load environment variables, used for filenames and port numbers.
+// loadEnv: load environment variables
+// Env vars are being used for filenames and port numbers.
 // Access an env variable with os.Getenv("ENV_VAR").
 func loadEnv() {
 	err := godotenv.Load(); if err != nil {
