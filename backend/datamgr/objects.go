@@ -9,16 +9,19 @@ type Subject struct {
 
 type Review struct {
 	gorm.Model
-	Subject 	string
-	Rating  	uint
-	Text    	string
-	Author		string
-	AuthorID	uint
+	Subject  string
+	Rating   uint
+	Text     string
+	Author   string
+	AuthorID uint
 }
 
 type User struct {
 	gorm.Model
-	ID       uint
+	ID uint
+
 	Name     string
 	Password string
+
+	Admin bool
 }

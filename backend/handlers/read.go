@@ -2,8 +2,8 @@ package handlers
 
 import (
 	"encoding/json"
-	"log"
 	"fmt"
+	"log"
 	"net/http"
 	"swe-project/backend/datamgr"
 
@@ -29,11 +29,16 @@ func GetSubjects(w http.ResponseWriter, r *http.Request) {
 
 	if err != nil {
 		log.Fatal("Subjects failed to be converted to JSON")
-		w.WriteHeader(424)	// Failed dependency
+		w.WriteHeader(424) // Failed dependency
 	}
 
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(200)
 	w.Write(response)
 
+}
+
+func GetSubjectReviews(w http.ResponseWriter, r *http.Request) {
+	// Should have an integer and a string in the body
+	// The integer will the max number of reviews to retrieve and the string will be the subject
 }

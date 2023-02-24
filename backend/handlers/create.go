@@ -1,7 +1,6 @@
 package handlers
 
 import (
-	"encoding/json"
 	"fmt"
 	"net/http"
 
@@ -10,9 +9,8 @@ import (
 
 func CreateSubject(w http.ResponseWriter, r *http.Request) {
 	// Get the json body off of the request and store in a struct
-	w.Header().Set("Content-Type", "application/json")
 	var subject datamgr.Subject
-	json.NewDecoder(r.Body).Decode(&subject)
+	ReadRequest(w, r, &subject)
 
 	// Log the request in the console
 	fmt.Println("CreateSubject called: created ", subject.Name)
@@ -28,31 +26,20 @@ func CreateSubject(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(400)
 		return
 
-	} 
-
-	// Create JSON version of subject object
-	response, err := json.Marshal(subject)
-	if err != nil {
-		fmt.Println("Failed to convert subject into JSON")
-
-		w.WriteHeader(406)	// Not acceptable
 	}
 
-	// Return to the requester a JSON of the created object on our end
-	w.WriteHeader(201)	// Created status code
-	w.Write(response)
+	WriteResponse(w, subject, 201)
 }
 
 func CreateReview(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-type", "application/json")
-
 	var review datamgr.Review
-	json.NewDecoder(r.Body).Decode(&review)
+	ReadRequest(w, r, &review)
 
 	// If subject specified does not exist, log it and return an error
+	// TODO: maybe just have this create the subject as well
 	result := datamgr.DB.First(&datamgr.Subject{}, "name = ?", review.Subject)
 	if result.Error != nil {
-		fmt.Println("Subjcet specified DNE")
+		fmt.Println("Subject specified DNE")
 		w.WriteHeader(400)
 		return
 	}
@@ -66,12 +53,5 @@ func CreateReview(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	response, err := json.Marshal(review)
-	if err != nil {
-		fmt.Println("Failed to convert subject into JSON")
-		w.WriteHeader(406)
-	}
-
-	w.WriteHeader(200)
-	w.Write(response)
+	WriteResponse(w, review, 201)
 }

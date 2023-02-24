@@ -2,8 +2,8 @@ package handlers
 
 import (
 	"encoding/json"
-	"net/http"
 	"fmt"
+	"net/http"
 	"swe-project/backend/datamgr"
 	//"github.com/gorilla/mux"
 )
@@ -12,7 +12,6 @@ func DeleteSubjecet(w http.ResponseWriter, r *http.Request) {
 	// Temporary: using url param to specify ID to delete
 	//params := mux.Vars(r)
 	// ID := params["ID"]
-
 
 	// Read object to delete
 	w.Header().Set("Content-Type", "application/json")
@@ -28,13 +27,13 @@ func DeleteSubjecet(w http.ResponseWriter, r *http.Request) {
 	var p datamgr.Subject
 	datamgr.DB.Find(&p, request.ID)
 
-	if (p.ID != request.ID){
+	if p.ID != request.ID {
 		fmt.Println("Error deleting object: ", request.Name)
-		w.WriteHeader(400)	// Bad request	
+		w.WriteHeader(400) // Bad request
 		return
 	}
 
 	datamgr.DB.Delete(&p)
 
-	w.WriteHeader(200)	// OK
+	w.WriteHeader(200) // OK
 }

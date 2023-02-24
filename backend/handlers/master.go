@@ -12,7 +12,6 @@ func MasterHandler(r *mux.Router) {
 	// r.HandleFunc("/get-test", GetTest)
 	// r.HandleFunc("/post-test", PostTest)
 
-
 	// Subject related handlers
 	r.HandleFunc("/create-subject", CreateSubject).
 		Methods("POST")
@@ -24,8 +23,6 @@ func MasterHandler(r *mux.Router) {
 
 	// Review related handlers
 	r.HandleFunc("/create-review", CreateReview).Methods("POST")
-
-
 
 	// If nothing else matches, try matching frontend files.
 	r.PathPrefix("/").
