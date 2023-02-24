@@ -12,11 +12,12 @@ type Review struct {
 	Subject Subject
 	Rating  uint
 	Text    string
+	Author	uint
 }
 
 type User struct {
 	gorm.Model
-	ID       int
+	ID       uint
 	Name     string
 	Password string
 }

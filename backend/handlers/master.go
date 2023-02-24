@@ -18,6 +18,8 @@ func MasterHandler(r *mux.Router) {
 	r.HandleFunc("/get-subject/{name}", GetSubject).Methods("GET")
 	r.HandleFunc("/get-subjects", GetSubjects).Methods("GET")
 
+	r.HandleFunc("/delete-subject", DeleteSubjecet).Methods("DELETE")
+
 	// If nothing else matches, try matching frontend files.
 	r.PathPrefix("/").
 		Handler(http.FileServer(http.Dir(os.Getenv("FRONTEND_PATH"))))
