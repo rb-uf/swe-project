@@ -2,15 +2,15 @@ package main
 
 import (
 	"fmt"
-	"net/http"
 	"log"
+	"net/http"
 	"os"
 
 	"github.com/gorilla/mux"
 	"github.com/joho/godotenv"
 
-	"swe-project/backend/handlers"
 	"swe-project/backend/datamgr"
+	"swe-project/backend/handlers"
 )
 
 func main() {
@@ -20,6 +20,7 @@ func main() {
 	datamgr.ConnectDB()
 
 	r := mux.NewRouter()
+
 	handlers.MasterHandler(r)
 	log.Fatal(http.ListenAndServe(os.Getenv("PORT"), r))
 }
@@ -28,7 +29,8 @@ func main() {
 // Env vars are being used for filenames and port numbers.
 // Access an env variable with os.Getenv("ENV_VAR").
 func loadEnv() {
-	err := godotenv.Load(); if err != nil {
+	err := godotenv.Load()
+	if err != nil {
 		log.Fatal("Error loading .env file")
 	}
 }
