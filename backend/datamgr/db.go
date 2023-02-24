@@ -18,5 +18,5 @@ func ConnectDB() {
 		log.Fatal("Error opening database")
 	}
 
-	DB.AutoMigrate(&User{}, &Subject{})
+	DB.AutoMigrate(&User{}, &Subject{}, &Review{})
 }

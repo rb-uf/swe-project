@@ -3,7 +3,6 @@ package handlers
 import (
 	"encoding/json"
 	"fmt"
-	"log"
 	"net/http"
 
 	"swe-project/backend/datamgr"
@@ -23,7 +22,7 @@ func CreateSubject(w http.ResponseWriter, r *http.Request) {
 
 	// If it fails to create, return an error code
 	if result.Error != nil {
-		log.Fatal("Failed to create entry in database")
+		fmt.Println("Failed to create entry in database")
 
 		// Return error code to whomever made the request, for now I'm just going to do 400
 		w.WriteHeader(400)
@@ -34,15 +33,45 @@ func CreateSubject(w http.ResponseWriter, r *http.Request) {
 	// Create JSON version of subject object
 	response, err := json.Marshal(subject)
 	if err != nil {
-		log.Fatal("Failed to convert subject into JSON")
+		fmt.Println("Failed to convert subject into JSON")
 
 		w.WriteHeader(406)	// Not acceptable
 	}
 
 	// Return to the requester a JSON of the created object on our end
-	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(201)	// Created status code
 	w.Write(response)
+}
 
+func CreateReview(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-type", "application/json")
 
+	var review datamgr.Review
+	json.NewDecoder(r.Body).Decode(&review)
+
+	// If subject specified does not exist, log it and return an error
+	result := datamgr.DB.First(&datamgr.Subject{}, "name = ?", review.Subject)
+	if result.Error != nil {
+		fmt.Println("Subjcet specified DNE")
+		w.WriteHeader(400)
+		return
+	}
+
+	// Otherwise the subject does exist and we can create the review and return the created object
+	result = datamgr.DB.Create(&review)
+
+	if result.Error != nil {
+		fmt.Println("Failed to create DB entry")
+		w.WriteHeader(400)
+		return
+	}
+
+	response, err := json.Marshal(review)
+	if err != nil {
+		fmt.Println("Failed to convert subject into JSON")
+		w.WriteHeader(406)
+	}
+
+	w.WriteHeader(200)
+	w.Write(response)
 }
