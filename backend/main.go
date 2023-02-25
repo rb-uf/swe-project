@@ -17,7 +17,7 @@ func main() {
 	fmt.Println("Starting swe-project/backend server.")
 
 	loadEnv()
-	datamgr.ConnectDB()
+	datamgr.ConnectDB(os.Getenv("DB_FILE"))
 
 	r := mux.NewRouter()
 

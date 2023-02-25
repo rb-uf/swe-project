@@ -2,7 +2,6 @@ package datamgr
 
 import (
 	"log"
-	"os"
 
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
@@ -10,10 +9,10 @@ import (
 
 var DB *gorm.DB
 
-func ConnectDB() {
+func ConnectDB(file string) {
 	var err error
 
-	DB, err = gorm.Open(sqlite.Open(os.Getenv("DB_FILE")), &gorm.Config{})
+	DB, err = gorm.Open(sqlite.Open(file), &gorm.Config{})
 	if err != nil {
 		log.Fatal("Error opening database")
 	}
