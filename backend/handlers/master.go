@@ -24,6 +24,8 @@ func MasterHandler(r *mux.Router) {
 	// Review related handlers
 	r.HandleFunc("/create-review", CreateReview).Methods("POST")
 
+	r.HandleFunc("/get-subject-reviews", GetSubjectReviews).Methods("GET")
+
 	// If nothing else matches, try matching frontend files.
 	r.PathPrefix("/").
 		Handler(http.FileServer(http.Dir(os.Getenv("FRONTEND_PATH"))))

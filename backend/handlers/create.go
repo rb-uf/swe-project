@@ -7,6 +7,14 @@ import (
 	"swe-project/backend/datamgr"
 )
 
+/*
+ * CreateSubject: Creates a new subject object in the database, returns the new structure on success
+ * Incoming packet body should look like:
+ * {
+ *	"Name": <string>
+ * }
+ */
+
 func CreateSubject(w http.ResponseWriter, r *http.Request) {
 	// Get the json body off of the request and store in a struct
 	var subject datamgr.Subject
@@ -30,6 +38,18 @@ func CreateSubject(w http.ResponseWriter, r *http.Request) {
 
 	WriteResponse(w, subject, 201)
 }
+
+/*
+ * CreateReview: Creates a new subject object in the database, returns the new structure on success
+ * Incoming packet body should look like:
+ * {
+    "Subject": "CSE",
+    "Rating": 5,
+    "Text": "The dungeon has good A/C",
+    "Author": "Emmett",
+    "AuthorID": 420
+ * }
+*/
 
 func CreateReview(w http.ResponseWriter, r *http.Request) {
 	var review datamgr.Review

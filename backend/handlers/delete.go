@@ -1,23 +1,20 @@
 package handlers
 
 import (
-	"encoding/json"
 	"fmt"
 	"net/http"
 	"swe-project/backend/datamgr"
-	//"github.com/gorilla/mux"
 )
 
+/*
+ * DeleteSubject: Deletes specified subject by the request packet. For now this has no authentication
+ * for who can delete what but when users and account levels are implemented later this will be added to
+ */
+
 func DeleteSubjecet(w http.ResponseWriter, r *http.Request) {
-	// Temporary: using url param to specify ID to delete
-	//params := mux.Vars(r)
-	// ID := params["ID"]
-
 	// Read object to delete
-	w.Header().Set("Content-Type", "application/json")
 	var request datamgr.Subject
-
-	json.NewDecoder(r.Body).Decode(&request)
+	ReadRequest(w, r, &request)
 
 	// TODO: Ultimatley we should check the permissions of the requester (probably just admins)
 	// note for furture 401 is unauthorized return code

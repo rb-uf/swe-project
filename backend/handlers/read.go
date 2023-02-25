@@ -1,9 +1,7 @@
 package handlers
 
 import (
-	"encoding/json"
 	"fmt"
-	"log"
 	"net/http"
 	"swe-project/backend/datamgr"
 
@@ -19,26 +17,42 @@ func GetSubject(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprint(w, "Received: ", vars["name"])
 }
 
+/*
+ * GetSubjects: Returns a list of all subjects in the database as an array of JSON representations.
+ * The body does not matter as it is not used.
+ */
+
 func GetSubjects(w http.ResponseWriter, r *http.Request) {
 	// Get all subjects
 	var subjects []datamgr.Subject
 	datamgr.DB.Find(&subjects)
 
-	// Create JSON version of subjects to write back to requester
-	response, err := json.Marshal(subjects)
-
-	if err != nil {
-		log.Fatal("Subjects failed to be converted to JSON")
-		w.WriteHeader(424) // Failed dependency
-	}
-
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(200)
-	w.Write(response)
-
+	WriteResponse(w, subjects, 200)
 }
 
+/*
+ * GetSubjectReviews: This function returns reviews related to the specified subject. Returning an array
+ * of reviews of max length as specified by the http packet. The body should look like:
+ * {
+ * 		SubjectName: <string>
+ * 		MaxReviews:	 <int>
+ * }
+ */
+
 func GetSubjectReviews(w http.ResponseWriter, r *http.Request) {
-	// Should have an integer and a string in the body
-	// The integer will the max number of reviews to retrieve and the string will be the subject
+	request := struct {
+		Name       string
+		MaxReviews int
+	}{}
+	ReadRequest(w, r, &request)
+
+	var reviews []datamgr.Review
+	datamgr.DB.Find(&reviews, "Subject = ?", request.Name)
+
+	// TODO: make this more sophisticated so that it takes like, the 10 most liked reviews or the 10 most recent/least recent
+	if len(reviews) > request.MaxReviews {
+		reviews = reviews[0:request.MaxReviews]
+	}
+
+	WriteResponse(w, reviews, 200)
 }
