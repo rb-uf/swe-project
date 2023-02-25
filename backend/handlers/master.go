@@ -1,10 +1,36 @@
 package handlers
 
-import "github.com/gin-gonic/gin"
+import (
+	"net/http"
+	"os"
 
-// This function will call the rest of the handlers
+	"github.com/gorilla/mux"
+)
 
-func MasterHandler(r *gin.Engine) {
-	r.GET("/", Get)
-	r.POST("/", Post)
+// MasterHandler: calls the rest of the handler functions
+func MasterHandler(r *mux.Router) {
+	// r.HandleFunc("/get-test", GetTest)
+	// r.HandleFunc("/post-test", PostTest)
+
+	// Subject related handlers
+	r.HandleFunc("/create-subject", CreateSubject).
+		Methods("POST")
+
+	r.HandleFunc("/get-subject/{name}", GetSubject).Methods("GET")
+	r.HandleFunc("/get-subjects", GetSubjects).Methods("GET")
+
+	r.HandleFunc("/delete-subject", DeleteSubjecet).Methods("DELETE")
+
+	// Review related handlers
+	r.HandleFunc("/create-review", CreateReview).Methods("POST")
+
+	r.HandleFunc("/get-subject-reviews", GetSubjectReviews).Methods("GET")
+
+	r.HandleFunc("/delete-review", DeleteReview).Methods("DELETE")
+
+	r.HandleFunc("/update-review", UpdateReview).Methods("PUT")
+
+	// If nothing else matches, try matching frontend files.
+	r.PathPrefix("/").
+		Handler(http.FileServer(http.Dir(os.Getenv("FRONTEND_PATH"))))
 }
