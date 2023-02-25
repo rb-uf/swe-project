@@ -34,3 +34,26 @@ func DeleteSubjecet(w http.ResponseWriter, r *http.Request) {
 
 	w.WriteHeader(200) // OK
 }
+
+func DeleteReview(w http.ResponseWriter, r *http.Request) {
+	// Read request body
+	var request datamgr.Review
+	ReadRequest(w, r, &request)
+
+	// TODO: Verify that the requester can delete this object (must be author or admin)
+
+	// Soft delete the entry in the database
+	var p datamgr.Review
+	datamgr.DB.Find(&p, request.ID)
+
+	if p.ID != request.ID {
+		fmt.Println("Object not found: ", request.ID)
+		w.WriteHeader(400)
+		return
+	}
+
+	datamgr.DB.Delete(&p)
+
+	// Return ok
+	w.WriteHeader(http.StatusOK)
+}
