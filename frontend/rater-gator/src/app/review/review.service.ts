@@ -28,7 +28,6 @@ export class ReviewService {
   }];
 
   constructor(
-    
     private http: HttpClient,
   ) { }
 
@@ -45,6 +44,7 @@ export class ReviewService {
     return this.postReview(newReview);
   }
 
+  // attempts http post request to server
   postReview(review: Review): Observable<Review> {
     return this.http.post<Review>('/create-subject', review);
   }

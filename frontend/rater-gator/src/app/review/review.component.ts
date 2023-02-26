@@ -42,7 +42,7 @@ export class ReviewComponent {
       author: <string>this.reviewForm.value.author,
     }
 
-    this.service.addNewReview(newReview) //response returned here
+    this.service.addNewReview(newReview) // response returned here
       .subscribe(); 
     this.reviewForm.reset();
     this.loadReviews();
