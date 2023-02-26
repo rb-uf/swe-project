@@ -12,7 +12,7 @@ export class ReviewComponent {
   reviews: Review[] = [];
 
   // formBuilder object of text-entry fields
-  newReviewForm = this.formBuilder.group({
+  reviewForm = this.formBuilder.group({
     location: '',
     rating: '',
     description: '',
@@ -20,8 +20,8 @@ export class ReviewComponent {
   });
 
   constructor(
-    private service: ReviewService,
     private formBuilder: FormBuilder,
+    private service: ReviewService,
   ) {}
   
   ngOnInit() {
@@ -31,14 +31,10 @@ export class ReviewComponent {
   // method called to submit review
   // event binded to "Submit Review" button click
   onSubmit(): void {
-    this.service._newReviews = [{
-      location: <string>this.newReviewForm.value.location,
-      rating: +<string>this.newReviewForm.value.rating,
-      description: <string>this.newReviewForm.value.description,
-      author: <string>this.newReviewForm.value.author,
-    }]
-    this.service.getNewReviews();
-    console.warn('Your review has been submitted', this.newReviewForm.value);
-    this.newReviewForm.reset();
+    this.service.addNewReview(this.reviewForm);
+    this.reviewForm.reset();
+    this.reviews = this.service.getReviews();
+
+    //this.service.postReview(this.service.getNewReview());
   }
 }

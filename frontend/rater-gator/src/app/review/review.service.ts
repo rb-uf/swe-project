@@ -1,4 +1,10 @@
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+
+import { FormBuilder, FormsModule, ReactiveFormsModule, FormGroup, FormControl } from '@angular/forms';
+
+import { Observable, throwError } from 'rxjs';
+import { catchError, retry } from 'rxjs/operators';
 
 // review object, has 4 properties of user-entered info
 export interface Review {
@@ -21,18 +27,28 @@ export class ReviewService {
     author: "Shane",
   }];
 
-  // list of new reviews enetered by user
-  _newReviews: Review[] = [];
-
-  constructor() { }
+  constructor(
+    
+    private http: HttpClient,
+  ) { }
 
   // reviews list accessor
   getReviews(): Review[] {
     return this._reviews;
   }
 
-  // new reviews accessor
-  getNewReviews() {
-    this._reviews.push(this._newReviews[0]);
+  // new review mutator
+  addNewReview(reviewForm: FormGroup<{ location: FormControl<string | null>; rating: FormControl<string | null>; description: FormControl<string | null>; author: FormControl<string | null>; }>) {
+    this._reviews.push({
+      location: <string>reviewForm.value.location,
+      rating: +<string>reviewForm.value.rating,
+      description: <string>reviewForm.value.description,
+      author: <string>reviewForm.value.author,
+    });
+    console.warn('Your review has been submitted', reviewForm.value);
+  }
+
+  postReview(review: Review): Observable<Review> {
+    return this.http.post<Review>('/create-subject', review);
   }
 }
