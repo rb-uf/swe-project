@@ -10,7 +10,7 @@ There are two types of objects the backend is designed to handle: "subjects" and
 
 - http request type: `POST`
 - url: `/create-subject`
-- body (json):
+- body: (json)
   ```
   {
       "Name": "Example subject"
@@ -21,7 +21,7 @@ There are two types of objects the backend is designed to handle: "subjects" and
 
 - http request type: `POST`
 - url: `/create-review`
-- body (json):
+- body: (json)
   ```
   {
       "Subject": "Example subject",
@@ -30,4 +30,17 @@ There are two types of objects the backend is designed to handle: "subjects" and
       "Author": "My name",
       "AuthorID": 1234
   }
+  ```
+
+## Get Subjects
+
+- http request type: `GET`
+- url: `/get-subjects`
+- returns: A json array of subjects:
+  ```
+  [
+    { "Name": "subject1" },
+    { "Name": "subject2" },
+    { "Name": "subject3" }
+  ]
   ```
