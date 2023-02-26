@@ -25,16 +25,26 @@ export class ReviewComponent {
   ) {}
   
   ngOnInit() {
+    this.loadReviews();
+  }
+
+  loadReviews() {
     this.reviews = this.service.getReviews();
   }
 
   // method called to submit review
   // event binded to "Submit Review" button click
   onSubmit(): void {
-    this.service.addNewReview(this.reviewForm);
-    this.reviewForm.reset();
-    this.reviews = this.service.getReviews();
+    let newReview = {
+      location: <string>this.reviewForm.value.location,
+      rating: +<string>this.reviewForm.value.rating,
+      description: <string>this.reviewForm.value.description,
+      author: <string>this.reviewForm.value.author,
+    }
 
-    //this.service.postReview(this.service.getNewReview());
+    this.service.addNewReview(newReview) //response returned here
+      .subscribe(); 
+    this.reviewForm.reset();
+    this.loadReviews();
   }
 }

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
-import { FormBuilder, FormsModule, ReactiveFormsModule, FormGroup, FormControl } from '@angular/forms';
+import { FormBuilder, FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 import { Observable, throwError } from 'rxjs';
 import { catchError, retry } from 'rxjs/operators';
@@ -38,14 +38,11 @@ export class ReviewService {
   }
 
   // new review mutator
-  addNewReview(reviewForm: FormGroup<{ location: FormControl<string | null>; rating: FormControl<string | null>; description: FormControl<string | null>; author: FormControl<string | null>; }>) {
-    this._reviews.push({
-      location: <string>reviewForm.value.location,
-      rating: +<string>reviewForm.value.rating,
-      description: <string>reviewForm.value.description,
-      author: <string>reviewForm.value.author,
-    });
-    console.warn('Your review has been submitted', reviewForm.value);
+  addNewReview(newReview: Review): Observable<Review> {
+    this._reviews.push(newReview);
+    console.warn('Your review has been submitted');
+
+    return this.postReview(newReview);
   }
 
   postReview(review: Review): Observable<Review> {
