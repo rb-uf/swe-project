@@ -3,27 +3,31 @@
 
 There are two types of objects the backend is designed to handle: "subjects" and "reviews".
 
-## Subjects
+"Subject" refers to the subject of a review, such as a classroom or location on campus.
 
-The subject of a review, such as a classroom or location on campus.
 
-To create a new subject, the frontend should send the backend an http request of the form:
+## Create Subject
+
 - http request type: `POST`
 - url: `/create-subject`
-- json body:
+- body (json):
   ```
   {
-      "Name": "<name-of-the-new-subject>"
+      "Name": "Example subject"
   }
   ```
 
+## Create Review
 
-
-## Reviews
-
-- *Review*
-- *Subject* (the subject of a review, such as a classroom or location on campus)
-
-
-
-## 
+- http request type: `POST`
+- url: `/create-review`
+- body (json):
+  ```
+  {
+      "Subject": "Example subject",
+      "Rating": 5,
+      "Text": "It's alright.",
+      "Author": "My name",
+      "AuthorID": 1234
+  }
+  ```
