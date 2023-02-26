@@ -44,3 +44,13 @@ There are two types of objects the backend is designed to handle: "subjects" and
     { "Name": "subject3" }
   ]
   ```
+
+## Get Subject by Name
+
+## Delete Subject
+
+## Get Subject Reviews
+
+## Delete Review
+
+## Update Review
