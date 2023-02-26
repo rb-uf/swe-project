@@ -11,8 +11,6 @@ export class ReviewComponent {
   // list of reviews
   reviews: Review[] = [];
 
-  
-
   // formBuilder object of text-entry fields
   newReviewForm = this.formBuilder.group({
     location: '',
@@ -33,7 +31,7 @@ export class ReviewComponent {
   // method called to submit review
   // event binded to "Submit Review" button click
   onSubmit(): void {
-    this.service.newReviews = [{
+    this.service._newReviews = [{
       location: <string>this.newReviewForm.value.location,
       rating: +<string>this.newReviewForm.value.rating,
       description: <string>this.newReviewForm.value.description,

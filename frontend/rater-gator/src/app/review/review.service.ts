@@ -22,7 +22,7 @@ export class ReviewService {
   }];
 
   // list of new reviews enetered by user
-  newReviews: Review[] = [];
+  _newReviews: Review[] = [];
 
   constructor() { }
 
@@ -33,6 +33,6 @@ export class ReviewService {
 
   // new reviews accessor
   getNewReviews() {
-    this._reviews.push(this.newReviews[0]);
+    this._reviews.push(this._newReviews[0]);
   }
 }
