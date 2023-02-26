@@ -1,3 +1,39 @@
+<form [formGroup]="newReviewForm" (ngSubmit)="onSubmit()">
+
+    <div>
+        <label for="location">
+            Location:
+        </label>
+        <input id="location" type="text" formControlName="location">
+    </div>
+
+    <div>
+        <label for="rating">
+            Rating:
+        </label>
+        <input id="rating" type="number" formControlName="rating">
+    </div>
+
+    <div>
+        <label for="description">
+            Description:
+        </label>
+        <input id="description" type="text" formControlName="description">
+    </div>
+
+    <div>
+        <label for="author">
+            Name:
+        </label>
+        <input id="author" type="text" formControlName="author">
+    </div>
+
+    <button class="button" type="submit">Submit Review</button>
+
+</form>
+
+<hr>
+
 <div *ngFor="let review of reviews">
     <h2>Review Heading</h2>
     <b>Location:</b> {{review.location}}
