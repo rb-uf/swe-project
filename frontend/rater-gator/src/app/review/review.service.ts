@@ -1,5 +1,10 @@
 import { Injectable } from '@angular/core';
-import { CreateReviewComponent } from '../create-review/create-review.component';
+import { HttpClient } from '@angular/common/http';
+
+import { FormBuilder, FormsModule, ReactiveFormsModule} from '@angular/forms';
+
+import { Observable, throwError } from 'rxjs';
+import { catchError, retry } from 'rxjs/operators';
 
 // review object, has 4 properties of user-entered info
 export interface Review {
@@ -15,28 +20,32 @@ export interface Review {
 export class ReviewService {
   // service list for reviews
   // initalized with one fake review
-  static _reviews: Review[] = [{
+  _reviews: Review[] = [{
     location: "Marston",
     rating: 5,
     description: "comfy",
     author: "Shane",
-  // },
-  // {
-    // location: "Carleton",
-    // rating: 2,
-    // description: "uncomfy",
-    // author: "Devala",
   }];
 
-  constructor() { }
+  constructor(
+    
+    private http: HttpClient,
+  ) { }
 
   // reviews list accessor
-  static getReviews(): Review[] {
+  getReviews(): Review[] {
     return this._reviews;
   }
 
-  // new reviews accessor
-  static getNewReviews() {
-    this._reviews.push(CreateReviewComponent.newReviews[0]);
+  // new review mutator
+  addNewReview(newReview: Review): Observable<Review> {
+    this._reviews.push(newReview);
+    console.warn('Your review has been submitted');
+
+    return this.postReview(newReview);
+  }
+
+  postReview(review: Review): Observable<Review> {
+    return this.http.post<Review>('/create-subject', review);
   }
 }
