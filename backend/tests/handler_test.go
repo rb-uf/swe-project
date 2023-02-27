@@ -6,9 +6,9 @@ import (
 	"fmt"
 	"net/http"
 	"net/http/httptest"
-	"os"
 	"swe-project/backend/datamgr"
 	"swe-project/backend/handlers"
+	"swe-project/backend/tests/utils"
 	"testing"
 )
 
@@ -76,13 +76,7 @@ func TestCreateSubject(t *testing.T) {
 	}
 
 	// Close and delete temporary database
-	temp, _ := datamgr.DB.DB()
-	temp.Close()
-
-	error := os.Remove("temp.db")
-	if error != nil {
-		t.Error("Failed to remove temporary db")
-	}
+	utils.Delete_db("temp.db", t)
 }
 
 /*
@@ -142,13 +136,7 @@ func TestCreateReview(t *testing.T) {
 	}
 
 	// Close and delete temporary database
-	temp, _ := datamgr.DB.DB()
-	temp.Close()
-
-	error := os.Remove("temp.db")
-	if error != nil {
-		t.Error("Failed to remove temporary db")
-	}
+	utils.Delete_db("temp.db", t)
 }
 
 /*===================== Read Tests =====================*/
@@ -250,13 +238,7 @@ func TestGetSubjectReviews(t *testing.T) {
 	}
 
 	// Close and delete temporary database
-	temp, _ := datamgr.DB.DB()
-	temp.Close()
-
-	error := os.Remove("temp.db")
-	if error != nil {
-		t.Error("Failed to remove temporary db")
-	}
+	utils.Delete_db("temp.db", t)
 }
 
 /*==================== Update Tests ====================*/
@@ -314,13 +296,7 @@ func TestUpdateReview(t *testing.T) {
 	}
 
 	// Close and delete temporary database
-	temp, _ := datamgr.DB.DB()
-	temp.Close()
-
-	error := os.Remove("temp.db")
-	if error != nil {
-		t.Error("Failed to remove temporary db")
-	}
+	utils.Delete_db("temp.db", t)
 }
 
 /*==================== Delete Tests ====================*/
@@ -363,13 +339,7 @@ func TestDeleteSubject(t *testing.T) {
 	}
 
 	// Close and delete temporary database
-	temp, _ := datamgr.DB.DB()
-	temp.Close()
-
-	error := os.Remove("temp.db")
-	if error != nil {
-		t.Error("Failed to remove temporary db")
-	}
+	utils.Delete_db("temp.db", t)
 }
 
 /*================== Functional Tests ==================*/
