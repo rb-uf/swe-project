@@ -49,8 +49,40 @@ There are two types of objects the backend is designed to handle: "subjects" and
 
 ## Delete Subject
 
+- http request type: `DELETE`
+- url: `/delete-subject`
+- body:
+```
+<subject object JSON, e.g. the ones returned by Get Subjects>
+```
+- returns: http.StatusOK (200)
+
 ## Get Subject Reviews
+
+- http request type: `GET`
+- url: `/get-subject-reviews`
+- body:
+```
+<subject object JSON, e.g. the ones returned by Get Subjects>
+```
+- returns: A json array of reviews
 
 ## Delete Review
 
+- http request type: `DELETE`
+- url: `/delete-review`
+- body:
+```
+<review object JSON, e.g. the ones returned by Get Subject Reviews>
+```
+- returns: http.StatusOK (200)
+
 ## Update Review
+
+- http request type: `PUT`
+- url: `/update-review`
+- body:
+```
+<review object JSON, e.g. the ones returned by Get Subject Reviews>
+```
+- returns: http.StatusOK (200)
