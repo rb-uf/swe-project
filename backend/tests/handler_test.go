@@ -21,8 +21,7 @@ import (
 
 /*
  * TestCreateSubject: Tests the CreateSubject handler function by calling it and checking
- * the returned subject and new database entry against expected output. (Also calls DeleteSubject
- * to return the database to its original state)
+ * the returned subject and new database entry against expected output.
  */
 
 func TestCreateSubject(t *testing.T) {
@@ -95,10 +94,12 @@ func TestCreateReview(t *testing.T) {
 	// Create temporary db file
 	datamgr.ConnectDB("temp.db")
 
+	// Push objects to db
 	NewSubject := datamgr.Subject{
 		Name: "Carelton",
 	}
 
+	// Generate create request and try to post to the db
 	NewReview := datamgr.Review{
 		Subject:  "Carelton",
 		Rating:   5,
@@ -117,6 +118,12 @@ func TestCreateReview(t *testing.T) {
 
 	handler.ServeHTTP(recorder, req)
 
+	// Check return code, if not successful then error
+	if recorder.Code != 201 {
+		t.Errorf("Incorrect return code: wanted 201 got %v", recorder.Code)
+	}
+
+	// Verify the object returned matches the db entry created and both match expected output
 	var review datamgr.Review
 	datamgr.DB.First(&review)
 	want, _ := json.Marshal(review)
@@ -195,7 +202,61 @@ func TestGetSubjects(t *testing.T) {
  */
 
 func TestGetSubjectReviews(t *testing.T) {
+	datamgr.ConnectDB("temp.db")
 
+	// Add test obhects to temp db
+
+	test_subject := datamgr.Subject{
+		Name: "Test",
+	}
+
+	datamgr.DB.Create(&test_subject)
+
+	temp_rev := datamgr.Review{
+		Subject:  "Test",
+		Rating:   5,
+		Text:     "Review1",
+		Author:   "No",
+		AuthorID: 1,
+	}
+
+	datamgr.DB.Create(&temp_rev)
+
+	// Make get request
+	req_body := struct {
+		Name       string
+		MaxReviews int
+	}{
+		Name:       "Test",
+		MaxReviews: 3,
+	}
+
+	raw, _ := json.Marshal(req_body)
+	req, _ := http.NewRequest("GET", "/get-subject-reviews", bytes.NewBuffer(raw))
+	recorder := httptest.NewRecorder()
+	handler := http.HandlerFunc(handlers.GetSubjectReviews)
+
+	handler.ServeHTTP(recorder, req)
+	if recorder.Code != 200 {
+		t.Errorf("Got return code %v, expected 200", recorder.Code)
+	}
+
+	// Verify output
+	var reviews []datamgr.Review
+	json.NewDecoder(recorder.Body).Decode(&reviews)
+
+	if reviews[0].Text != "Review1" {
+		t.Error("Output does not match expected output")
+	}
+
+	// Close and delete temporary database
+	temp, _ := datamgr.DB.DB()
+	temp.Close()
+
+	error := os.Remove("temp.db")
+	if error != nil {
+		t.Error("Failed to remove temporary db")
+	}
 }
 
 /*==================== Update Tests ====================*/
@@ -207,7 +268,59 @@ func TestGetSubjectReviews(t *testing.T) {
  */
 
 func TestUpdateReview(t *testing.T) {
+	// Create temporary db file
+	datamgr.ConnectDB("temp.db")
 
+	NewSubject := datamgr.Subject{
+		Name: "Carelton",
+	}
+
+	NewReview := datamgr.Review{
+		Subject:  "Carelton",
+		Rating:   5,
+		Text:     "This is a text string",
+		Author:   "Dobra Rocks!",
+		AuthorID: 1234,
+	}
+
+	datamgr.DB.Create(&NewSubject)
+	datamgr.DB.Create(&NewReview)
+
+	req_body := struct {
+		ID      uint
+		NewText string
+	}{
+		ID:      1,
+		NewText: "Emmett rocks",
+	}
+
+	body, _ := json.Marshal(req_body)
+	req, _ := http.NewRequest("PUT", "/update-review", bytes.NewBuffer(body))
+	recorder := httptest.NewRecorder()
+	handler := http.HandlerFunc(handlers.UpdateReview)
+
+	handler.ServeHTTP(recorder, req)
+
+	if recorder.Code != 200 {
+		t.Errorf("Incorrect return code: wanted 200 got %v", recorder.Code)
+	}
+
+	// Verify the updated entry in the packet's body has the correct string
+	var review datamgr.Review
+	json.NewDecoder(recorder.Body).Decode(&review)
+
+	if review.Text != "Emmett rocks" {
+		t.Error("Output does not match expected output")
+	}
+
+	// Close and delete temporary database
+	temp, _ := datamgr.DB.DB()
+	temp.Close()
+
+	error := os.Remove("temp.db")
+	if error != nil {
+		t.Error("Failed to remove temporary db")
+	}
 }
 
 /*==================== Delete Tests ====================*/
@@ -218,7 +331,45 @@ func TestUpdateReview(t *testing.T) {
  */
 
 func TestDeleteSubject(t *testing.T) {
+	// Create temporary db file
+	datamgr.ConnectDB("temp.db")
 
+	NewSubject := datamgr.Subject{
+		Name: "Carelton",
+	}
+
+	datamgr.DB.Create(&NewSubject)
+
+	var subject datamgr.Subject
+	datamgr.DB.First(&subject)
+
+	body, _ := json.Marshal(subject)
+	req, _ := http.NewRequest("DELETE", "/delete-subject", bytes.NewBuffer(body))
+	recorder := httptest.NewRecorder()
+	handler := http.HandlerFunc(handlers.DeleteSubjecet)
+
+	handler.ServeHTTP(recorder, req)
+
+	if recorder.Code != 200 {
+		t.Errorf("Incorrect return code: wanted 200 got %v", recorder.Code)
+	}
+
+	// Verify the db has no subjects
+	var tmp datamgr.Subject
+	datamgr.DB.Find(&tmp)
+
+	if tmp.ID != 0 {
+		t.Error("Database is not empty")
+	}
+
+	// Close and delete temporary database
+	temp, _ := datamgr.DB.DB()
+	temp.Close()
+
+	error := os.Remove("temp.db")
+	if error != nil {
+		t.Error("Failed to remove temporary db")
+	}
 }
 
 /*================== Functional Tests ==================*/
