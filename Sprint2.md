@@ -6,9 +6,13 @@
 + We created a review service for accessing reviews.
 + We implemented create functionality for new reviews.
 + We implemented communication with the backend (post review request).
+### Backend
++ 
 
 ## Frontend unit tests (Cypress)
++ 
 
 ## Backend unit tests
++ 
 
 ## Documentation for backend API
