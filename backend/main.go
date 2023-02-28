@@ -2,24 +2,35 @@ package main
 
 import (
 	"fmt"
+	"log"
+	"net/http"
+	"os"
 
-	"github.com/gin-gonic/gin"
-	"github.com/shaneferrellwv/backend/handlers"
-	"github.com/shaneferrellwv/backend/initializers"
+	"github.com/gorilla/mux"
+	"github.com/joho/godotenv"
+
+	"swe-project/backend/datamgr"
+	"swe-project/backend/handlers"
 )
 
-func init() {
-	initializers.LoadEnv()
-	initializers.Connect_db()
-}
-
 func main() {
-	fmt.Println("tet")
+	fmt.Println("Starting swe-project/backend server.")
 
-	r := gin.Default()
+	loadEnv()
+	datamgr.ConnectDB(os.Getenv("DB_FILE"))
+
+	r := mux.NewRouter()
 
 	handlers.MasterHandler(r)
+	log.Fatal(http.ListenAndServe(os.Getenv("PORT"), r))
+}
 
-	r.Run()
-
+// loadEnv: load environment variables
+// Env vars are being used for filenames and port numbers.
+// Access an env variable with os.Getenv("ENV_VAR").
+func loadEnv() {
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatal("Error loading .env file")
+	}
 }
