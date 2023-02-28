@@ -238,21 +238,17 @@ func TestDeleteSubject(t *testing.T) {
 	var subject datamgr.Subject
 	datamgr.DB.Find(&subject, 5)
 
-	ExecuteRequest(subject, "DELETE", "/delete-subject", handlers.DeleteReview, 200, t)
+	ExecuteRequest(subject, "DELETE", "/delete-subject", handlers.DeleteSubjecet, 200, t)
 
-	// Verify the db has no subjects
+	// Verfiy that the deleted subject is not returned when querying the db
 	var subjects []datamgr.Subject
 	datamgr.DB.Find(&subjects)
+	for i := 0; i < len(subjects); i++ {
+		if subjects[i].ID == 5 {
+			t.Error("ID found, failed to delete object")
+		}
+	}
 
-	var temp datamgr.Subject
-	datamgr.DB.Find(&temp, 4)
-
-	fmt.Println(temp.DeletedAt)
-
-	var check datamgr.Subject
-	datamgr.DB.Find(&check, 5)
-
-	fmt.Println(check.DeletedAt)
 }
 
 /*================== Functional Tests ==================*/
