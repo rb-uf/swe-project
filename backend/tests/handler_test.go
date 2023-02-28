@@ -176,10 +176,6 @@ func TestGetSubjects(t *testing.T) {
  */
 
 func TestGetSubjectReviews(t *testing.T) {
-	datamgr.ConnectDB("temp.db")
-
-	// Add test obhects to temp db
-
 	req_body := struct {
 		Name       string
 		MaxReviews int
