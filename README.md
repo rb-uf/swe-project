@@ -54,7 +54,7 @@ cd swe-project
 
    You should see the front end.
 
-5. From the terminal, ress `Ctrl-C` to stop the server.
+5. From the terminal, press `Ctrl-C` to stop the server.
 
 
 ## Developer Notes
@@ -163,7 +163,7 @@ Get list of reviews
 1. https://github.com/JacobSamro/ngx-spellchecker
 2. https://timdeschryver.dev/blog/google-maps-as-an-angular-component#angular
 
-[Postman Link](https://app.getpostman.com/join-team?invite_code=93eeacce0902283fe854b0f8cedadc87&target_code=26326ce816c118a21b7b8f868fab1030)
+[Postman Link](https://www.postman.com/lively-shadow-374909/workspace/swe-project/collection/25668999-f8577918-3914-4d72-addb-8ff99b9ec38f?action=share&creator=25668999)
 
 ### Stucture
 We plan to utilize REST API for fully-reactive communication
