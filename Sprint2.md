@@ -7,7 +7,10 @@
 + We implemented create functionality for new reviews.
 + We implemented communication with the backend (post review request).
 ### Backend
-+ 
++
+
+## Links
++ https://youtu.be/sX0GyUzVErc
 
 ## Frontend unit tests (Cypress)
 + 
