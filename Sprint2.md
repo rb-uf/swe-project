@@ -13,7 +13,10 @@
 + https://youtu.be/sX0GyUzVErc
 
 ## Frontend unit tests (Cypress)
-+ 
++ Per the guidelines of a TA, created 3 tests in cypress. 
++ One fills out the form completely and submits a review successfully. 
++ The second enters a string into the integer-only rating field and fails. 
++ The third only partially fills out the review but successfully adds it. 
 
 ## Backend unit tests
 + 
