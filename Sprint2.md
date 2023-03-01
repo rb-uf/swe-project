@@ -68,8 +68,6 @@ There are two types of objects the backend is designed to handle: "subjects" and
   ]
   ```
 
-### Get Subject by Name
-
 ### Delete Subject
 - http request type: `DELETE`
 - url: `/delete-subject`
@@ -80,7 +78,6 @@ There are two types of objects the backend is designed to handle: "subjects" and
 - returns: http.StatusOK (200)
 
 ### Get Subject Reviews
-
 - http request type: `GET`
 - url: `/get-subject-reviews`
 - body:
