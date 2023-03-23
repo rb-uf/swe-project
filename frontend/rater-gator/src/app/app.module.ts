@@ -11,6 +11,8 @@ import { CreateReviewComponent } from './review/create-review/create-review.comp
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import {MatButtonModule} from '@angular/material/button';
+import {MatToolbarModule} from '@angular/material/toolbar';
+import {MatIconModule} from '@angular/material/icon';
 
 
 @NgModule({
@@ -26,6 +28,8 @@ import {MatButtonModule} from '@angular/material/button';
     HttpClientModule,
     BrowserAnimationsModule,
     MatButtonModule,
+    MatToolbarModule,
+    MatIconModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
