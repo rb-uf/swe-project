@@ -8,6 +8,10 @@ import { ReviewComponent } from './review/review.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SubmitButtonComponent } from './review/create-review/submit-button/submit-button.component';
 import { CreateReviewComponent } from './review/create-review/create-review.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
+import {MatButtonModule} from '@angular/material/button';
+
 
 @NgModule({
   declarations: [
@@ -20,6 +24,8 @@ import { CreateReviewComponent } from './review/create-review/create-review.comp
     BrowserModule,
     ReactiveFormsModule,
     HttpClientModule,
+    BrowserAnimationsModule,
+    MatButtonModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
