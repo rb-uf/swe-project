@@ -29,18 +29,18 @@ There are two types of objects the backend is designed to handle: "subjects" and
 ### Review JSON
 ```
 {
+    "ID": 1234
     "Subject": "Example subject",
     "Rating": 5,
     "Text": "It's alright.",
     "Author": "Author's name",
-    "AuthorID": 1234
+    "AuthorID": 5678
 }
 ```
 
-### Create Subject
-- http request type: `POST`
-- url: `/create-subject`
-- body: Subject JSON
+| Action | HTTP request type | URL | Request body | Return value |
+| --- | --- | --- | --- | --- |
+| Create subject | `POST` | `/create-subject` | JSON `{ "Name": "Subject name" }` |
 
 ### Create Review
 - http request type: `POST`
@@ -56,19 +56,19 @@ Returns a json array of subjects.
 ### Delete Subject
 - http request type: `DELETE`
 - url: `/delete-subject`
-- body: Subject JSON
+- body: JSON `{ "Name": "Subject name" }`
 - return: http.StatusOK (200)
 
-### Get Subject Reviews
+### Get all of Subject's Reviews
 - http request type: `GET`
 - url: `/get-subject-reviews`
-- body: Subject JSON
+- body: JSON `{ "Name": "Subject name" }`
 - return: JSON array of reviews
 
 ### Delete Review
 - http request type: `DELETE`
 - url: `/delete-review`
-- body: Review JSON
+- body: JSON `{ "ID": 1234 }`
 - return: http.StatusOK (200)
 
 ### Update Review
