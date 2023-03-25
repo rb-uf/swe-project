@@ -38,9 +38,9 @@ There are two types of objects the backend is designed to handle: "subjects" and
 }
 ```
 
-| Action | HTTP request type | URL | Request body | Return value |
+| Action | HTTP request | URL | Request body | Return value |
 | --- | --- | --- | --- | --- |
-| Create subject | `POST` | `/create-subject` | JSON `{ "Name": "Subject name" }` | |
+| Create subject | `POST` | `/create-subject` | `{ "Name": "Subject name" }` | |
 | Create Review | `POST` | `/create-review` | Review JSON | |
 | Get Subjects | `GET` | `/get-subjects` | | JSON array of Subjects |
 | Delete Subject | `DELETE` | `/delete-subject` | `{ "Name": "Subject name" }` | http.StatusOK (200) |
