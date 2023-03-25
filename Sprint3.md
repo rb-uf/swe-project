@@ -40,39 +40,10 @@ There are two types of objects the backend is designed to handle: "subjects" and
 
 | Action | HTTP request type | URL | Request body | Return value |
 | --- | --- | --- | --- | --- |
-| Create subject | `POST` | `/create-subject` | JSON `{ "Name": "Subject name" }` |
-
-### Create Review
-- http request type: `POST`
-- url: `/create-review`
-- body: Review JSON
-
-### Get Subjects
-Returns a json array of subjects.
-- http request type: `GET`
-- url: `/get-subjects`
-- return: JSON array of Subjects
-
-### Delete Subject
-- http request type: `DELETE`
-- url: `/delete-subject`
-- body: JSON `{ "Name": "Subject name" }`
-- return: http.StatusOK (200)
-
-### Get all of Subject's Reviews
-- http request type: `GET`
-- url: `/get-subject-reviews`
-- body: JSON `{ "Name": "Subject name" }`
-- return: JSON array of reviews
-
-### Delete Review
-- http request type: `DELETE`
-- url: `/delete-review`
-- body: JSON `{ "ID": 1234 }`
-- return: http.StatusOK (200)
-
-### Update Review
-- http request type: `PUT`
-- url: `/update-review`
-- body: Review JSON
-- returns: http.StatusOK (200)
+| Create subject | `POST` | `/create-subject` | JSON `{ "Name": "Subject name" }` | |
+| Create Review | `POST` | `/create-review` | Review JSON | |
+| Get Subjects | `GET` | `/get-subjects` | | JSON array of Subjects |
+| Delete Subject | `DELETE` | `/delete-subject` | `{ "Name": "Subject name" }` | http.StatusOK (200) |
+| Get all of Subject's Reviews | `GET` | `/get-subject-reviews` | `{ "Name": "Subject name" }` | JSON array of reviews |
+| Delete Review | `DELETE` | `/delete-review` | `{ "ID": 1234 }` | http.StatusOK (200) |
+| Update Review | `PUT` | `/update-review` | Review JSON | http.StatusOK (200) |
