@@ -20,22 +20,15 @@ func CreateSubject(w http.ResponseWriter, r *http.Request) {
 	var subject datamgr.Subject
 	ReadRequest(w, r, &subject)
 
-	// Log the request in the console
-	fmt.Println("CreateSubject called: created ", subject.Name)
-
 	// Create the new entry in the db
 	result := datamgr.DB.Create(&subject)
-
-	// If it fails to create, return an error code
 	if result.Error != nil {
 		fmt.Println("Failed to create entry in database")
-
-		// Return error code to whomever made the request, for now I'm just going to do 400
-		w.WriteHeader(400)
+		w.WriteHeader(400) // Return error code to client (just 400 for now)
 		return
-
 	}
 
+	fmt.Println("New subject created:", subject.Name)
 	WriteResponse(w, subject, 201)
 }
 
@@ -66,12 +59,12 @@ func CreateReview(w http.ResponseWriter, r *http.Request) {
 
 	// Otherwise the subject does exist and we can create the review and return the created object
 	result = datamgr.DB.Create(&review)
-
 	if result.Error != nil {
 		fmt.Println("Failed to create DB entry")
 		w.WriteHeader(400)
 		return
 	}
 
+	fmt.Println("New review created")
 	WriteResponse(w, review, 201)
 }

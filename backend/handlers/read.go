@@ -4,13 +4,8 @@ import (
 	"fmt"
 	"net/http"
 	"swe-project/backend/datamgr"
-
 	"github.com/gorilla/mux"
 )
-
-func GetTest(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte("Hello\n"))
-}
 
 func GetSubject(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
@@ -23,10 +18,9 @@ func GetSubject(w http.ResponseWriter, r *http.Request) {
  */
 
 func GetSubjects(w http.ResponseWriter, r *http.Request) {
-	// Get all subjects
 	var subjects []datamgr.Subject
 	datamgr.DB.Find(&subjects)
-
+	fmt.Println("Request for list of subjects received.")
 	WriteResponse(w, subjects, 200)
 }
 
@@ -54,5 +48,6 @@ func GetSubjectReviews(w http.ResponseWriter, r *http.Request) {
 		reviews = reviews[0:request.MaxReviews]
 	}
 
+	fmt.Println("Request for reviews of", request.Name, "received.")
 	WriteResponse(w, reviews, 200)
 }
