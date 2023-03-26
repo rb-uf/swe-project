@@ -10,9 +10,10 @@ import { SubmitButtonComponent } from './review/create-review/submit-button/subm
 import { CreateReviewComponent } from './review/create-review/create-review.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import {MatButtonModule} from '@angular/material/button';
-import {MatToolbarModule} from '@angular/material/toolbar';
-import {MatIconModule} from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatIconModule } from '@angular/material/icon';
+import { SubjectComponent } from './review/subject/subject.component';
 
 
 @NgModule({
@@ -21,6 +22,7 @@ import {MatIconModule} from '@angular/material/icon';
     ReviewComponent,
     SubmitButtonComponent,
     CreateReviewComponent,
+    SubjectComponent,
   ],
   imports: [
     BrowserModule,
@@ -34,4 +36,4 @@ import {MatIconModule} from '@angular/material/icon';
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule { }

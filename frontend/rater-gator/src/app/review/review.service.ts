@@ -5,6 +5,7 @@ import { FormBuilder, FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 import { Observable, throwError } from 'rxjs';
 import { catchError, retry } from 'rxjs/operators';
+import { Subject } from './subject/subject.component';
 
 // review object, has 4 properties of user-entered info
 export interface Review {
@@ -47,5 +48,12 @@ export class ReviewService {
 
   postReview(review: Review): Observable<Review> {
     return this.http.post<Review>('/create-subject', review);
+  }
+
+  addSubject(newSubject: Subject): any {
+    console.log("debug");
+    return this.http.post<any>('http://localhost:3000/create-subject', newSubject).subscribe(data => {
+      console.log(data);
+    });
   }
 }
