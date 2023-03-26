@@ -29,8 +29,7 @@ func main() {
 // Env vars are being used for filenames and port numbers.
 // Access an env variable with os.Getenv("ENV_VAR").
 func loadEnv() {
-	err := godotenv.Load()
-	if err != nil {
+	err := godotenv.Load(); if err != nil {
 		log.Fatal("Error loading .env file")
 	}
 }

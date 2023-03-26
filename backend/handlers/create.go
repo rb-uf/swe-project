@@ -20,9 +20,6 @@ func CreateSubject(w http.ResponseWriter, r *http.Request) {
 	var subject datamgr.Subject
 	ReadRequest(w, r, &subject)
 
-	// Log the request in the console
-	fmt.Println("CreateSubject called: created ", subject.Name)
-
 	// Create the new entry in the db
 	result := datamgr.DB.Create(&subject)
 
@@ -36,6 +33,7 @@ func CreateSubject(w http.ResponseWriter, r *http.Request) {
 
 	}
 
+	fmt.Println("Subject created:", subject.Name)
 	WriteResponse(w, subject, 201)
 }
 
@@ -73,5 +71,6 @@ func CreateReview(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	fmt.Println("Review created for", review.Subject, "by AuthorID", review.AuthorID)
 	WriteResponse(w, review, 201)
 }

@@ -32,5 +32,4 @@ func UpdateReview(w http.ResponseWriter, r *http.Request) {
 
 	// Return the new object to indicate success
 	WriteResponse(w, entry, 200)
-
 }
