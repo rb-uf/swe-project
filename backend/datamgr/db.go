@@ -2,9 +2,8 @@ package datamgr
 
 import (
 	"log"
-
-	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
+	"gorm.io/driver/sqlite"
 )
 
 var DB *gorm.DB

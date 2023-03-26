@@ -28,7 +28,7 @@ func CreateSubject(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	fmt.Println("New subject created:", subject.Name)
+	fmt.Println("Subject created:", subject.Name)
 	WriteResponse(w, subject, 201)
 }
 
@@ -65,6 +65,6 @@ func CreateReview(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	fmt.Println("New review created")
+	fmt.Println("Review created for", review.Subject, "by AuthorID", review.AuthorID)
 	WriteResponse(w, review, 201)
 }
