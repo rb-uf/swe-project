@@ -234,7 +234,7 @@ func TestDeleteSubject(t *testing.T) {
 	var subject datamgr.Subject
 	datamgr.DB.Find(&subject, 5)
 
-	ExecuteRequest(subject, "DELETE", "/delete-subject", handlers.DeleteSubjecet, 200, t)
+	ExecuteRequest(subject, "DELETE", "/delete-subject", handlers.DeleteSubject, 200, t)
 
 	// Verfiy that the deleted subject is not returned when querying the db
 	var subjects []datamgr.Subject

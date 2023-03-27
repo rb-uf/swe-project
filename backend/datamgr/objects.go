@@ -18,10 +18,10 @@ type Review struct {
 
 type User struct {
 	gorm.Model
-	ID uint
 
 	Name     string
 	Password string
+	Hash     []byte
 
 	Admin bool
 }
