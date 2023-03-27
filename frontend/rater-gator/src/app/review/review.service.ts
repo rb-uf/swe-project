@@ -9,7 +9,7 @@ import { Subject } from './subject/subject.component';
 
 // review object, has 4 properties of user-entered info
 export interface Review {
-  location: string;
+  subject: string;
   rating: number;
   description: string;
   author: string;
@@ -21,12 +21,7 @@ export interface Review {
 export class ReviewService {
   // service list for reviews
   // initalized with one fake review
-  _reviews: Review[] = [{
-    location: "Marston",
-    rating: 5,
-    description: "comfy",
-    author: "Shane",
-  }];
+  _reviews = [];
 
   constructor(
     
@@ -35,25 +30,21 @@ export class ReviewService {
 
   // reviews list accessor
   getReviews(): Review[] {
+    let subject: Subject = {
+      Name: "Marston:"
+    }
+    //this.http.get<any>('http://localhost:3000/get-subject-reviews', subject).subscribe(data => {
+      //console.log(data);
+      //this._reviews = data;
+    //})
     return this._reviews;
   }
 
-  // new review mutator
-  addNewReview(newReview: Review): Observable<Review> {
-    this._reviews.push(newReview);
-    console.warn('Your review has been submitted');
-
-    return this.postReview(newReview);
-  }
-
-  postReview(review: Review): Observable<Review> {
-    return this.http.post<Review>('/create-subject', review);
-  }
-
-  addSubject(newSubject: Subject): any {
-    console.log("debug");
-    return this.http.post<any>('http://localhost:3000/create-subject', newSubject).subscribe(data => {
+  postReview(review: Review)  {
+    this.http.post<any>('http://localhost:3000/create-review', review).subscribe(data => {
       console.log(data);
     });
+    this.getReviews();
   }
+  
 }

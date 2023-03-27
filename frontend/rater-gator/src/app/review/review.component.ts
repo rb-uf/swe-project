@@ -16,7 +16,7 @@ export class ReviewComponent {
 
   // formBuilder object of text-entry fields
   reviewForm = this.formBuilder.group({
-    location: '',
+    subject: '',
     rating: '',
     description: '',
     author: '',
@@ -32,25 +32,22 @@ export class ReviewComponent {
   }
 
   loadReviews() {
-    this.reviews = this.service.getReviews();
+    //this.reviews = this.service.getReviews();
   }
 
   // method called to submit review
   // event binded to "Submit Review" button click
   onSubmit(): void {
     let newReview = {
-      location: <string>this.reviewForm.value.location,
-      //rating: +<string>this.reviewForm.value.rating,
-      //description: <string>this.reviewForm.value.description,
-      //author: <string>this.reviewForm.value.author,
+      subject: <string>this.reviewForm.value.subject,
+      rating: +<string>this.reviewForm.value.rating,
+      description: <string>this.reviewForm.value.description,
+      author: <string>this.reviewForm.value.author,
     }
 
-    let newSubject = {
-      Name: <string>this.reviewForm.value.location,
-    }
-    console.log(newSubject);
-    console.log(this.service.addSubject(newSubject)); //response returned here
+    console.log(newReview);
+    console.log(this.service.postReview(newReview)); //response returned here
     this.reviewForm.reset();
-    //this.loadReviews();
+    this.loadReviews();
   }
 }

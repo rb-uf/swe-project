@@ -14,6 +14,9 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { SubjectComponent } from './review/subject/subject.component';
+import { ToolbarComponent } from './toolbar/toolbar.component';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import {MatSelectModule} from '@angular/material/select';
 
 
 @NgModule({
@@ -23,6 +26,7 @@ import { SubjectComponent } from './review/subject/subject.component';
     SubmitButtonComponent,
     CreateReviewComponent,
     SubjectComponent,
+    ToolbarComponent,
   ],
   imports: [
     BrowserModule,
@@ -32,6 +36,8 @@ import { SubjectComponent } from './review/subject/subject.component';
     MatButtonModule,
     MatToolbarModule,
     MatIconModule,
+    MatFormFieldModule,
+    MatSelectModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

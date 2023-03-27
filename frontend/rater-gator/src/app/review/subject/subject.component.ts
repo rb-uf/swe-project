@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
-import { retry, catchError } from 'rxjs/operators';
+import { HttpClient } from '@angular/common/http';
+import { FormBuilder } from '@angular/forms';
 
 export interface Subject {
   Name: string;
@@ -18,29 +17,54 @@ export class SubjectComponent {
 
   constructor(
     private http: HttpClient,
+    private fb: FormBuilder,
   ) { }
 
   ngOnInit() {
     this.getAllSubjects();
   }
 
-  handleError(error: HttpErrorResponse) {
-    let errorMessage = 'Unknown error!';
-    if (error.error instanceof ErrorEvent) {
-      // Client-side errors
-      errorMessage = `Error: ${error.error.message}`;
-    } else {
-      // Server-side errors
-      errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
-    }
-    window.alert(errorMessage);
-    return throwError(errorMessage);
-  }
-
   getAllSubjects() {
-    return this.http.get<any>('http://localhost:3000/get-subjects').pipe(retry(3), catchError(this.handleError)).subscribe(data => {
+    return this.http.get<any>('http://localhost:3000/get-subjects').subscribe(data => {
       console.log(data);
       this.subjects = data;
     })
+  }
+
+  getSelectedReviews(subjects: string[]) {
+    var subjectsObject: Subject = {
+      Name: subjects[0], //todo: needs to send all subjects
+    }
+    console.log(subjects);
+    return this.http.get<any>(`http://localhost:3000/get-subject-reviews/${subjectsObject.Name}`).subscribe(data => { 
+      console.log(data);
+      this.subjects = data;
+    })
+  }
+
+  subjectForm = this.fb.group({
+    Name: '',
+  })
+
+  onSubmit(): void {
+    let newSubject = {
+      Name: <string>this.subjectForm.value.Name,
+    }
+    console.log(newSubject);
+    this.addSubject(newSubject); //response returned here
+    this.subjectForm.reset();
+    //this.loadReviews();
+  }
+
+  addSubject(newSubject: Subject): any {
+    this.http.post<any>('http://localhost:3000/create-subject', newSubject).subscribe(data => {
+      console.log(data);
+    });
+    this.getAllSubjects();
+  }
+
+  onChange(selectedOptions: string[]) {
+    console.log(selectedOptions);
+    this.getSelectedReviews(selectedOptions);
   }
 }
