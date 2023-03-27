@@ -45,12 +45,45 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 	}
 
 	fmt.Print("User created: ", user.Name)
-	WriteResponse(w, r, http.StatusCreated)
+	w.WriteHeader(http.StatusCreated)
 }
 
+/*
+ * Expects to receive a username and password
+ * This should receive the password and check it against the hash stored in the database
+ */
+
 func Login(w http.ResponseWriter, r *http.Request) {
-	// This should cook up the cookie and distribute it
-	// Compares password sent to backend with the hash, if it fits, distribtute cookie
-	// Establishes session
-	// Otherwise return 401 unauthorized
+	// Get login info off of the request
+	temp := struct {
+		Username string
+		Password string
+	}{}
+
+	ReadRequest(w, r, &temp)
+
+	// Check username and password in the database, if not correct return unauthorized
+	var user datamgr.User
+	datamgr.DB.Find(&user, "name = ?", temp.Username)
+	err := bcrypt.CompareHashAndPassword(user.Hash, []byte(temp.Password))
+	correct := (err == nil)
+
+	if !correct {
+		WriteResponse(w, r, http.StatusUnauthorized)
+	}
+
+	// Create cookie and push it to active cookie data structure
+	// This should utilize http/cookiejar ultimatley I just don't know how it works yet
+	bytes, _ := GenerateRandomBytes(32)
+	cookie := http.Cookie{
+		Name:   "rater-gator user cookie", // generic cookie name for users
+		Value:  string(bytes),
+		MaxAge: 0, // None specified
+	}
+
+	datamgr.CookieJar = append(datamgr.CookieJar, cookie)
+
+	// Now with cookie made and added to the jar, just need to return the cookie in the response
+	http.SetCookie(w, &cookie)
+	w.WriteHeader(http.StatusOK)
 }

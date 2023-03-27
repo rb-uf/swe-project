@@ -2,8 +2,10 @@ package datamgr
 
 import (
 	"log"
-	"gorm.io/gorm"
+	"net/http"
+
 	"gorm.io/driver/sqlite"
+	"gorm.io/gorm"
 )
 
 var DB *gorm.DB
@@ -18,3 +20,7 @@ func ConnectDB(file string) {
 
 	DB.AutoMigrate(&User{}, &Subject{}, &Review{})
 }
+
+// Adding a cookie tracking data structure for now to keep track of active sessions
+
+var CookieJar []http.Cookie

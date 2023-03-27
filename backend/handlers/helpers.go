@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"crypto/rand"
 	"fmt"
 	"net/http"
 
@@ -37,4 +38,21 @@ func WriteResponse(w http.ResponseWriter, response interface{}, returnCode int) 
 	// NOTE: If I do Write() before WriteHeader() I think it defaults to 200
 	w.WriteHeader(returnCode)
 	w.Write(raw)
+}
+
+/*
+ * Generates n random bytes with crypto/rand package.
+ * Taken directly from https://gist.github.com/dopey/c69559607800d2f2f90b1b1ed4e550fb
+ * This is probably just a placeholder for generating random cookie values
+ */
+
+func GenerateRandomBytes(n int) ([]byte, error) {
+	b := make([]byte, n)
+	_, err := rand.Read(b)
+	// Note that err == nil only if we read len(b) bytes.
+	if err != nil {
+		return nil, err
+	}
+
+	return b, nil
 }

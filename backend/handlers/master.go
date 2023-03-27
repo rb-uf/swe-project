@@ -3,11 +3,16 @@ package handlers
 import (
 	"net/http"
 	"os"
+
 	"github.com/gorilla/mux"
 )
 
 // MasterHandler: calls the rest of the handler functions
 func MasterHandler(r *mux.Router) {
+	// Routes for user requests
+	r.HandleFunc("/sign-up", CreateUser).Methods("POST")
+	r.HandleFunc("/login", Login).Methods("POST")
+
 	// Handle "subject" requests
 	r.HandleFunc("/create-subject", CreateSubject).Methods("POST")
 	r.HandleFunc("/get-subject/{name}", GetSubject).Methods("GET")
