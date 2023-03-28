@@ -4,6 +4,7 @@ import (
 	"crypto/rand"
 	"fmt"
 	"net/http"
+	"swe-project/backend/datamgr"
 
 	"encoding/json"
 )
@@ -55,4 +56,19 @@ func GenerateRandomBytes(n int) ([]byte, error) {
 	}
 
 	return b, nil
+}
+
+/*
+ * Returns whether or not cookie is in the CookieJar
+ * TODO: update this so that it uses the standard implementaiton of a cookie jar
+ *		 when I figure out how it works
+ */
+
+func VerifyCookie(c http.Cookie) bool {
+	for _, cookie := range datamgr.CookieJar {
+		if cookie.Value == c.Value {
+			return true
+		}
+	}
+	return false
 }

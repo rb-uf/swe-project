@@ -87,3 +87,31 @@ func Login(w http.ResponseWriter, r *http.Request) {
 	http.SetCookie(w, &cookie)
 	w.WriteHeader(http.StatusOK)
 }
+
+/*
+ * Should take in the cookie of a user and delete it from the active cookie jar. This way if they try to
+ * delete/create anything when the rest of the handler functions look for the cookie it does not find it
+ */
+
+func Logout(w http.ResponseWriter, r *http.Request) {
+	// Need to remove cookie from the cookiejar and then return
+	// If cookie is not found in the cookie jar need to return false
+	cookie, err := r.Cookie("rater-gator user cookie")
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		fmt.Println("Failed to find cookie in request body")
+		return
+	}
+
+	// Get index of cookie to delete
+	var index int
+	for i, c := range datamgr.CookieJar {
+		if c.Value == cookie.Value {
+			index = i
+		}
+	}
+
+	// Removes the cookie from the cookie jar
+	datamgr.CookieJar = append(datamgr.CookieJar[:index], datamgr.CookieJar[index+1:]...)
+	w.WriteHeader(http.StatusOK)
+}
