@@ -34,7 +34,6 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 
 	var user datamgr.User
 	user.Name = temp.Username
-	user.Password = temp.Password
 	user.Hash = hash
 	user.Admin = false
 
