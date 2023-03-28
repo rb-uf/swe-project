@@ -82,6 +82,7 @@ func Login(w http.ResponseWriter, r *http.Request) {
 	}
 
 	datamgr.CookieJar = append(datamgr.CookieJar, cookie)
+	datamgr.CookieJarNames = append(datamgr.CookieJarNames, temp.Username)
 
 	// Now with cookie made and added to the jar, just need to return the cookie in the response
 	http.SetCookie(w, &cookie)
@@ -116,5 +117,6 @@ func Logout(w http.ResponseWriter, r *http.Request) {
 
 	// Removes the cookie from the cookie jar
 	datamgr.CookieJar = append(datamgr.CookieJar[:index], datamgr.CookieJar[index+1:]...)
+	datamgr.CookieJarNames = append(datamgr.CookieJarNames[:index], datamgr.CookieJarNames[index+1:]...)
 	w.WriteHeader(http.StatusOK)
 }

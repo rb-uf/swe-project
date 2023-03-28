@@ -24,3 +24,4 @@ func ConnectDB(file string) {
 // Adding a cookie tracking data structure for now to keep track of active sessions
 
 var CookieJar []http.Cookie
+var CookieJarNames []string
