@@ -276,4 +276,49 @@ func TestDeleteSubject(t *testing.T) {
 
 }
 
+/*===================== User Tests =====================*/
+
+func TestCreateUser(t *testing.T) {
+	req_body := struct {
+		Username string
+		Password string
+	}{
+		Username: "Emmett",
+		Password: "password",
+	}
+
+	ExecuteRequest(req_body, "POST", "/sign-up", handlers.CreateUser, http.StatusCreated, t)
+
+	var user datamgr.User
+	datamgr.DB.Find(&user, "Name = ?", "Emmett")
+
+	if user.Name != "Emmett" {
+		t.Error("Actual username does not match expected username")
+	}
+}
+
+// These are techincally a functional test as it tests creating an account and then logging into it
+func TestLogin(t *testing.T) {
+	req_body := struct {
+		Username string
+		Password string
+	}{
+		Username: "Emmett2",
+		Password: "password",
+	}
+
+	ExecuteRequest(req_body, "POST", "/sign-up", handlers.CreateUser, http.StatusCreated, t)
+
+	var user datamgr.User
+	datamgr.DB.Find(&user, "Name = ?", "Emmett2")
+
+	ExecuteRequest(req_body, "POST", "login", handlers.Login, http.StatusOK, t)
+
+	if len(datamgr.CookieJar) == 0 {
+		t.Error("Failed to login")
+	}
+}
+
+// Best way to test logout is going to be with the frontend so for now it goes officially untested but it worked with postman
+
 /*================== Functional Tests ==================*/

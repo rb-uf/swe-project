@@ -12,6 +12,7 @@ func MasterHandler(r *mux.Router) {
 	// Routes for user requests
 	r.HandleFunc("/sign-up", CreateUser).Methods("POST")
 	r.HandleFunc("/login", Login).Methods("POST")
+	r.HandleFunc("/logout", Logout).Methods("DELETE")
 
 	// Handle "subject" requests
 	r.HandleFunc("/create-subject", CreateSubject).Methods("POST")

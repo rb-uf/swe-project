@@ -40,11 +40,11 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 
 	result := datamgr.DB.Create(&user)
 	if result.Error != nil {
-		fmt.Print("Error when creating user entry in database")
+		fmt.Println("Error when creating user entry in database")
 		WriteResponse(w, r, 400) // Error return code
 	}
 
-	fmt.Print("User created: ", user.Name)
+	fmt.Println("User created: ", user.Name)
 	w.WriteHeader(http.StatusCreated)
 }
 
@@ -110,6 +110,9 @@ func Logout(w http.ResponseWriter, r *http.Request) {
 			index = i
 		}
 	}
+
+	// Log request
+	fmt.Println("Logout request received")
 
 	// Removes the cookie from the cookie jar
 	datamgr.CookieJar = append(datamgr.CookieJar[:index], datamgr.CookieJar[index+1:]...)
