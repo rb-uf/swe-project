@@ -3,11 +3,17 @@ package handlers
 import (
 	"net/http"
 	"os"
+
 	"github.com/gorilla/mux"
 )
 
 // MasterHandler: calls the rest of the handler functions
 func MasterHandler(r *mux.Router) {
+	// Routes for user requests
+	r.HandleFunc("/sign-up", CreateUser).Methods("POST")
+	r.HandleFunc("/login", Login).Methods("POST")
+	r.HandleFunc("/logout", Logout).Methods("DELETE")
+
 	// Handle "subject" requests
 	r.HandleFunc("/create-subject", CreateSubject).Methods("POST")
 	r.HandleFunc("/get-subject/{name}", GetSubject).Methods("GET")
@@ -17,6 +23,7 @@ func MasterHandler(r *mux.Router) {
 	// Handle "review" requests
 	r.HandleFunc("/create-review", CreateReview).Methods("POST")
 	r.HandleFunc("/get-subject-reviews", GetSubjectReviews).Methods("GET")
+	r.HandleFunc("/get-reviews-by-subjects", GetReviewsBySubjects).Methods("GET")
 	r.HandleFunc("/delete-review", DeleteReview).Methods("DELETE")
 	r.HandleFunc("/update-review", UpdateReview).Methods("PUT")
 

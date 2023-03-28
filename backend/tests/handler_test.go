@@ -37,6 +37,13 @@ func TestMain(m *testing.M) {
 	reviews = append(reviews, datamgr.Review{Subject: "1", Rating: 5, Text: "Test text3", Author: "Emmett", AuthorID: 420})
 	reviews = append(reviews, datamgr.Review{Subject: "1", Rating: 5, Text: "Test text4", Author: "Emmett", AuthorID: 420})
 	reviews = append(reviews, datamgr.Review{Subject: "1", Rating: 5, Text: "Test text5", Author: "Emmett", AuthorID: 420})
+
+	reviews = append(reviews, datamgr.Review{Subject: "2", Rating: 5, Text: "Test text1", Author: "Emmett", AuthorID: 420})
+	reviews = append(reviews, datamgr.Review{Subject: "2", Rating: 5, Text: "Test text2", Author: "Emmett", AuthorID: 420})
+	reviews = append(reviews, datamgr.Review{Subject: "3", Rating: 5, Text: "Test text3", Author: "Emmett", AuthorID: 420})
+	reviews = append(reviews, datamgr.Review{Subject: "3", Rating: 5, Text: "Test text4", Author: "Emmett", AuthorID: 420})
+	reviews = append(reviews, datamgr.Review{Subject: "4", Rating: 5, Text: "Test text5", Author: "Emmett", AuthorID: 420})
+
 	datamgr.DB.Create(&reviews)
 	// Run tests
 	m.Run()
@@ -195,6 +202,28 @@ func TestGetSubjectReviews(t *testing.T) {
 	}
 }
 
+func TestGetReviewsBySubject(t *testing.T) {
+	req_body := struct {
+		Subjects []string
+	}{}
+	req_body.Subjects = make([]string, 3)
+	req_body.Subjects[0] = "2"
+	req_body.Subjects[1] = "3"
+	req_body.Subjects[2] = "4"
+
+	body := ExecuteRequest(req_body, "GET", "/get-reviews-by-subjects", handlers.GetReviewsBySubjects, 200, t)
+
+	t1, _ := json.Marshal(req_body)
+	fmt.Println(string(t1))
+
+	var reviews []datamgr.Review
+	json.NewDecoder(body).Decode(&reviews)
+
+	if len(reviews) != 5 {
+		t.Error("Output length does not match expected output length")
+	}
+}
+
 /*==================== Update Tests ====================*/
 
 /*
@@ -234,7 +263,7 @@ func TestDeleteSubject(t *testing.T) {
 	var subject datamgr.Subject
 	datamgr.DB.Find(&subject, 5)
 
-	ExecuteRequest(subject, "DELETE", "/delete-subject", handlers.DeleteSubjecet, 200, t)
+	ExecuteRequest(subject, "DELETE", "/delete-subject", handlers.DeleteSubject, 200, t)
 
 	// Verfiy that the deleted subject is not returned when querying the db
 	var subjects []datamgr.Subject
@@ -246,5 +275,50 @@ func TestDeleteSubject(t *testing.T) {
 	}
 
 }
+
+/*===================== User Tests =====================*/
+
+func TestCreateUser(t *testing.T) {
+	req_body := struct {
+		Username string
+		Password string
+	}{
+		Username: "Emmett",
+		Password: "password",
+	}
+
+	ExecuteRequest(req_body, "POST", "/sign-up", handlers.CreateUser, http.StatusCreated, t)
+
+	var user datamgr.User
+	datamgr.DB.Find(&user, "Name = ?", "Emmett")
+
+	if user.Name != "Emmett" {
+		t.Error("Actual username does not match expected username")
+	}
+}
+
+// These are techincally a functional test as it tests creating an account and then logging into it
+func TestLogin(t *testing.T) {
+	req_body := struct {
+		Username string
+		Password string
+	}{
+		Username: "Emmett2",
+		Password: "password",
+	}
+
+	ExecuteRequest(req_body, "POST", "/sign-up", handlers.CreateUser, http.StatusCreated, t)
+
+	var user datamgr.User
+	datamgr.DB.Find(&user, "Name = ?", "Emmett2")
+
+	ExecuteRequest(req_body, "POST", "login", handlers.Login, http.StatusOK, t)
+
+	if len(datamgr.CookieJar) == 0 {
+		t.Error("Failed to login")
+	}
+}
+
+// Best way to test logout is going to be with the frontend so for now it goes officially untested but it worked with postman
 
 /*================== Functional Tests ==================*/
