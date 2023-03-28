@@ -64,11 +64,11 @@ func GenerateRandomBytes(n int) ([]byte, error) {
  *		 when I figure out how it works
  */
 
-func VerifyCookie(c http.Cookie) bool {
-	for _, cookie := range datamgr.CookieJar {
+func VerifyCookie(c http.Cookie) (bool, string) {
+	for i, cookie := range datamgr.CookieJar {
 		if cookie.Value == c.Value {
-			return true
+			return true, datamgr.CookieJarNames[i]
 		}
 	}
-	return false
+	return false, ""
 }
