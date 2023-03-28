@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"net/http"
 	"swe-project/backend/datamgr"
+
 	"github.com/gorilla/mux"
 )
 
@@ -40,14 +41,46 @@ func GetSubjectReviews(w http.ResponseWriter, r *http.Request) {
 	}{}
 	ReadRequest(w, r, &request)
 
+	// Refactored to use the limit feature of gorm instead of the jank if statement I made
 	var reviews []datamgr.Review
-	datamgr.DB.Find(&reviews, "Subject = ?", request.Name)
+	datamgr.DB.Limit(request.MaxReviews).Find(&reviews, "Subject = ?", request.Name)
 
 	// TODO: make this more sophisticated so that it takes like, the 10 most liked reviews or the 10 most recent/least recent
-	if len(reviews) > request.MaxReviews {
-		reviews = reviews[0:request.MaxReviews]
-	}
+	// if len(reviews) > request.MaxReviews {
+	// 	reviews = reviews[0:request.MaxReviews]
+	// }
 
 	fmt.Println("Request for reviews of", request.Name, "received.")
+	WriteResponse(w, reviews, 200)
+}
+
+/*
+ * Get Reviews by list of subjects:
+ * A requested function begrudgingly being implemented so that the front end
+ * can request the reviews for multiple subjects at a time (they should really just make mmultiple
+ * calls to the GetSubjectReview function. There is absolutley no reason for this to ever be used
+ * and will likely be removed in later versions)
+ * An example of a body is the following:
+ * {
+ *		SubjectNames[]: {name1, name2, name3}
+ * }
+ */
+
+func GetReviewsBySubjects(w http.ResponseWriter, r *http.Request) {
+	// Decode body into a workable object
+	request := struct {
+		Subjects []string
+	}{}
+
+	ReadRequest(w, r, &request)
+
+	fmt.Println(r.Body)
+
+	// Get list of reviews from DB
+	var reviews []datamgr.Review
+	datamgr.DB.Where("Subject IN ?", request.Subjects).Find(&reviews)
+
+	// Write response and log request
+	fmt.Println("Request for reviews of ", request.Subjects, " received")
 	WriteResponse(w, reviews, 200)
 }

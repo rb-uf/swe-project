@@ -37,6 +37,13 @@ func TestMain(m *testing.M) {
 	reviews = append(reviews, datamgr.Review{Subject: "1", Rating: 5, Text: "Test text3", Author: "Emmett", AuthorID: 420})
 	reviews = append(reviews, datamgr.Review{Subject: "1", Rating: 5, Text: "Test text4", Author: "Emmett", AuthorID: 420})
 	reviews = append(reviews, datamgr.Review{Subject: "1", Rating: 5, Text: "Test text5", Author: "Emmett", AuthorID: 420})
+
+	reviews = append(reviews, datamgr.Review{Subject: "2", Rating: 5, Text: "Test text1", Author: "Emmett", AuthorID: 420})
+	reviews = append(reviews, datamgr.Review{Subject: "2", Rating: 5, Text: "Test text2", Author: "Emmett", AuthorID: 420})
+	reviews = append(reviews, datamgr.Review{Subject: "3", Rating: 5, Text: "Test text3", Author: "Emmett", AuthorID: 420})
+	reviews = append(reviews, datamgr.Review{Subject: "3", Rating: 5, Text: "Test text4", Author: "Emmett", AuthorID: 420})
+	reviews = append(reviews, datamgr.Review{Subject: "4", Rating: 5, Text: "Test text5", Author: "Emmett", AuthorID: 420})
+
 	datamgr.DB.Create(&reviews)
 	// Run tests
 	m.Run()
@@ -192,6 +199,28 @@ func TestGetSubjectReviews(t *testing.T) {
 
 	if reviews[0].Text != "Test text1" {
 		t.Error("Output does not match expected output")
+	}
+}
+
+func TestGetReviewsBySubject(t *testing.T) {
+	req_body := struct {
+		Subjects []string
+	}{}
+	req_body.Subjects = make([]string, 3)
+	req_body.Subjects[0] = "2"
+	req_body.Subjects[1] = "3"
+	req_body.Subjects[2] = "4"
+
+	body := ExecuteRequest(req_body, "GET", "/get-reviews-by-subjects", handlers.GetReviewsBySubjects, 200, t)
+
+	t1, _ := json.Marshal(req_body)
+	fmt.Println(string(t1))
+
+	var reviews []datamgr.Review
+	json.NewDecoder(body).Decode(&reviews)
+
+	if len(reviews) != 5 {
+		t.Error("Output length does not match expected output length")
 	}
 }
 
