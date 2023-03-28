@@ -38,11 +38,12 @@ There are two types of objects the backend is designed to handle: "subjects" and
 }
 ```
 
-| Action | HTTP request | URL | Body | Return value |
+### Available HTTP Requests
+| Action | Method | URL | Body | Return value |
 | --- | --- | --- | --- | --- |
-| Create subject | `POST` | `/create-subject` | `{ "Name": "Subject name" }` | |
-| Create Review | `POST` | `/create-review` | Review JSON | |
-| Get Subjects | `GET` | `/get-subjects` | | JSON array of Subjects |
+| Create subject | `POST` | `/create-subject` | `{ "Name": "Subject name" }` | JSON of the new subject |
+| Create Review | `POST` | `/create-review` | Review JSON, but without ID | JSON of the new review |
+| Get Subjects | `GET` | `/get-subjects` | N/A | JSON array of Subjects |
 | Delete Subject | `DELETE` | `/delete-subject` | `{ "Name": "Subject name" }` | http.StatusOK (200) |
 | Get all of Subject's Reviews | `GET` | `/get-subject-reviews` | `{ "Name": "Subject name" }` | JSON array of reviews |
 | Delete Review | `DELETE` | `/delete-review` | `{ "ID": 1234 }` | http.StatusOK (200) |
