@@ -60,7 +60,28 @@ func DeleteReview(w http.ResponseWriter, r *http.Request) {
 	var request datamgr.Review
 	ReadRequest(w, r, &request)
 
-	// TODO: Verify that the requester can delete this object (must be author or admin)
+	// Probably a better way to do this
+	// Check the requests cookie against cookies stored in cookie jar
+	c, _ := r.Cookie("rater-gator user cookie")
+	present, user := VerifyCookie(*c)
+
+	// If cookie was not issued return unauthorized
+	if !present {
+		fmt.Println("Error, request's cookie not found in cookiejar")
+		w.WriteHeader(http.StatusUnauthorized)
+		return
+	}
+
+	// Get user info from db
+	var temp datamgr.User
+	datamgr.DB.Find(&temp, "Name = ?", user)
+
+	// If user is not an admin nor the author do not let them delete the subject
+	if !temp.Admin || user != request.Author {
+		fmt.Println("Error, requester does not have permission to delete a subject")
+		w.WriteHeader(http.StatusUnauthorized)
+		return
+	}
 
 	// Soft delete the entry in the database
 	var p datamgr.Review
