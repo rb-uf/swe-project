@@ -47,7 +47,10 @@ The script is a thin wrapper around Curl with the output piped through a JSON fo
 
 ## Testing (Unit and Functional)
 ### Frontend
-- 
+- Cypress
+  - Test 1: Input a location and a full review with the correct location. Verify that all the inputs were added correctly, then check for errors. No errors show up. 
+  - Test 2: Input a location and a full review with an incorrect location. Verify that all the inputs were added correctly, then check for errors. 1 error shows up.
+  - Test 3: Submit a black review. No errors show up.
 ### Backend
 - In handler_test.go/handler_auth_test.go:
   - TestCreateSubject
