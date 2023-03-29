@@ -4,7 +4,15 @@
 
 ## Work Completed
 ### Frontend
--
+### Subjects Functionality
+The frontend now has functionality to filter reviews by their subject. This is normally the location of the classroom being reviewed, but subjects could also be any item the user wants to leave a review for or read reviews about.
+
+Users can create and submit new subjects in the subjects section. Users may also select multiple subjects from a dropdown and the reviews with the subjects selected will be displayed in the reviews component.
+
+This component uses the API actions "Create Subject", "Get Subject", and "Get Subject Reviews". 
+
+### Styling
+The frontend now displays Angular Material components for styling. The header is now a Material toolbar. The subjects dropdown uses a Material select component with  Material checkboxes. The subject create submission button uses a Material button. Material components have yet to be added to form fields.
 
 ### Backend
 #### User Authentication
