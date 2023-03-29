@@ -35,11 +35,37 @@ Example usage:
 ```
 The script is a thin wrapper around Curl with the output piped through a JSON formatter to make the response easy to read.
 
-## Unit Tests
+## Testing (Unit and Functional)
 ### Frontend
--
+- 
 ### Backend
--
+- In handler_test.go:
+  - TestCreateSubject
+  - TestCreateReview
+  - TestGetSubjects
+  - TestGetSubjectReviews
+  - TestGetReviewsBySubject
+  - TestUpdateReview
+  - TestDeleteSubject
+  - TestDeleteSubject_NoCookie (intended to fail)
+  - TestDeleteSubject_NotAdmin (intended to fail)
+  - TestCreateUser
+  - TestLogin
+- Through Postman:
+  - Delete Subject via JSON body
+  - Delete Review
+  - Get All Subjects
+  - Get Subject Reviews Test
+  - Get Reviews by Subjects
+  - Create Subject Test
+  - Create Review Test
+  - Update Review
+  - Create User
+- In run-tests.sh with http-request.sh:
+  - create-subject
+  - create-review
+  - get-subject-reviews
+
 
 ## API Documentation
 
@@ -77,7 +103,6 @@ There are two types of objects the backend is designed to handle: "subjects" and
 | Update Review | `PUT` | `/update-review` | Review JSON | http.StatusOK (200) |
 
 ### Additional Information
-
 Subjects are referenced by their Name attribute and reviews are referenced by their ID.
 However, when creating a new review, the an ID should not be supplied in the request.
 GORM is responsible for generating a unique ID when the review is added to the database.
