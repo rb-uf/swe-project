@@ -71,9 +71,9 @@ func GetReviewsBySubjects(w http.ResponseWriter, r *http.Request) {
 	request := struct {
 		Subjects []string
 	}{}
-	fmt.Println(r.Body)
+
 	ReadRequest(w, r, &request)
-	fmt.Println(request.Subjects)
+
 	// Get list of reviews from DB
 	var reviews []datamgr.Review
 	datamgr.DB.Where("Subject IN ?", request.Subjects).Find(&reviews)

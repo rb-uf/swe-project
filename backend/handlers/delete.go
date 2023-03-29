@@ -18,7 +18,15 @@ func DeleteSubject(w http.ResponseWriter, r *http.Request) {
 
 	// Probably a better way to do this
 	// Check the requests cookie against cookies stored in cookie jar
-	c, _ := r.Cookie("rater-gator user cookie")
+	c, _ := r.Cookie("rater-gator-cookie")
+
+	// If cookie does not exist
+	if c == nil {
+		fmt.Println("Error, no cookie found")
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+
 	present, user := VerifyCookie(*c)
 
 	// If cookie was not issued return unauthorized
@@ -62,7 +70,14 @@ func DeleteReview(w http.ResponseWriter, r *http.Request) {
 
 	// Probably a better way to do this
 	// Check the requests cookie against cookies stored in cookie jar
-	c, _ := r.Cookie("rater-gator user cookie")
+	c, _ := r.Cookie("rater-gator-cookie")
+
+	if c == nil {
+		fmt.Println("Error, no cookie found")
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+
 	present, user := VerifyCookie(*c)
 
 	// If cookie was not issued return unauthorized

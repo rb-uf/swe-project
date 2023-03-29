@@ -10,6 +10,8 @@ import (
 	"swe-project/backend/datamgr"
 	"swe-project/backend/handlers"
 	"testing"
+
+	"golang.org/x/crypto/bcrypt"
 )
 
 /*
@@ -45,6 +47,58 @@ func TestMain(m *testing.M) {
 	reviews = append(reviews, datamgr.Review{Subject: "4", Rating: 5, Text: "Test text5", Author: "Emmett", AuthorID: 420})
 
 	datamgr.DB.Create(&reviews)
+
+	// Make an admin account to test functions with
+	temp_user := struct {
+		Username string
+		Password string
+	}{
+		Username: "Temp user",
+		Password: "ABCDEFG",
+	}
+
+	hash, _ := bcrypt.GenerateFromPassword([]byte(temp_user.Password), 14)
+	var user datamgr.User
+	user.Name = temp_user.Username
+	user.Hash = hash
+	user.Admin = true
+
+	datamgr.DB.Create(&user)
+	// Create cookie for the user so it is logged in
+	cookie := http.Cookie{
+		Name:  "rater-gator-cookie", // generic cookie name for users
+		Value: "cookie_monster",
+	}
+
+	datamgr.CookieJar = append(datamgr.CookieJar, cookie)
+	datamgr.CookieJarNames = append(datamgr.CookieJarNames, temp_user.Username)
+
+	// Create non-admin guinea pig
+	temp_user2 := struct {
+		Username string
+		Password string
+	}{
+		Username: "Temp user2",
+		Password: "ABCDEFG",
+	}
+
+	hash2, _ := bcrypt.GenerateFromPassword([]byte(temp_user.Password), 14)
+	var user2 datamgr.User
+	user2.Name = temp_user2.Username
+	user2.Hash = hash2
+	user2.Admin = false
+
+	datamgr.DB.Create(&user2)
+
+	// Create cookie for the user so it is logged in
+	cookie2 := http.Cookie{
+		Name:  "rater-gator-cookie", // generic cookie name for users
+		Value: "cookie_monster1",
+	}
+
+	datamgr.CookieJar = append(datamgr.CookieJar, cookie2)
+	datamgr.CookieJarNames = append(datamgr.CookieJarNames, temp_user2.Username)
+
 	// Run tests
 	m.Run()
 
@@ -213,9 +267,6 @@ func TestGetReviewsBySubject(t *testing.T) {
 
 	body := ExecuteRequest(req_body, "GET", "/get-reviews-by-subjects", handlers.GetReviewsBySubjects, 200, t)
 
-	t1, _ := json.Marshal(req_body)
-	fmt.Println(string(t1))
-
 	var reviews []datamgr.Review
 	json.NewDecoder(body).Decode(&reviews)
 
@@ -263,7 +314,36 @@ func TestDeleteSubject(t *testing.T) {
 	var subject datamgr.Subject
 	datamgr.DB.Find(&subject, 5)
 
-	ExecuteRequest(subject, "DELETE", "/delete-subject", handlers.DeleteSubject, 200, t)
+	// Had to switch out ExecuteRequest for now, ultimatley I will refactor it so it updates the
+	// cookie as well
+
+	raw, err := json.Marshal(subject)
+	if err != nil {
+		t.Error("Failed to convert body to JSON")
+	}
+
+	req, err := http.NewRequest("DELETE", "/delete-subject", bytes.NewBuffer(raw))
+	if err != nil {
+		t.Error("Failed to create http request")
+	}
+
+	// Set the cookie of the request
+	req.Header.Set("Cookie", "Foo=Bar; ; ")
+
+	req.AddCookie(&http.Cookie{
+		Name:  "rater-gator-cookie",
+		Value: "cookie_monster",
+	})
+
+	// Set up a recorder to read the response and serve the packet
+	recorder := httptest.NewRecorder()
+	handler := http.HandlerFunc(handlers.DeleteSubject)
+	handler.ServeHTTP(recorder, req)
+
+	// If code doesn't match then we fail the test
+	if recorder.Code != http.StatusOK {
+		t.Errorf("Received response code %v, expected %v", recorder.Code, http.StatusOK)
+	}
 
 	// Verfiy that the deleted subject is not returned when querying the db
 	var subjects []datamgr.Subject
@@ -274,6 +354,62 @@ func TestDeleteSubject(t *testing.T) {
 		}
 	}
 
+}
+
+/*
+ * TestDeleteSubject_Unauthorized: Tries to delete a subject without setting the cookie. Demonstrates
+ * that without either a cookie or proper ID that http.StatusUnathorized is returned
+ */
+func TestDeleteSubject_NoCookie(t *testing.T) {
+	var subject datamgr.Subject
+	datamgr.DB.Find(&subject, 5)
+
+	ExecuteRequest(subject, "DELETE", "/delete-subject", handlers.DeleteSubject, 400, t)
+}
+
+func TestDeleteSubject_NotAdmin(t *testing.T) {
+	var subject datamgr.Subject
+	datamgr.DB.Find(&subject, 5)
+
+	// Had to switch out ExecuteRequest for now, ultimatley I will refactor it so it updates the
+	// cookie as well
+
+	raw, err := json.Marshal(subject)
+	if err != nil {
+		t.Error("Failed to convert body to JSON")
+	}
+
+	req, err := http.NewRequest("DELETE", "/delete-subject", bytes.NewBuffer(raw))
+	if err != nil {
+		t.Error("Failed to create http request")
+	}
+
+	// Set the cookie of the request
+	req.Header.Set("Cookie", "Foo=Bar; ; ")
+
+	req.AddCookie(&http.Cookie{
+		Name:  "rater-gator-cookie",
+		Value: "cookie_monster1",
+	})
+
+	// Set up a recorder to read the response and serve the packet
+	recorder := httptest.NewRecorder()
+	handler := http.HandlerFunc(handlers.DeleteSubject)
+	handler.ServeHTTP(recorder, req)
+
+	// If code doesn't match then we fail the test
+	if recorder.Code != http.StatusUnauthorized {
+		t.Errorf("Received response code %v, expected %v", recorder.Code, http.StatusUnauthorized)
+	}
+
+	// Verfiy that the deleted subject is not returned when querying the db
+	var subjects []datamgr.Subject
+	datamgr.DB.Find(&subjects)
+	for i := 0; i < len(subjects); i++ {
+		if subjects[i].ID == 5 {
+			t.Error("ID found, failed to delete object")
+		}
+	}
 }
 
 /*===================== User Tests =====================*/
