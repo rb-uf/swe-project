@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { ReviewService, Review } from './review.service';
 import { CreateReviewComponent } from './create-review/create-review.component';
+import { SubjectComponent } from './subject/subject.component';
 
 import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
 
@@ -15,7 +16,7 @@ export class ReviewComponent {
 
   // formBuilder object of text-entry fields
   reviewForm = this.formBuilder.group({
-    location: '',
+    subject: '',
     rating: '',
     description: '',
     author: '',
@@ -31,21 +32,21 @@ export class ReviewComponent {
   }
 
   loadReviews() {
-    this.reviews = this.service.getReviews();
+    //this.reviews = this.service.getReviews();
   }
 
   // method called to submit review
   // event binded to "Submit Review" button click
   onSubmit(): void {
     let newReview = {
-      location: <string>this.reviewForm.value.location,
+      subject: <string>this.reviewForm.value.subject,
       rating: +<string>this.reviewForm.value.rating,
       description: <string>this.reviewForm.value.description,
       author: <string>this.reviewForm.value.author,
     }
 
-    this.service.addNewReview(newReview) //response returned here
-      .subscribe(); 
+    console.log(newReview);
+    console.log(this.service.postReview(newReview)); //response returned here
     this.reviewForm.reset();
     this.loadReviews();
   }
