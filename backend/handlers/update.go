@@ -22,7 +22,9 @@ func UpdateReview(w http.ResponseWriter, r *http.Request) {
 	datamgr.DB.First(&entry, "ID = ?", request.ID)
 
 	// Verify requester
-	// CheckCookieAndPermissions(w, r, true, entry.Author, false)
+	if !CheckCookieAndPermissions(w, r, true, entry.Author, false) {
+		return
+	}
 
 	if entry.ID != request.ID {
 		fmt.Println("Entry not found: ", request.ID)

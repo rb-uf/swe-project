@@ -39,13 +39,13 @@ func CheckCookieAndPermissions(w http.ResponseWriter, r *http.Request, author_pe
 	datamgr.DB.Find(&temp, "Name = ?", user)
 
 	// If user is not an admin do not let them delete the subject
-	if !bypass && (!temp.Admin || (author_perm && author != temp.Name)) {
-		fmt.Println("Error, requester does not have permission to delete a subject")
+	if bypass || temp.Admin || (author_perm && (author == temp.Name)) {
+		return true
+	} else {
+		fmt.Println("Error, requester does not have permissions")
 		w.WriteHeader(http.StatusUnauthorized)
 		return false
 	}
-
-	return true
 }
 
 func ConfigureCookie(r *http.Request, v string) {

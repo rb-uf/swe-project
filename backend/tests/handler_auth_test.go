@@ -114,7 +114,7 @@ func TestMain(m *testing.M) {
 }
 
 // TODO: make this handle nil correctly
-func ExecuteRequest(body interface{}, packet_type string, route string, handler_func func(w http.ResponseWriter, r *http.Request), code int, t *testing.T) *bytes.Buffer {
+func ExecuteRequest(body interface{}, packet_type string, route string, handler_func func(w http.ResponseWriter, r *http.Request), code int, addCookie bool, cookie_val string, t *testing.T) *bytes.Buffer {
 	// Build http request
 	raw, err := json.Marshal(body)
 	if err != nil {
@@ -126,6 +126,10 @@ func ExecuteRequest(body interface{}, packet_type string, route string, handler_
 	if err != nil {
 		t.Error("Failed to create http request")
 		return nil
+	}
+
+	if addCookie {
+		handlers.ConfigureCookie(req, cookie_val)
 	}
 
 	// Set up a recorder to read the response and serve the packet
@@ -153,7 +157,7 @@ func ExecuteRequest(body interface{}, packet_type string, route string, handler_
 func TestCreateSubject(t *testing.T) {
 	subject := datamgr.Subject{Name: "Test"}
 
-	body := ExecuteRequest(subject, "POST", "/create-subject", handlers.CreateSubject, 201, t)
+	body := ExecuteRequest(subject, "POST", "/create-subject", handlers.CreateSubject, 201, true, "cookie_monster", t)
 
 	// Make sure returned object has the correct Name
 	var output datamgr.Subject
@@ -162,6 +166,12 @@ func TestCreateSubject(t *testing.T) {
 	if output.Name != "Test" {
 		t.Error("Returned object does not match expected output")
 	}
+}
+
+func TestCreateSubject_NoCookie(t *testing.T) {
+	subject := datamgr.Subject{Name: "Test"}
+
+	ExecuteRequest(subject, "POST", "/create-subject", handlers.CreateSubject, 400, false, "", t)
 }
 
 /*
@@ -178,7 +188,7 @@ func TestCreateReview(t *testing.T) {
 		AuthorID: 1234,
 	}
 
-	body := ExecuteRequest(NewReview, "POST", "/create-review", handlers.CreateReview, 201, t)
+	body := ExecuteRequest(NewReview, "POST", "/create-review", handlers.CreateReview, 201, true, "cookie_monster", t)
 
 	// Verify the object returned matches the db entry created and both match expected output
 
@@ -190,6 +200,18 @@ func TestCreateReview(t *testing.T) {
 	if got.Text != NewReview.Text {
 		t.Error("Bodies of expected output and received do not match")
 	}
+}
+
+func TestCreateReview_NoCookie(t *testing.T) {
+	NewReview := datamgr.Review{
+		Subject:  "1",
+		Rating:   5,
+		Text:     "This is a text string",
+		Author:   "Dobra Rocks!",
+		AuthorID: 1234,
+	}
+
+	ExecuteRequest(NewReview, "POST", "/create-review", handlers.CreateReview, 400, false, "", t)
 }
 
 /*===================== Read Tests =====================*/
@@ -247,7 +269,7 @@ func TestGetSubjectReviews(t *testing.T) {
 		MaxReviews: 5,
 	}
 
-	body := ExecuteRequest(req_body, "GET", "get-subject-reviews", handlers.GetSubjectReviews, 200, t)
+	body := ExecuteRequest(req_body, "GET", "get-subject-reviews", handlers.GetSubjectReviews, 200, false, "", t)
 
 	// Verify output
 	var reviews []datamgr.Review
@@ -267,7 +289,7 @@ func TestGetReviewsBySubject(t *testing.T) {
 	req_body.Subjects[1] = "3"
 	req_body.Subjects[2] = "4"
 
-	body := ExecuteRequest(req_body, "GET", "/get-reviews-by-subjects", handlers.GetReviewsBySubjects, 200, t)
+	body := ExecuteRequest(req_body, "GET", "/get-reviews-by-subjects", handlers.GetReviewsBySubjects, 200, false, "", t)
 
 	var reviews []datamgr.Review
 	json.NewDecoder(body).Decode(&reviews)
@@ -294,7 +316,7 @@ func TestUpdateReview(t *testing.T) {
 		NewText: "Emmett rocks",
 	}
 
-	body := ExecuteRequest(req_body, "PUT", "/update-review", handlers.UpdateReview, 200, t)
+	body := ExecuteRequest(req_body, "PUT", "/update-review", handlers.UpdateReview, 200, true, "cookie_monster", t)
 
 	// Verify the updated entry in the packet's body has the correct string
 	var review datamgr.Review
@@ -303,6 +325,18 @@ func TestUpdateReview(t *testing.T) {
 	if review.Text != "Emmett rocks" {
 		t.Error("Output does not match expected output")
 	}
+}
+
+func TestUpdateReview_NoCookie(t *testing.T) {
+	req_body := struct {
+		ID      uint
+		NewText string
+	}{
+		ID:      6,
+		NewText: "Emmett rocks",
+	}
+
+	ExecuteRequest(req_body, "PUT", "/update-review", handlers.UpdateReview, 400, false, "", t)
 }
 
 /*==================== Delete Tests ====================*/
@@ -361,7 +395,7 @@ func TestDeleteSubject_NoCookie(t *testing.T) {
 	var subject datamgr.Subject
 	datamgr.DB.Find(&subject, 5)
 
-	ExecuteRequest(subject, "DELETE", "/delete-subject", handlers.DeleteSubject, 400, t)
+	ExecuteRequest(subject, "DELETE", "/delete-subject", handlers.DeleteSubject, 400, false, "", t)
 }
 
 func TestDeleteSubject_NotAdmin(t *testing.T) {
@@ -406,7 +440,7 @@ func TestCreateUser(t *testing.T) {
 		Password: "password",
 	}
 
-	ExecuteRequest(req_body, "POST", "/sign-up", handlers.CreateUser, http.StatusCreated, t)
+	ExecuteRequest(req_body, "POST", "/sign-up", handlers.CreateUser, http.StatusCreated, false, "", t)
 
 	var user datamgr.User
 	datamgr.DB.Find(&user, "Name = ?", "Emmett")
@@ -426,12 +460,12 @@ func TestLogin(t *testing.T) {
 		Password: "password",
 	}
 
-	ExecuteRequest(req_body, "POST", "/sign-up", handlers.CreateUser, http.StatusCreated, t)
+	ExecuteRequest(req_body, "POST", "/sign-up", handlers.CreateUser, http.StatusCreated, false, "", t)
 
 	var user datamgr.User
 	datamgr.DB.Find(&user, "Name = ?", "Emmett2")
 
-	ExecuteRequest(req_body, "POST", "login", handlers.Login, http.StatusOK, t)
+	ExecuteRequest(req_body, "POST", "login", handlers.Login, http.StatusOK, false, "", t)
 
 	if len(datamgr.CookieJar) == 0 {
 		t.Error("Failed to login")
