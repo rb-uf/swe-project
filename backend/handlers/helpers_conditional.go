@@ -12,10 +12,10 @@ import (
  * third operand is the level of permissions needed, so if the author can modify or not
  */
 
-func CheckCookieAndPermissions(w http.ResponseWriter, r *http.Request, author_perm bool, author string) bool {
+func CheckCookieAndPermissions(w http.ResponseWriter, r *http.Request, author_perm bool, author string, bypass bool) bool {
 	return true
 }
 
-func ConfigureCookie(c *http.Cookie) {
+func ConfigureCookie(c *http.Cookie, v string) {
 	return
 }
