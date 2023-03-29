@@ -6,12 +6,17 @@
 
 describe('Test 1', () => {
   it('Creating a new review', () => {
-    cy.visit('http://localhost:4200/');
+    cy.visit('http://localhost:3000/');
 
-    cy.get("input[id='location']", { timeout: 10000 }) // can also use cy.contains("Location") 
-      .type("Lib West"); 
-    cy.get("input[id='location']")
-      .should('have.value', "Lib West"); 
+    cy.get("input[id='Name']", { timeout: 10000 }) // can also use cy.contains("Location") 
+      .type("Turlington"); 
+    cy.get("input[id='Name']")
+      .should('have.value', "Turlington"); 
+
+    cy.get("input[id='subject']", { timeout: 10000 }) // can also use cy.contains("Location") 
+      .type("Turlington"); 
+    cy.get("input[id='subject']")
+      .should('have.value', "Turlington"); 
 
     cy.get("input[id='rating']")
       .type("4"); 
@@ -30,13 +35,24 @@ describe('Test 1', () => {
 
     cy.contains("Submit Review") 
       .click(); 
-    
+
+      Cypress.on('window:before:load', (win) => {
+        cy.spy(win.console, 'error');
+        cy.spy(win.console, 'warn');
+      });
+      
+      
+        cy.window().then((win) => {
+          expect(win.console.error).to.have.callCount(0);
+          expect(win.console.warn).to.have.callCount(0);
+        });
   });
 });
 
 describe('Step 2', () => {
   it('Creating another review', () => {
-    cy.visit('http://localhost:4200/');
+    /* //Sprint 2 tests
+    cy.visit('http://localhost:3000/');
 
     cy.get("input[id='location']", { timeout: 10000 }) // can also use cy.contains("Location") 
       .type("Carelton"); 
@@ -59,14 +75,53 @@ describe('Step 2', () => {
       .should('have.value',"Devala"); 
 
     cy.contains("Submit Review") 
-      .click(); 
+      .click(); */
+
+      cy.visit('http://localhost:3000/');
+
+      cy.get("input[id='Name']", { timeout: 10000 }) // can also use cy.contains("Location") 
+        .type("Turlington"); 
+      cy.get("input[id='Name']")
+        .should('have.value', "Turlington"); 
+  
+      cy.get("input[id='subject']", { timeout: 10000 }) // can also use cy.contains("Location") 
+        .type("Carleton"); 
+      cy.get("input[id='subject']")
+        .should('have.value', "Carleton"); 
+  
+      cy.get("input[id='rating']")
+        .type("2"); 
+      cy.get("input[id='rating']") 
+        .should('have.value', "2"); 
+  
+      cy.get("input[id='description']") 
+        .type("this is a testeeee"); 
+      cy.get("input[id='description']") 
+        .should('have.value',"this is a testeeee"); 
+  
+      cy.get("input[id='author']") 
+        .type("hey"); 
+      cy.get("input[id='author']") 
+        .should('have.value',"hey"); 
+  
+      cy.contains("Submit Review") 
+        .click(); 
+    
+        
+        
+          cy.window().then((win) => {
+            expect(win.console.error).to.have.callCount(1);
+            expect(win.console.warn).to.have.callCount(0);
+          });
     
   });
 });
 
 describe('Step 3', () => {
   it('Creating a third review', () => {
-    cy.visit('http://localhost:4200/');
+
+    /* //Sprint 2 tests
+    cy.visit('http://localhost:3000/');
 
     cy.get("input[id='description']") 
       .type("this is a test3"); 
@@ -80,6 +135,18 @@ describe('Step 3', () => {
 
     cy.contains("Submit Review") 
       .click(); 
+      */
     
+      cy.visit('http://localhost:3000/');
+      cy.contains("Submit Review") 
+      .click(); 
+    
+      
+      
+        cy.window().then((win) => {
+          expect(win.console.error).to.have.callCount(0);
+          expect(win.console.warn).to.have.callCount(0);
+        });
+
   });
 });
