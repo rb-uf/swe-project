@@ -20,6 +20,8 @@ The cookie is both passed to the client and stored in our cookie jar.
 In any HTTP requests requiring authentication, the cookie must be provided so it can be looked up in the cookie jar.
 When a logout request is made, the cookie is removed from the cookie jar.
 
+For easier testing with postman and to maintain current front end functionality which does not deal with logging in, the functions used to verify cookies within handler functions are setup to take advantage of conditional compilation, using the real version in the default mode and in the alternate build configuration it replaces it with a dummy function that says the cookie was always verified.
+
 During the next sprint, we intend on working with the frontend team to set up the login page.
 
 #### Improved API Documentation
@@ -39,13 +41,16 @@ The script is a thin wrapper around Curl with the output piped through a JSON fo
 ### Frontend
 - 
 ### Backend
-- In handler_test.go:
+- In handler_test.go/handler_auth_test.go:
   - TestCreateSubject
+  - TestCreateSubject_NoCookie
   - TestCreateReview
+  - TestCreateReview_NoCookie
   - TestGetSubjects
   - TestGetSubjectReviews
   - TestGetReviewsBySubject
   - TestUpdateReview
+  - TestUpdateReview_NoCookie
   - TestDeleteSubject
   - TestDeleteSubject_NoCookie (intended to fail)
   - TestDeleteSubject_NotAdmin (intended to fail)
@@ -66,6 +71,8 @@ The script is a thin wrapper around Curl with the output piped through a JSON fo
   - create-review
   - get-subject-reviews
 
+Note: there are now two classes of backend tests, one that tests cookies and authorization functionality on top of basic
+CRUD functionality and another that just tests the basic crud functionality by utilizing conditional compilation for various implementations of test functions and helper functions. To run the new class of tests do `go test ./ -v` and for the previous versions use `go test -tags alt ./ -v`
 
 ## API Documentation
 
