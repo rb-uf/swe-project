@@ -20,7 +20,6 @@ type User struct {
 	gorm.Model
 
 	Name     string
-	Password string
 	Hash     []byte
 
 	Admin bool
