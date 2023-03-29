@@ -328,12 +328,7 @@ func TestDeleteSubject(t *testing.T) {
 	}
 
 	// Set the cookie of the request
-	req.Header.Set("Cookie", "Foo=Bar; ; ")
-
-	req.AddCookie(&http.Cookie{
-		Name:  "rater-gator-cookie",
-		Value: "cookie_monster",
-	})
+	handlers.ConfigureCookie(req, "cookie_monster")
 
 	// Set up a recorder to read the response and serve the packet
 	recorder := httptest.NewRecorder()
@@ -385,12 +380,7 @@ func TestDeleteSubject_NotAdmin(t *testing.T) {
 	}
 
 	// Set the cookie of the request
-	req.Header.Set("Cookie", "Foo=Bar; ; ")
-
-	req.AddCookie(&http.Cookie{
-		Name:  "rater-gator-cookie",
-		Value: "cookie_monster1",
-	})
+	handlers.ConfigureCookie(req, "cookie_monster1")
 
 	// Set up a recorder to read the response and serve the packet
 	recorder := httptest.NewRecorder()
