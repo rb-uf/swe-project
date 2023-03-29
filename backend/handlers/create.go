@@ -20,6 +20,10 @@ func CreateSubject(w http.ResponseWriter, r *http.Request) {
 	var subject datamgr.Subject
 	ReadRequest(w, r, &subject)
 
+	if !CheckCookieAndPermissions(w, r, false, "", true) {
+		return
+	}
+
 	// Create the new entry in the db
 	result := datamgr.DB.Create(&subject)
 	if result.Error != nil {
@@ -47,6 +51,10 @@ func CreateSubject(w http.ResponseWriter, r *http.Request) {
 func CreateReview(w http.ResponseWriter, r *http.Request) {
 	var review datamgr.Review
 	ReadRequest(w, r, &review)
+
+	if !CheckCookieAndPermissions(w, r, false, "", true) {
+		return
+	}
 
 	// If subject specified does not exist, log it and return an error
 	// TODO: maybe just have this create the subject as well

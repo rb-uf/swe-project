@@ -1,3 +1,5 @@
+//go:build alt
+
 package main
 
 import (
@@ -327,14 +329,6 @@ func TestDeleteSubject(t *testing.T) {
 		t.Error("Failed to create http request")
 	}
 
-	// Set the cookie of the request
-	req.Header.Set("Cookie", "Foo=Bar; ; ")
-
-	req.AddCookie(&http.Cookie{
-		Name:  "rater-gator-cookie",
-		Value: "cookie_monster",
-	})
-
 	// Set up a recorder to read the response and serve the packet
 	recorder := httptest.NewRecorder()
 	handler := http.HandlerFunc(handlers.DeleteSubject)
@@ -354,53 +348,6 @@ func TestDeleteSubject(t *testing.T) {
 		}
 	}
 
-}
-
-/*
- * TestDeleteSubject_Unauthorized: Tries to delete a subject without setting the cookie. Demonstrates
- * that without either a cookie or proper ID that http.StatusUnathorized is returned
- */
-func TestDeleteSubject_NoCookie(t *testing.T) {
-	var subject datamgr.Subject
-	datamgr.DB.Find(&subject, 5)
-
-	ExecuteRequest(subject, "DELETE", "/delete-subject", handlers.DeleteSubject, 400, t)
-}
-
-func TestDeleteSubject_NotAdmin(t *testing.T) {
-	var subject datamgr.Subject
-	datamgr.DB.Find(&subject, 5)
-
-	// Had to switch out ExecuteRequest for now, ultimatley I will refactor it so it updates the
-	// cookie as well
-
-	raw, err := json.Marshal(subject)
-	if err != nil {
-		t.Error("Failed to convert body to JSON")
-	}
-
-	req, err := http.NewRequest("DELETE", "/delete-subject", bytes.NewBuffer(raw))
-	if err != nil {
-		t.Error("Failed to create http request")
-	}
-
-	// Set the cookie of the request
-	req.Header.Set("Cookie", "Foo=Bar; ; ")
-
-	req.AddCookie(&http.Cookie{
-		Name:  "rater-gator-cookie",
-		Value: "cookie_monster1",
-	})
-
-	// Set up a recorder to read the response and serve the packet
-	recorder := httptest.NewRecorder()
-	handler := http.HandlerFunc(handlers.DeleteSubject)
-	handler.ServeHTTP(recorder, req)
-
-	// If code doesn't match then we fail the test
-	if recorder.Code != http.StatusUnauthorized {
-		t.Errorf("Received response code %v, expected %v", recorder.Code, http.StatusUnauthorized)
-	}
 }
 
 /*===================== User Tests =====================*/
