@@ -41,13 +41,16 @@ The script is a thin wrapper around Curl with the output piped through a JSON fo
 ### Frontend
 - 
 ### Backend
-- In handler_test.go:
+- In handler_test.go/handler_auth_test.go:
   - TestCreateSubject
+  - TestCreateSubject_NoCookie
   - TestCreateReview
+  - TestCreateReview_NoCookie
   - TestGetSubjects
   - TestGetSubjectReviews
   - TestGetReviewsBySubject
   - TestUpdateReview
+  - TestUpdateReview_NoCookie
   - TestDeleteSubject
   - TestDeleteSubject_NoCookie (intended to fail)
   - TestDeleteSubject_NotAdmin (intended to fail)
@@ -67,6 +70,9 @@ The script is a thin wrapper around Curl with the output piped through a JSON fo
   - create-subject
   - create-review
   - get-subject-reviews
+
+Note: there are now two classes of backend tests, one that tests cookies and authorization functionality on top of basic
+CRUD functionality and another that just tests the basic crud functionality by utilizing conditional compilation for various implementations of test functions and helper functions. To run the new class of tests do `go test ./ -v` and for the previous versions use `go test -tags alt ./ -v`
 
 ## API Documentation
 
