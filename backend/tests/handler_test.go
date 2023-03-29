@@ -401,15 +401,6 @@ func TestDeleteSubject_NotAdmin(t *testing.T) {
 	if recorder.Code != http.StatusUnauthorized {
 		t.Errorf("Received response code %v, expected %v", recorder.Code, http.StatusUnauthorized)
 	}
-
-	// Verfiy that the deleted subject is not returned when querying the db
-	var subjects []datamgr.Subject
-	datamgr.DB.Find(&subjects)
-	for i := 0; i < len(subjects); i++ {
-		if subjects[i].ID == 5 {
-			t.Error("ID found, failed to delete object")
-		}
-	}
 }
 
 /*===================== User Tests =====================*/
