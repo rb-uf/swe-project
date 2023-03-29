@@ -20,6 +20,8 @@ The cookie is both passed to the client and stored in our cookie jar.
 In any HTTP requests requiring authentication, the cookie must be provided so it can be looked up in the cookie jar.
 When a logout request is made, the cookie is removed from the cookie jar.
 
+For easier testing with postman and to maintain current front end functionality which does not deal with logging in, the functions used to verify cookies within handler functions are setup to take advantage of conditional compilation, using the real version in the default mode and in the alternate build configuration it replaces it with a dummy function that says the cookie was always verified.
+
 During the next sprint, we intend on working with the frontend team to set up the login page.
 
 #### Improved API Documentation
@@ -65,7 +67,6 @@ The script is a thin wrapper around Curl with the output piped through a JSON fo
   - create-subject
   - create-review
   - get-subject-reviews
-
 
 ## API Documentation
 
