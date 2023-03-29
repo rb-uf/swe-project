@@ -47,3 +47,12 @@ func CheckCookieAndPermissions(w http.ResponseWriter, r *http.Request, author_pe
 
 	return true
 }
+
+func ConfigureCookie(r *http.Request, v string) {
+	r.Header.Set("Cookie", "Foo=Bar; ; ")
+
+	r.AddCookie(&http.Cookie{
+		Name:  "rater-gator-cookie",
+		Value: v,
+	})
+}

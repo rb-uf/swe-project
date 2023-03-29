@@ -15,3 +15,7 @@ import (
 func CheckCookieAndPermissions(w http.ResponseWriter, r *http.Request, author_perm bool, author string) bool {
 	return true
 }
+
+func ConfigureCookie(c *http.Cookie) {
+	return
+}
