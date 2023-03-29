@@ -1,10 +1,11 @@
+<h2>New Review:</h2>
 <form [formGroup]="reviewForm" (ngSubmit)="onSubmit()">
 
     <div>
-        <label for="location">
+        <label for="subject">
             Location:
         </label>
-        <input id="location" type="text" formControlName="location">
+        <input id="subject" type="text" formControlName="subject">
     </div>
 
     <div>
@@ -34,7 +35,7 @@
 
 <div *ngFor="let review of reviews">
     <h2>Review Heading</h2>
-    <b>Location:</b> {{review.location}}
+    <b>Location:</b> {{review.subject}}
     <br>
     <b>Rating:</b> {{review.rating}}
     <br>
