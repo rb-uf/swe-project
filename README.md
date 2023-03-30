@@ -15,44 +15,30 @@ Backend team:
 
 ## Setup Instructions
 
-First, open a terminal, clone the repository, and enter the newly-created directory:
-```
-git clone https://github.com/rb-uf/swe-project.git
-cd swe-project
-```
-### Frontend
-
 1. Install node.js: https://nodejs.org/en/download/
 
 2. Install Angular CLI: https://angular.io/guide/setup-local#install-the-angular-cli
 
-3. Verify everything is working by running the application:
-   ```
-   cd angular-front-end
-   ng serve --open
-   ```
-   The application should open in your web browser.
-   This may take a few moments.
+3. Install Go: https://go.dev/doc/install
 
-### Backend
-
-1. Install Go: https://go.dev/doc/install
-
-2. Enter the `backend/` directory (from within `swe-project/`) and build the project:
+4. Clone the repository, and enter the newly-created directory:
    ```
-   cd backend
-   go build
+   git clone https://github.com/rb-uf/swe-project.git
+   cd swe-project
    ```
-   This should automatically download any required dependencies as well.
+5. From `frontend/rater-gator/`, build the Angular application:
+   ```
+   ng build
+   ```
+6. From `backend/`, run:
+   ```
+   sh run.sh
+   ```
+   This should automatically download dependencies, compile the Go code, and start the backend.
 
-3. Start the backend server:
-   ```
-   go run swe-project/backend
-   ```
-
-4. Open a web browser and go to `localhost:3000`.
+7. Open a web browser and go to `localhost:3000`.
 
    You should see the front end.
 
-5. From the terminal, press `Ctrl-C` to stop the server.
+8. `Ctrl-C` to stop the server on the terminal it was started on.
 
