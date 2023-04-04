@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Review } from '../review';
+import { REVIEWS } from '../mock-reviews';
 
 @Component({
   selector: 'app-reviews',
@@ -7,12 +8,10 @@ import { Review } from '../review';
   styleUrls: ['./reviews.component.css']
 })
 export class ReviewsComponent {
-  review: Review = {
-    ID: 1234,
-    Subject: "Newell Hall",
-    Rating: 5,
-    Text: "very cool",
-    Author: "Shane",
-    AuthorID: 42069,
+  reviews: Review[] = REVIEWS;
+
+  selectedReview?: Review;
+  onSelect(review: Review): void {
+    this.selectedReview = review;
   }
 }
