@@ -1,0 +1,8 @@
+<h2>Subjects</h2>
+<ul class="subjects">
+    <li *ngFor="let subject of subjects">
+        <a routerLink="/subject/{{subject.Name}}">
+            {{subject.Name}}
+            </a>
+    </li>
+</ul>

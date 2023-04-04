@@ -1,10 +1,9 @@
 <h2>Reviews</h2>
 <ul class="reviews">
     <li *ngFor="let review of reviews">
-        <button [class.selected]="review === selectedReview" type="button" (click)="onSelect(review)">
-            <span class="subject">{{review.Subject}}</span>
-
-        </button>
+        <a routerLink="/detail/{{review.ID}}">
+            {{review.Subject}}
+        </a>
     </li>
 </ul>
 

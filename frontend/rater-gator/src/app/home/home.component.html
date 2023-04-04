@@ -1,0 +1,6 @@
+<h2>Latest Reviews</h2>
+<div class="review-menu">
+  <a *ngFor="let review of reviews" routerLink="/detail/{{review.ID}}">
+    {{review.Subject}} <br>
+  </a>
+</div>
