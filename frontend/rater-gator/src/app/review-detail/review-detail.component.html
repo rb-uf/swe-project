@@ -1,0 +1,13 @@
+<div *ngIf="review">
+    <h2>{{review.Subject}} Details</h2>
+    <div>ID: {{review.ID}}</div>
+    <div>
+        <label for="review-subject">Review: </label>
+        <input id="review-subject" [(ngModel)]="review.Subject" placeholder="subject">
+    </div>
+    <div>Rating: {{review.Rating}}</div>
+    <div>Review: {{review.Text}}</div>
+    <div>Author: {{review.Author}}</div>
+    <div>Author ID: {{review.AuthorID}}</div>
+
+</div>

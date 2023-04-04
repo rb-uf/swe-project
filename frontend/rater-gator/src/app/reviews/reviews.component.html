@@ -1,5 +1,5 @@
 <h2>Reviews</h2>
-<ul class="heroes">
+<ul class="reviews">
     <li *ngFor="let review of reviews">
         <button [class.selected]="review === selectedReview" type="button" (click)="onSelect(review)">
             <span class="subject">{{review.Subject}}</span>
@@ -8,16 +8,4 @@
     </li>
 </ul>
 
-<div *ngIf="selectedReview">
-    <h2>{{selectedReview.Subject}} Details</h2>
-    <div>ID: {{selectedReview.ID}}</div>
-    <div>
-        <label for="review-subject">Review: </label>
-        <input id="review-subject" [(ngModel)]="selectedReview.Subject" placeholder="subject">
-    </div>
-    <div>Rating: {{selectedReview.Rating}}</div>
-    <div>Review: {{selectedReview.Text}}</div>
-    <div>Author: {{selectedReview.Author}}</div>
-    <div>Author ID: {{selectedReview.AuthorID}}</div>
-
-</div>
+<app-review-detail [review] = "selectedReview"></app-review-detail>
