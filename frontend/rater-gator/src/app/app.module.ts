@@ -7,12 +7,14 @@ import { ReviewsComponent } from './reviews/reviews.component';
 
 import { FormsModule } from '@angular/forms';
 import { ReviewDetailComponent } from './review-detail/review-detail.component';
+import { MessagesComponent } from './messages/messages.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     ReviewsComponent,
-    ReviewDetailComponent
+    ReviewDetailComponent,
+    MessagesComponent
   ],
   imports: [
     BrowserModule,
