@@ -4,7 +4,6 @@ go 1.20
 
 require (
 	github.com/gorilla/mux v1.8.0
-	github.com/joho/godotenv v1.5.1
 	golang.org/x/crypto v0.7.0
 	gorm.io/driver/sqlite v1.4.4
 	gorm.io/gorm v1.24.5
