@@ -6,7 +6,7 @@
 package handlers
 
 import (
-	"fmt"
+	"log"
 	"net/http"
 	"swe-project/backend/datamgr"
 
@@ -39,11 +39,11 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 
 	result := datamgr.DB.Create(&user)
 	if result.Error != nil {
-		fmt.Println("Error when creating user entry in database")
+		log.Println("Error when creating user entry in database")
 		WriteResponse(w, r, 400) // Error return code
 	}
 
-	fmt.Println("User created: ", user.Name)
+	log.Println("User created: ", user.Name)
 	w.WriteHeader(http.StatusCreated)
 }
 
@@ -99,7 +99,7 @@ func Logout(w http.ResponseWriter, r *http.Request) {
 	cookie, err := r.Cookie("rater-gator user cookie")
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
-		fmt.Println("Failed to find cookie in request body")
+		log.Println("Failed to find cookie in request body")
 		return
 	}
 
@@ -112,7 +112,7 @@ func Logout(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Log request
-	fmt.Println("Logout request received")
+	log.Println("Logout request received")
 
 	// Removes the cookie from the cookie jar
 	datamgr.CookieJar = append(datamgr.CookieJar[:index], datamgr.CookieJar[index+1:]...)

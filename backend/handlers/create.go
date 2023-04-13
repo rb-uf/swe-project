@@ -1,7 +1,7 @@
 package handlers
 
 import (
-	"fmt"
+	"log"
 	"net/http"
 
 	"swe-project/backend/datamgr"
@@ -27,12 +27,12 @@ func CreateSubject(w http.ResponseWriter, r *http.Request) {
 	// Create the new entry in the db
 	result := datamgr.DB.Create(&subject)
 	if result.Error != nil {
-		fmt.Println("Failed to create entry in database")
+		log.Println("Failed to create entry in database")
 		w.WriteHeader(400) // Return error code to client (just 400 for now)
 		return
 	}
 
-	fmt.Println("Subject created:", subject.Name)
+	log.Println("Subject created:", subject.Name)
 	WriteResponse(w, subject, 201)
 }
 
@@ -60,7 +60,7 @@ func CreateReview(w http.ResponseWriter, r *http.Request) {
 	// TODO: maybe just have this create the subject as well
 	result := datamgr.DB.First(&datamgr.Subject{}, "name = ?", review.Subject)
 	if result.Error != nil {
-		fmt.Println("Subject specified DNE")
+		log.Println("Subject specified DNE")
 		w.WriteHeader(400)
 		return
 	}
@@ -68,11 +68,11 @@ func CreateReview(w http.ResponseWriter, r *http.Request) {
 	// Otherwise the subject does exist and we can create the review and return the created object
 	result = datamgr.DB.Create(&review)
 	if result.Error != nil {
-		fmt.Println("Failed to create DB entry")
+		log.Println("Failed to create DB entry")
 		w.WriteHeader(400)
 		return
 	}
 
-	fmt.Println("Review created for", review.Subject, "by AuthorID", review.AuthorID)
+	log.Println("Review created for", review.Subject, "by AuthorID", review.AuthorID)
 	WriteResponse(w, review, 201)
 }

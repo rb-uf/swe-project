@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"fmt"
+	"log"
 	"net/http"
 	"swe-project/backend/datamgr"
 
@@ -21,7 +22,7 @@ func GetSubject(w http.ResponseWriter, r *http.Request) {
 func GetSubjects(w http.ResponseWriter, r *http.Request) {
 	var subjects []datamgr.Subject
 	datamgr.DB.Find(&subjects)
-	fmt.Println("Request for list of subjects received.")
+	log.Println("Request for list of subjects received.")
 	WriteResponse(w, subjects, 200)
 }
 
@@ -50,7 +51,7 @@ func GetSubjectReviews(w http.ResponseWriter, r *http.Request) {
 	// 	reviews = reviews[0:request.MaxReviews]
 	// }
 
-	fmt.Println("Request for reviews of", request.Name, "received.")
+	log.Println("Request for reviews of", request.Name, "received.")
 	WriteResponse(w, reviews, 200)
 }
 
@@ -79,6 +80,6 @@ func GetReviewsBySubjects(w http.ResponseWriter, r *http.Request) {
 	datamgr.DB.Where("Subject IN ?", request.Subjects).Find(&reviews)
 
 	// Write response and log request
-	fmt.Println("Request for reviews of ", request.Subjects, " received")
+	log.Println("Request for reviews of ", request.Subjects, " received")
 	WriteResponse(w, reviews, 200)
 }

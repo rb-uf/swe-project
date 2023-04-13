@@ -1,7 +1,7 @@
 package handlers
 
 import (
-	"fmt"
+	"log"
 	"net/http"
 	"swe-project/backend/datamgr"
 )
@@ -27,7 +27,7 @@ func UpdateReview(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if entry.ID != request.ID {
-		fmt.Println("Entry not found: ", request.ID)
+		log.Println("Entry not found: ", request.ID)
 		w.WriteHeader(400)
 		return
 	}

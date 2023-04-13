@@ -3,6 +3,8 @@ package handlers
 import (
 	"crypto/rand"
 	"fmt"
+	"io"
+	"log"
 	"net/http"
 	"swe-project/backend/datamgr"
 
@@ -14,8 +16,12 @@ import (
  */
 
 func ReadRequest(w http.ResponseWriter, r *http.Request, obj interface{}) {
+	body, _ := io.ReadAll(r.Body)
+
+	log.Println("Request received:", r.Method, r.URL, string(body))
+
 	w.Header().Set("Content-Type", "application/json")
-	json.NewDecoder(r.Body).Decode(&obj)
+	json.Unmarshal(body, &obj)
 }
 
 /*

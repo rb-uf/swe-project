@@ -1,8 +1,7 @@
 package main
 
 import (
-    "flag"
-	"fmt"
+	"flag"
 	"log"
 	"net/http"
 
@@ -17,12 +16,13 @@ var dbFlag = flag.String("db", "datamgr/database.db", "database file path")
 var frontendFlag = flag.String("frontend", "../frontend/rater-gator/dist/rater-gator/", "frontend dist path")
 
 func main() {
-	fmt.Println("Starting swe-project/backend server.")
-    flag.Parse()
+	flag.Parse()
+
+	log.Println("Starting swe-project/backend server.")
 
 	datamgr.ConnectDB(*dbFlag)
-
 	r := mux.NewRouter()
 	handlers.MasterHandler(r, *frontendFlag)
-	log.Fatal(http.ListenAndServe((":" + *portFlag), r))
+
+	log.Fatal(http.ListenAndServe(":" + *portFlag, r))
 }
