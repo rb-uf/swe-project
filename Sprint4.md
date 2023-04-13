@@ -6,6 +6,7 @@
 ### Frontend
 
 ### Backend
+- Added command-line arguments for setting the database path, frontend path, and port number.
 
 ## Testing (Unit and Functional)
 ### Frontend
