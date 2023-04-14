@@ -1,0 +1,33 @@
+<form [formGroup]="reviewForm" (ngSubmit)="onSubmit()">
+
+    <div>
+        <label for="Subject">
+          Location
+        </label>
+        <input id="Subject" type="text" formControlName="Subject">
+      </div>
+    
+      <div>
+        <label for="Rating">
+          Rating
+        </label>
+        <input id="Rating" type="number" formControlName="Rating">
+      </div>
+
+      <div>
+        <label for="Text">
+          Description
+        </label>
+        <input id="Text" type="text" formControlName="Text">
+      </div>
+    
+      <div>
+        <label for="Author">
+          Author
+        </label>
+        <input id="Author" type="text" formControlName="Author">
+      </div>
+
+    <button class="button" type="submit">Submit</button>
+  
+  </form>
