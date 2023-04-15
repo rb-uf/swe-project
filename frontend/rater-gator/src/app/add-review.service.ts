@@ -6,16 +6,9 @@ import { Review } from './review';
 })
 export class AddReviewService {
 
-  newReviews: Review[] = [];
-
   constructor() { }
 
-  getNewReview() {
-    return this.newReviews;
-  }
-
   clear() {
-    this.newReviews = [];
-    return this.newReviews;
+    return {};
   }
 }
