@@ -1,3 +1,3 @@
 export interface Subject {
-    "Name": string,
+    "Name"?: string,
 }

@@ -1,33 +1,38 @@
 <form [formGroup]="reviewForm" (ngSubmit)="onSubmit()">
 
-    <div>
-        <label for="Subject">
-          Location
-        </label>
-        <input id="Subject" type="text" formControlName="Subject">
-      </div>
-    
-      <div>
-        <label for="Rating">
-          Rating
-        </label>
-        <input id="Rating" type="number" formControlName="Rating">
-      </div>
+  <div>
+    <label for="Subject">
+      Location
+    </label>
+    <select id="Subject" type="text" formControlName="Subject" #mySelect (selectionChange)="onChange(mySelect.value)">
+      <option *ngFor="let subject of subjects" [value]="subject['Name']">{{subject['Name']}}</option>
+    </select>
+    <a routerLink="/subjects">
+      <button class="button" >Add New Location</button>
+    </a>
+  </div>
 
-      <div>
-        <label for="Text">
-          Description
-        </label>
-        <input id="Text" type="text" formControlName="Text">
-      </div>
-    
-      <div>
-        <label for="Author">
-          Author
-        </label>
-        <input id="Author" type="text" formControlName="Author">
-      </div>
+  <div>
+    <label for="Rating">
+      Rating
+    </label>
+    <input id="Rating" type="number" formControlName="Rating">
+  </div>
 
-    <button class="button" type="submit">Submit</button>
-  
-  </form>
+  <div>
+    <label for="Text">
+      Description
+    </label>
+    <input id="Text" type="text" formControlName="Text">
+  </div>
+
+  <div>
+    <label for="Author">
+      Author
+    </label>
+    <input id="Author" type="text" formControlName="Author">
+  </div>
+
+  <button class="button" type="submit">Submit</button>
+
+</form>

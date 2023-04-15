@@ -1,0 +1,11 @@
+<h2>Add a New Location:</h2>
+
+<form [formGroup]="subjectForm" (ngSubmit)="onSubmit()">
+    <div>
+        <label for="Add New Location: ">
+            Location:
+        </label>
+        <input id="Name" type="text" formControlName="Name">
+    </div>
+    <button mat-raised-button color="primary">Add Location</button>
+</form>

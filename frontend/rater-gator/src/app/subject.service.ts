@@ -3,11 +3,7 @@ import { Injectable } from '@angular/core';
 @Injectable({
   providedIn: 'root'
 })
-export class AddReviewService {
+export class SubjectService {
 
   constructor() { }
-
-  clear() {
-    return {};
-  }
 }
