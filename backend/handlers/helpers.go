@@ -57,8 +57,16 @@ func GenerateRandomBytes(n int) ([]byte, error) {
 	b := make([]byte, n)
 	_, err := rand.Read(b)
 	// Note that err == nil only if we read len(b) bytes.
+
 	if err != nil {
+		log.Println("Error occured when generating cookie value")
 		return nil, err
+	}
+
+	// This is really dumb, but it converts each byte into a lowercase ascii character
+	// So that seperator characters are no longer a problem
+	for i, _ := range b {
+		b[i] = (b[i] % 26) + 97
 	}
 
 	return b, nil
