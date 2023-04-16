@@ -277,6 +277,22 @@ func TestGetReviewsBySubject(t *testing.T) {
 	}
 }
 
+func TestGetReviewsByAuthor(t *testing.T) {
+	req_body := struct {
+		Author string
+	}{}
+	req_body.Author = "Emmett"
+
+	body := ExecuteRequest(req_body, "GET", "/get-reviews-by-author", handlers.GetReviewsByAuthor, 200, t)
+
+	var reviews []datamgr.Review
+	json.NewDecoder(body).Decode(&reviews)
+
+	if len(reviews) != 10 {
+		t.Error("Output length does not match expected output length")
+	}
+}
+
 /*==================== Update Tests ====================*/
 
 /*

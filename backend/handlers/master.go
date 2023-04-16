@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"net/http"
+
 	"github.com/gorilla/mux"
 )
 
@@ -22,6 +23,7 @@ func MasterHandler(r *mux.Router, frontendPath string) {
 	r.HandleFunc("/create-review", CreateReview).Methods("POST")
 	r.HandleFunc("/get-subject-reviews", GetSubjectReviews).Methods("GET")
 	r.HandleFunc("/get-reviews-by-subjects", GetReviewsBySubjects).Methods("GET")
+	r.HandleFunc("/get-reviews-by-author", GetReviewsByAuthor).Methods("GET")
 	r.HandleFunc("/delete-review", DeleteReview).Methods("DELETE")
 	r.HandleFunc("/update-review", UpdateReview).Methods("PUT")
 
