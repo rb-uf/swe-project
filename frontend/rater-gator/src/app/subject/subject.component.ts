@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { FormBuilder } from '@angular/forms';
 import { Subject } from '../subject';
 import { Observable } from 'rxjs';
@@ -12,6 +12,11 @@ import { Observable } from 'rxjs';
 export class SubjectComponent {
 
   subjects: Subject[] = [];
+  newSubject: Subject = {};
+
+  httpOptions = {
+    headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+  };
 
   constructor(
     private http: HttpClient,
@@ -24,18 +29,18 @@ export class SubjectComponent {
 
     // THIS CURRENTLY DOESN'T WORK !!!!!!!!!!!!!!!!
   onSubmit(): void {
-    let newSubject: Subject = {
+    this.newSubject = {
       Name: <string>this.subjectForm.value.Name,
     }
-    console.log(newSubject);
-    this.addSubject(newSubject).subscribe(data => {
-      console.log(data)
-    });; //response returned here
+    console.log(this.addSubject());
+    this.newSubject = {};
     this.subjectForm.reset();
   }
 
   // THIS DOESN'T WORK ANYMORE EITHER IDK WHY :)))))))))
-  addSubject(newSubject: Subject): Observable<Subject> {
-    return this.http.post('http://localhost:3000/create-subject', newSubject);
+  addSubject(): any {
+    return this.http.post<any>('http://localhost:3000/create-subject', this.newSubject, this.httpOptions).subscribe(data => {
+      console.log(data);
+    });;
   }
 }
