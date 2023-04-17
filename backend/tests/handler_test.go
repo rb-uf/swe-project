@@ -6,6 +6,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
+
 	"net/http"
 	"net/http/httptest"
 	"os"
@@ -410,5 +411,39 @@ func TestLogin(t *testing.T) {
 }
 
 // Best way to test logout is going to be with the frontend so for now it goes officially untested but it worked with postman
+
+func TestGetUserStats(t *testing.T) {
+	req_body := struct {
+		User string
+	}{}
+
+	req_body.User = "Emmett"
+
+	body := ExecuteRequest(req_body, "GET", "/get-user-stats", handlers.GetUserStats, http.StatusOK, t)
+
+	var reviews []datamgr.Review
+	datamgr.DB.Find(&reviews, "Author = ?", req_body.User)
+
+	stats := struct {
+		Posts      int
+		TotalScore int
+	}{}
+	json.NewDecoder(body).Decode(&stats)
+
+	if len(reviews) != stats.Posts {
+		t.Errorf("Number of reviews of author varies; got %v, wanted %v", stats.Posts, len(reviews))
+	}
+
+	var temp int
+	temp = 0
+	for _, review := range reviews {
+		temp += int(review.Rating)
+	}
+
+	if temp != stats.TotalScore {
+		t.Errorf("Total score does not match expected value; got %v, wanted %v", stats.TotalScore, temp)
+	}
+
+}
 
 /*================== Functional Tests ==================*/

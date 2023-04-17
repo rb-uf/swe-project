@@ -119,3 +119,47 @@ func Logout(w http.ResponseWriter, r *http.Request) {
 	datamgr.CookieJarNames = append(datamgr.CookieJarNames[:index], datamgr.CookieJarNames[index+1:]...)
 	w.WriteHeader(http.StatusOK)
 }
+
+/*
+ * GetUserStats:
+ *		Takes in a user as input in a json body and returns various statistics about their post history/scores
+ *	Sample request body:
+ *	{
+ *		User: string
+ *  }
+ *
+ * Returns a JSON body of the following form:
+ * {
+ *		Posts: uint
+ *		TotalScore: uint
+ * }
+ */
+
+func GetUserStats(w http.ResponseWriter, r *http.Request) {
+	// Decode request
+	request := struct {
+		User string
+	}{}
+
+	ReadRequest(w, r, &request)
+
+	// Get list of reviews from db
+	var reviews []datamgr.Review
+	datamgr.DB.Find(&reviews, "Author = ?", request.User)
+
+	// Get user stats by perfoming some form of analysis on the posts they are related to
+	stats := struct {
+		Posts      int
+		TotalScore int
+	}{}
+
+	stats.Posts = len(reviews)
+	stats.TotalScore = 0
+
+	for _, review := range reviews {
+		stats.TotalScore += int(review.Rating)
+	}
+
+	log.Println("Request for statistics about", request.User, "received.")
+	WriteResponse(w, stats, 200)
+}
