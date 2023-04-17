@@ -49,8 +49,24 @@ func CreateSubject(w http.ResponseWriter, r *http.Request) {
 */
 
 func CreateReview(w http.ResponseWriter, r *http.Request) {
+	request := struct {
+		Subject  string
+		Rating   uint
+		Text     string
+		Author   string
+		AuthorID int
+	}{}
+
+	ReadRequest(w, r, &request)
+
 	var review datamgr.Review
-	ReadRequest(w, r, &review)
+
+	review.Subject = request.Subject
+	review.Rating = request.Rating
+	review.Text = request.Text
+	review.Author = request.Author
+	review.AuthorID = uint(request.AuthorID)
+	review.Ups = 0
 
 	if !CheckCookieAndPermissions(w, r, false, "", true) {
 		return

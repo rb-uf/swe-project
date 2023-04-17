@@ -14,13 +14,14 @@ type Review struct {
 	Text     string
 	Author   string
 	AuthorID uint
+	Ups      int
 }
 
 type User struct {
 	gorm.Model
 
-	Name     string
-	Hash     []byte
+	Name string
+	Hash []byte
 
 	Admin bool
 }

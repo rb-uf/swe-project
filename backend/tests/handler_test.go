@@ -37,17 +37,17 @@ func TestMain(m *testing.M) {
 
 	// Create some reviews
 	var reviews []datamgr.Review
-	reviews = append(reviews, datamgr.Review{Subject: "1", Rating: 5, Text: "Test text1", Author: "Emmett", AuthorID: 420})
-	reviews = append(reviews, datamgr.Review{Subject: "1", Rating: 5, Text: "Test text2", Author: "Emmett", AuthorID: 420})
-	reviews = append(reviews, datamgr.Review{Subject: "1", Rating: 5, Text: "Test text3", Author: "Emmett", AuthorID: 420})
-	reviews = append(reviews, datamgr.Review{Subject: "1", Rating: 5, Text: "Test text4", Author: "Emmett", AuthorID: 420})
-	reviews = append(reviews, datamgr.Review{Subject: "1", Rating: 5, Text: "Test text5", Author: "Emmett", AuthorID: 420})
+	reviews = append(reviews, datamgr.Review{Subject: "1", Rating: 5, Text: "Test text1", Author: "Emmett", AuthorID: 420, Ups: 0})
+	reviews = append(reviews, datamgr.Review{Subject: "1", Rating: 5, Text: "Test text2", Author: "Emmett", AuthorID: 420, Ups: 0})
+	reviews = append(reviews, datamgr.Review{Subject: "1", Rating: 5, Text: "Test text3", Author: "Emmett", AuthorID: 420, Ups: 0})
+	reviews = append(reviews, datamgr.Review{Subject: "1", Rating: 5, Text: "Test text4", Author: "Emmett", AuthorID: 420, Ups: 0})
+	reviews = append(reviews, datamgr.Review{Subject: "1", Rating: 5, Text: "Test text5", Author: "Emmett", AuthorID: 420, Ups: 0})
 
-	reviews = append(reviews, datamgr.Review{Subject: "2", Rating: 5, Text: "Test text1", Author: "Emmett", AuthorID: 420})
-	reviews = append(reviews, datamgr.Review{Subject: "2", Rating: 5, Text: "Test text2", Author: "Emmett", AuthorID: 420})
-	reviews = append(reviews, datamgr.Review{Subject: "3", Rating: 5, Text: "Test text3", Author: "Emmett", AuthorID: 420})
-	reviews = append(reviews, datamgr.Review{Subject: "3", Rating: 5, Text: "Test text4", Author: "Emmett", AuthorID: 420})
-	reviews = append(reviews, datamgr.Review{Subject: "4", Rating: 5, Text: "Test text5", Author: "Emmett", AuthorID: 420})
+	reviews = append(reviews, datamgr.Review{Subject: "2", Rating: 5, Text: "Test text1", Author: "Emmett", AuthorID: 420, Ups: 0})
+	reviews = append(reviews, datamgr.Review{Subject: "2", Rating: 5, Text: "Test text2", Author: "Emmett", AuthorID: 420, Ups: 0})
+	reviews = append(reviews, datamgr.Review{Subject: "3", Rating: 5, Text: "Test text3", Author: "Emmett", AuthorID: 420, Ups: 0})
+	reviews = append(reviews, datamgr.Review{Subject: "3", Rating: 5, Text: "Test text4", Author: "Emmett", AuthorID: 420, Ups: 0})
+	reviews = append(reviews, datamgr.Review{Subject: "4", Rating: 5, Text: "Test text5", Author: "Emmett", AuthorID: 420, Ups: 0})
 
 	datamgr.DB.Create(&reviews)
 
@@ -320,6 +320,41 @@ func TestUpdateReview(t *testing.T) {
 	if review.Text != "Emmett rocks" {
 		t.Error("Output does not match expected output")
 	}
+}
+
+/*
+ * TestUpdateUps: Tests updating the ups counter for a post by calling UpdateUps and checking if the returned
+ * counter matches that in the database
+ */
+
+func TestUpdateUps(t *testing.T) {
+	req_body := struct {
+		ReviewID uint
+		Up       int
+	}{
+		ReviewID: 6,
+		Up:       10,
+	}
+
+	body := ExecuteRequest(req_body, "PUT", "/update-ups", handlers.UpdateReviewUps, 200, t)
+
+	var review datamgr.Review
+	json.NewDecoder(body).Decode(&review)
+
+	if review.Ups != 1 {
+		t.Errorf("Output does not match expected output: wanted 1, got %v", review.Ups)
+	}
+
+	req_body.Up = -10
+
+	body2 := ExecuteRequest(req_body, "PUT", "/update-ups", handlers.UpdateReviewUps, 200, t)
+
+	json.NewDecoder(body2).Decode(&review)
+
+	if review.Ups != 0 {
+		t.Errorf("Output does not match expected output: wanted 0, got %v", review.Ups)
+	}
+
 }
 
 /*==================== Delete Tests ====================*/

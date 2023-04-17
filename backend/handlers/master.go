@@ -27,6 +27,7 @@ func MasterHandler(r *mux.Router, frontendPath string) {
 	r.HandleFunc("/get-reviews-by-author", GetReviewsByAuthor).Methods("GET")
 	r.HandleFunc("/delete-review", DeleteReview).Methods("DELETE")
 	r.HandleFunc("/update-review", UpdateReview).Methods("PUT")
+	r.HandleFunc("/update-ups", UpdateReviewUps).Methods("PUT")
 
 	// Serve frontend files
 	// (Essentially if nothing else matches, try matching frontend files)
