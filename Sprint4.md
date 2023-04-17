@@ -7,6 +7,8 @@
 
 ### Backend
 - Added command-line arguments for setting the database path, frontend path, and port number.
+- Added handler functions for fetching data by author, whether it be just their posts or some basic statistics about their post history.
+- Added corresponding test functions for each thing implemented, as well as postman test cases.
 
 ## Testing (Unit and Functional)
 ### Frontend
@@ -23,6 +25,7 @@
   - TestGetSubjects
   - TestGetSubjectReviews
   - TestGetReviewsBySubject
+  - TestGetReviewsByAuthor
   - TestUpdateReview
   - TestUpdateReview_NoCookie
   - TestDeleteSubject
@@ -30,6 +33,7 @@
   - TestDeleteSubject_NotAdmin (intended to fail)
   - TestCreateUser
   - TestLogin
+  - TestGetUserStats
 - Through Postman:
   - Delete Subject via JSON body
   - Delete Review
@@ -40,6 +44,7 @@
   - Create Review Test
   - Update Review
   - Create User
+  - Get User Stats
 - In run-tests.sh with http-request.sh:
   - create-subject
   - create-review
@@ -82,6 +87,8 @@ There are two types of objects the backend is designed to handle: "subjects" and
 | Get all of Subject's Reviews | `GET` | `/get-subject-reviews` | `{ "Name": "Subject name" }` | JSON array of reviews |
 | Delete Review | `DELETE` | `/delete-review` | `{ "ID": 1234 }` | http.StatusOK (200) |
 | Update Review | `PUT` | `/update-review` | Review JSON | http.StatusOK (200) |
+| Get Subjects by Author | `GET` | `/get-subjects-by-author` | `{ "Author": <string> }` | http.StatusOK |
+| Get User Stats | `GET` | `/get-user-stats` | `{ "Author": <string> }` | http.StatusOK |
 
 ### Additional Information
 Subjects are referenced by their Name attribute and reviews are referenced by their ID.
