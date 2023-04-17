@@ -8,6 +8,7 @@
 ### Backend
 - Added command-line arguments for setting the database path, frontend path, and port number.
 - Added handler functions for fetching data by author, whether it be just their posts or some basic statistics about their post history.
+- Added functionality for users being able to like and dislike posts and track "Up" counters
 - Added corresponding test functions for each thing implemented, as well as postman test cases.
 
 ## Testing (Unit and Functional)
@@ -28,6 +29,7 @@
   - TestGetReviewsByAuthor
   - TestUpdateReview
   - TestUpdateReview_NoCookie
+  - TestUpdateUps
   - TestDeleteSubject
   - TestDeleteSubject_NoCookie (intended to fail)
   - TestDeleteSubject_NotAdmin (intended to fail)
@@ -45,6 +47,7 @@
   - Update Review
   - Create User
   - Get User Stats
+  - Update Ups (increment and decrement)
 - In run-tests.sh with http-request.sh:
   - create-subject
   - create-review
