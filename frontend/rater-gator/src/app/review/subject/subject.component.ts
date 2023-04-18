@@ -44,23 +44,23 @@ export class SubjectComponent {
     });
     // console.log(selectedSubjects);
     selectedSubjects.forEach((item) =>{
-      this.sendGetReviewsRequest(item).subscribe((data: any) => {
-        //console.log(data);
+      this.sendGetReviewsRequest(item).subscribe((data: Review[]) => {
+        console.log(data);
         data.forEach((subItem: Review) => {
           this.reviews.push(subItem);
         });
       })
     });
-    console.log(this.reviews);
+    // console.log(this.reviews);
   }
 
-  sendGetReviewsRequest(subject: Subject): Observable<any> {
+  sendGetReviewsRequest(subject: Subject): Observable<Review[]> {
     const options = subject ? 
     {params : new HttpParams().set('Name', subject.Name)} : {};
 
-    console.log( this.http.get<any>(`http://localhost:3000/get-subject-reviews`, options));
+    // console.log( this.http.post<any>(`http://localhost:3000/get-subject-reviews`, options));
 
-    return this.http.get<any>(`http://localhost:3000/get-subject-reviews`, options);
+    return this.http.post<Review[]>(`http://localhost:3000/get-subject-reviews`, subject);
   }
 
   subjectForm = this.fb.group({
