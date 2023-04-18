@@ -1,14 +1,5 @@
 # Rater-Gator
 
-```
- ____       _                  ____       _             
-|  _ \ __ _| |_ ___ _ __      / ___| __ _| |_ ___  _ __ 
-| |_) / _` | __/ _ \ '__|____| |  _ / _` | __/ _ \| '__|
-|  _ < (_| | ||  __/ | |_____| |_| | (_| | || (_) | |   
-|_| \_\__,_|\__\___|_|        \____|\__,_|\__\___/|_|   
-                                                        
-```
-
 Rater-Gator is a webapp for reviewing things around UF campus (such as buildings, classrooms, and chairs).
 
 Created for CEN3031 Intro to Software Engineering.
