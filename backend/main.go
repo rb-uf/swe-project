@@ -17,6 +17,7 @@ var frontendFlag = flag.String("frontend", "../frontend/rater-gator/dist/rater-g
 
 func main() {
 	flag.Parse()
+	log.SetFlags(log.Ltime) // prefix log msgs with only the time, and not the date and time.
 
 	log.Println("Starting swe-project/backend server.")
 

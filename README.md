@@ -1,5 +1,14 @@
 # Rater-Gator
 
+```
+    ____        __                  ______      __            
+   / __ \____ _/ /____  _____      / ____/___ _/ /_____  _____
+  / /_/ / __ `/ __/ _ \/ ___/_____/ / __/ __ `/ __/ __ \/ ___/
+ / _, _/ /_/ / /_/  __/ /  /_____/ /_/ / /_/ / /_/ /_/ / /    
+/_/ |_|\__,_/\__/\___/_/         \____/\__,_/\__/\____/_/     
+                                                              
+```
+
 Rater-Gator is a webapp for reviewing things around UF campus (such as buildings, classrooms, and chairs).
 
 Created for CEN3031 Intro to Software Engineering.
@@ -42,3 +51,11 @@ Backend team:
 
 8. `Ctrl-C` to stop the server on the terminal it was started on.
 
+
+## Backend Options
+
+The backend program accepts several command-line options:
+- `-db _` -- specify database file path (default `datamgr/database.db`)
+- `-frontend _` -- frontend dist path (default `../frontend/rater-gator/dist/rater-gator/`)
+- `-port _` -- specify port number on which to listen for requests (default `3000`)
+- `-help` -- list available command line options
