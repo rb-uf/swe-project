@@ -25,11 +25,12 @@ export class SubjectComponent {
 
   ngOnInit() {
     this.getAllSubjects();
+
   }
 
   getAllSubjects() {
     return this.http.get<any>('http://localhost:3000/get-subjects').subscribe(data => {
-      console.log(data);
+      //console.log(data);
       this.subjects = data;
     })
   }
@@ -41,20 +42,25 @@ export class SubjectComponent {
       selectedSubjects.push(selectedSubject)
 
     });
-    console.log(selectedSubjects);
+    // console.log(selectedSubjects);
     selectedSubjects.forEach((item) =>{
-      this.sendGetReviewsRequest(selectedSubjects[0]).subscribe((data: any) => {
-        this.reviews.push(data);
+      this.sendGetReviewsRequest(item).subscribe((data: any) => {
+        //console.log(data);
+        data.forEach((subItem: Review) => {
+          this.reviews.push(subItem);
+        });
       })
     });
-
+    console.log(this.reviews);
   }
 
-  sendGetReviewsRequest(subject: Subject): Observable<Review[]> {
+  sendGetReviewsRequest(subject: Subject): Observable<any> {
     const options = subject ? 
     {params : new HttpParams().set('Name', subject.Name)} : {};
-    
-    return this.http.get<Review[]>(`http://localhost:3000/get-subject-reviews/`, options);
+
+    console.log( this.http.get<any>(`http://localhost:3000/get-subject-reviews`, options));
+
+    return this.http.get<any>(`http://localhost:3000/get-subject-reviews`, options);
   }
 
   subjectForm = this.fb.group({
@@ -65,7 +71,7 @@ export class SubjectComponent {
     let newSubject = {
       Name: <string>this.subjectForm.value.Name,
     }
-    console.log(newSubject);
+    //console.log(newSubject);
     this.addSubject(newSubject); //response returned here
     this.subjectForm.reset();
     //this.loadReviews();
@@ -73,13 +79,13 @@ export class SubjectComponent {
 
   addSubject(newSubject: Subject): any {
     this.http.post<any>('http://localhost:3000/create-subject', newSubject).subscribe(data => {
-      console.log(data);
+      //console.log(data);
     });
     this.getAllSubjects();
   }
 
   onChange(selectedOptions: string[]) {
-    console.log(selectedOptions);
+    //console.log(selectedOptions);
     this.getSelectedReviews(selectedOptions);
   }
 }
