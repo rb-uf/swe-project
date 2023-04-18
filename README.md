@@ -32,9 +32,10 @@ Backend team:
    ```
 6. From `backend/`, run:
    ```
-   sh run.sh
+   go build -tags alt
+   ./backend
    ```
-   This should automatically download dependencies, compile the Go code, and start the backend.
+   This should automatically download dependencies and compile the Go code, and start the backend.
 
 7. Open a web browser and go to `localhost:3000`.
 
