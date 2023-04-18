@@ -57,10 +57,14 @@ export class SubjectComponent {
   sendGetReviewsRequest(subject: Subject): Observable<Review[]> {
     const options = subject ? 
     {params : new HttpParams().set('Name', subject.Name)} : {};
+    let body = {
+      'Name': subject.Name,
+      'MaxReviews': 10000,
+    }
 
     // console.log( this.http.post<any>(`http://localhost:3000/get-subject-reviews`, options));
 
-    return this.http.post<Review[]>(`http://localhost:3000/get-subject-reviews`, subject);
+    return this.http.post<Review[]>(`http://localhost:3000/get-subject-reviews`, body);
   }
 
   subjectForm = this.fb.group({
