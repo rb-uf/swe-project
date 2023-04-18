@@ -4,7 +4,7 @@
 package handlers
 
 import (
-	"fmt"
+	"log"
 	"net/http"
 	"swe-project/backend/datamgr"
 )
@@ -20,7 +20,7 @@ func CheckCookieAndPermissions(w http.ResponseWriter, r *http.Request, author_pe
 
 	// If cookie does not exist
 	if c == nil {
-		fmt.Println("Error, no cookie found")
+		log.Println("Error, no cookie found")
 		w.WriteHeader(http.StatusBadRequest)
 		return false
 	}
@@ -29,7 +29,7 @@ func CheckCookieAndPermissions(w http.ResponseWriter, r *http.Request, author_pe
 
 	// If cookie was not issued return unauthorized
 	if !present {
-		fmt.Println("Error, request's cookie not found in cookiejar")
+		log.Println("Error, request's cookie not found in cookiejar")
 		w.WriteHeader(http.StatusUnauthorized)
 		return false
 	}
@@ -42,7 +42,7 @@ func CheckCookieAndPermissions(w http.ResponseWriter, r *http.Request, author_pe
 	if bypass || temp.Admin || (author_perm && (author == temp.Name)) {
 		return true
 	} else {
-		fmt.Println("Error, requester does not have permissions")
+		log.Println("Error, requester does not have permissions")
 		w.WriteHeader(http.StatusUnauthorized)
 		return false
 	}

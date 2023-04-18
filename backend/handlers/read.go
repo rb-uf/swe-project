@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"fmt"
+	"log"
 	"net/http"
 	"swe-project/backend/datamgr"
 
@@ -21,7 +22,7 @@ func GetSubject(w http.ResponseWriter, r *http.Request) {
 func GetSubjects(w http.ResponseWriter, r *http.Request) {
 	var subjects []datamgr.Subject
 	datamgr.DB.Find(&subjects)
-	fmt.Println("Request for list of subjects received.")
+	log.Println("Request for list of subjects received.")
 	WriteResponse(w, subjects, 200)
 }
 
@@ -45,12 +46,7 @@ func GetSubjectReviews(w http.ResponseWriter, r *http.Request) {
 	var reviews []datamgr.Review
 	datamgr.DB.Limit(request.MaxReviews).Find(&reviews, "Subject = ?", request.Name)
 
-	// TODO: make this more sophisticated so that it takes like, the 10 most liked reviews or the 10 most recent/least recent
-	// if len(reviews) > request.MaxReviews {
-	// 	reviews = reviews[0:request.MaxReviews]
-	// }
-
-	fmt.Println("Request for reviews of", request.Name, "received.")
+	log.Println("Request for reviews of", request.Name, "received.")
 	WriteResponse(w, reviews, 200)
 }
 
@@ -79,6 +75,31 @@ func GetReviewsBySubjects(w http.ResponseWriter, r *http.Request) {
 	datamgr.DB.Where("Subject IN ?", request.Subjects).Find(&reviews)
 
 	// Write response and log request
-	fmt.Println("Request for reviews of ", request.Subjects, " received")
+	log.Println("Request for reviews of ", request.Subjects, " received")
+	WriteResponse(w, reviews, 200)
+}
+
+/*
+ * Get Reviews by Author
+ * Gets a list of reviews by author so that when users look at an author's page they can see
+ * their posts. This request expects a json body of the following:
+ * {
+ *		Author:	<string>
+ * }
+ */
+
+func GetReviewsByAuthor(w http.ResponseWriter, r *http.Request) {
+	// Decode body into a workable object
+	request := struct {
+		Author string
+	}{}
+
+	ReadRequest(w, r, &request)
+
+	// Get list of reviews from DB
+	var reviews []datamgr.Review
+	datamgr.DB.Find(&reviews, "Author = ?", request.Author)
+
+	log.Println("Request for reviews by", request.Author, "received.")
 	WriteResponse(w, reviews, 200)
 }

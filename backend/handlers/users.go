@@ -6,7 +6,7 @@
 package handlers
 
 import (
-	"fmt"
+	"log"
 	"net/http"
 	"swe-project/backend/datamgr"
 
@@ -39,11 +39,11 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 
 	result := datamgr.DB.Create(&user)
 	if result.Error != nil {
-		fmt.Println("Error when creating user entry in database")
+		log.Println("Error when creating user entry in database")
 		WriteResponse(w, r, 400) // Error return code
 	}
 
-	fmt.Println("User created: ", user.Name)
+	log.Println("User created: ", user.Name)
 	w.WriteHeader(http.StatusCreated)
 }
 
@@ -99,7 +99,7 @@ func Logout(w http.ResponseWriter, r *http.Request) {
 	cookie, err := r.Cookie("rater-gator user cookie")
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
-		fmt.Println("Failed to find cookie in request body")
+		log.Println("Failed to find cookie in request body")
 		return
 	}
 
@@ -112,10 +112,54 @@ func Logout(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Log request
-	fmt.Println("Logout request received")
+	log.Println("Logout request received")
 
 	// Removes the cookie from the cookie jar
 	datamgr.CookieJar = append(datamgr.CookieJar[:index], datamgr.CookieJar[index+1:]...)
 	datamgr.CookieJarNames = append(datamgr.CookieJarNames[:index], datamgr.CookieJarNames[index+1:]...)
 	w.WriteHeader(http.StatusOK)
+}
+
+/*
+ * GetUserStats:
+ *		Takes in a user as input in a json body and returns various statistics about their post history/scores
+ *	Sample request body:
+ *	{
+ *		User: string
+ *  }
+ *
+ * Returns a JSON body of the following form:
+ * {
+ *		Posts: uint
+ *		TotalScore: uint
+ * }
+ */
+
+func GetUserStats(w http.ResponseWriter, r *http.Request) {
+	// Decode request
+	request := struct {
+		User string
+	}{}
+
+	ReadRequest(w, r, &request)
+
+	// Get list of reviews from db
+	var reviews []datamgr.Review
+	datamgr.DB.Find(&reviews, "Author = ?", request.User)
+
+	// Get user stats by perfoming some form of analysis on the posts they are related to
+	stats := struct {
+		Posts      int
+		TotalScore int
+	}{}
+
+	stats.Posts = len(reviews)
+	stats.TotalScore = 0
+
+	for _, review := range reviews {
+		stats.TotalScore += int(review.Rating)
+	}
+
+	log.Println("Request for statistics about", request.User, "received.")
+	WriteResponse(w, stats, 200)
 }

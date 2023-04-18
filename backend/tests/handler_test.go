@@ -6,6 +6,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
+
 	"net/http"
 	"net/http/httptest"
 	"os"
@@ -36,17 +37,17 @@ func TestMain(m *testing.M) {
 
 	// Create some reviews
 	var reviews []datamgr.Review
-	reviews = append(reviews, datamgr.Review{Subject: "1", Rating: 5, Text: "Test text1", Author: "Emmett", AuthorID: 420})
-	reviews = append(reviews, datamgr.Review{Subject: "1", Rating: 5, Text: "Test text2", Author: "Emmett", AuthorID: 420})
-	reviews = append(reviews, datamgr.Review{Subject: "1", Rating: 5, Text: "Test text3", Author: "Emmett", AuthorID: 420})
-	reviews = append(reviews, datamgr.Review{Subject: "1", Rating: 5, Text: "Test text4", Author: "Emmett", AuthorID: 420})
-	reviews = append(reviews, datamgr.Review{Subject: "1", Rating: 5, Text: "Test text5", Author: "Emmett", AuthorID: 420})
+	reviews = append(reviews, datamgr.Review{Subject: "1", Rating: 5, Text: "Test text1", Author: "Emmett", AuthorID: 420, Ups: 0})
+	reviews = append(reviews, datamgr.Review{Subject: "1", Rating: 5, Text: "Test text2", Author: "Emmett", AuthorID: 420, Ups: 0})
+	reviews = append(reviews, datamgr.Review{Subject: "1", Rating: 5, Text: "Test text3", Author: "Emmett", AuthorID: 420, Ups: 0})
+	reviews = append(reviews, datamgr.Review{Subject: "1", Rating: 5, Text: "Test text4", Author: "Emmett", AuthorID: 420, Ups: 0})
+	reviews = append(reviews, datamgr.Review{Subject: "1", Rating: 5, Text: "Test text5", Author: "Emmett", AuthorID: 420, Ups: 0})
 
-	reviews = append(reviews, datamgr.Review{Subject: "2", Rating: 5, Text: "Test text1", Author: "Emmett", AuthorID: 420})
-	reviews = append(reviews, datamgr.Review{Subject: "2", Rating: 5, Text: "Test text2", Author: "Emmett", AuthorID: 420})
-	reviews = append(reviews, datamgr.Review{Subject: "3", Rating: 5, Text: "Test text3", Author: "Emmett", AuthorID: 420})
-	reviews = append(reviews, datamgr.Review{Subject: "3", Rating: 5, Text: "Test text4", Author: "Emmett", AuthorID: 420})
-	reviews = append(reviews, datamgr.Review{Subject: "4", Rating: 5, Text: "Test text5", Author: "Emmett", AuthorID: 420})
+	reviews = append(reviews, datamgr.Review{Subject: "2", Rating: 5, Text: "Test text1", Author: "Emmett", AuthorID: 420, Ups: 0})
+	reviews = append(reviews, datamgr.Review{Subject: "2", Rating: 5, Text: "Test text2", Author: "Emmett", AuthorID: 420, Ups: 0})
+	reviews = append(reviews, datamgr.Review{Subject: "3", Rating: 5, Text: "Test text3", Author: "Emmett", AuthorID: 420, Ups: 0})
+	reviews = append(reviews, datamgr.Review{Subject: "3", Rating: 5, Text: "Test text4", Author: "Emmett", AuthorID: 420, Ups: 0})
+	reviews = append(reviews, datamgr.Review{Subject: "4", Rating: 5, Text: "Test text5", Author: "Emmett", AuthorID: 420, Ups: 0})
 
 	datamgr.DB.Create(&reviews)
 
@@ -277,6 +278,22 @@ func TestGetReviewsBySubject(t *testing.T) {
 	}
 }
 
+func TestGetReviewsByAuthor(t *testing.T) {
+	req_body := struct {
+		Author string
+	}{}
+	req_body.Author = "Emmett"
+
+	body := ExecuteRequest(req_body, "GET", "/get-reviews-by-author", handlers.GetReviewsByAuthor, 200, t)
+
+	var reviews []datamgr.Review
+	json.NewDecoder(body).Decode(&reviews)
+
+	if len(reviews) != 10 {
+		t.Error("Output length does not match expected output length")
+	}
+}
+
 /*==================== Update Tests ====================*/
 
 /*
@@ -303,6 +320,41 @@ func TestUpdateReview(t *testing.T) {
 	if review.Text != "Emmett rocks" {
 		t.Error("Output does not match expected output")
 	}
+}
+
+/*
+ * TestUpdateUps: Tests updating the ups counter for a post by calling UpdateUps and checking if the returned
+ * counter matches that in the database
+ */
+
+func TestUpdateUps(t *testing.T) {
+	req_body := struct {
+		ReviewID uint
+		Up       int
+	}{
+		ReviewID: 6,
+		Up:       10,
+	}
+
+	body := ExecuteRequest(req_body, "PUT", "/update-ups", handlers.UpdateReviewUps, 200, t)
+
+	var review datamgr.Review
+	json.NewDecoder(body).Decode(&review)
+
+	if review.Ups != 1 {
+		t.Errorf("Output does not match expected output: wanted 1, got %v", review.Ups)
+	}
+
+	req_body.Up = -10
+
+	body2 := ExecuteRequest(req_body, "PUT", "/update-ups", handlers.UpdateReviewUps, 200, t)
+
+	json.NewDecoder(body2).Decode(&review)
+
+	if review.Ups != 0 {
+		t.Errorf("Output does not match expected output: wanted 0, got %v", review.Ups)
+	}
+
 }
 
 /*==================== Delete Tests ====================*/
@@ -394,5 +446,39 @@ func TestLogin(t *testing.T) {
 }
 
 // Best way to test logout is going to be with the frontend so for now it goes officially untested but it worked with postman
+
+func TestGetUserStats(t *testing.T) {
+	req_body := struct {
+		User string
+	}{}
+
+	req_body.User = "Emmett"
+
+	body := ExecuteRequest(req_body, "GET", "/get-user-stats", handlers.GetUserStats, http.StatusOK, t)
+
+	var reviews []datamgr.Review
+	datamgr.DB.Find(&reviews, "Author = ?", req_body.User)
+
+	stats := struct {
+		Posts      int
+		TotalScore int
+	}{}
+	json.NewDecoder(body).Decode(&stats)
+
+	if len(reviews) != stats.Posts {
+		t.Errorf("Number of reviews of author varies; got %v, wanted %v", stats.Posts, len(reviews))
+	}
+
+	var temp int
+	temp = 0
+	for _, review := range reviews {
+		temp += int(review.Rating)
+	}
+
+	if temp != stats.TotalScore {
+		t.Errorf("Total score does not match expected value; got %v, wanted %v", stats.TotalScore, temp)
+	}
+
+}
 
 /*================== Functional Tests ==================*/

@@ -1,1 +1,4 @@
 *.swp
+backend/backend
+backend/backend.exe
+*.db

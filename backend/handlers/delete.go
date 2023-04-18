@@ -1,7 +1,7 @@
 package handlers
 
 import (
-	"fmt"
+	"log"
 	"net/http"
 	"swe-project/backend/datamgr"
 )
@@ -25,14 +25,14 @@ func DeleteSubject(w http.ResponseWriter, r *http.Request) {
 	var p datamgr.Subject
 	datamgr.DB.Find(&p, request.ID)
 	if p.ID != request.ID {
-		fmt.Println("Error deleting object: ", request.Name)
+		log.Println("Error deleting object: ", request.Name)
 		w.WriteHeader(400) // Bad request
 		return
 	}
 
 	datamgr.DB.Delete(&p)
 
-	fmt.Println("Subject deleted:", request.Name)
+	log.Println("Subject deleted:", request.Name)
 	w.WriteHeader(200) // OK
 }
 
@@ -51,13 +51,13 @@ func DeleteReview(w http.ResponseWriter, r *http.Request) {
 	var p datamgr.Review
 	datamgr.DB.Find(&p, request.ID)
 	if p.ID != request.ID {
-		fmt.Println("Object not found: ", request.ID)
+		log.Println("Object not found: ", request.ID)
 		w.WriteHeader(400)
 		return
 	}
 
 	datamgr.DB.Delete(&p)
 
-	fmt.Println("Review deleted")
+	log.Println("Review deleted")
 	w.WriteHeader(http.StatusOK)
 }
