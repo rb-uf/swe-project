@@ -15,6 +15,7 @@
 - Removed added database file to .gitignore because it was causing merge conflicts before.
 - Changed print statements from fmt to log.
 - Added log message to print contents of http requests.
+- Updated API documentation with new API calls.
 
 ## Testing (Unit and Functional)
 ### Frontend
