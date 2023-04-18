@@ -1,7 +1,7 @@
 <h2>Location:</h2>
 <mat-form-field>
     <mat-label>Location</mat-label>
-    <mat-select multiple id="subjectSelect" #mySelect (selectionChange)="onChange(mySelect.value)">
+    <mat-select id="subjectSelect" #mySelect (selectionChange)="onChange(mySelect.value)">
         <mat-option *ngFor="let subject of subjects" [value]="subject['Name']">{{subject['Name']}}</mat-option>
     </mat-select>
 </mat-form-field>

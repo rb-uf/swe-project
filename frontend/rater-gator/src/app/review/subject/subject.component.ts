@@ -42,27 +42,22 @@ export class SubjectComponent {
       selectedSubjects.push(selectedSubject)
 
     });
-    // console.log(selectedSubjects);
+
     selectedSubjects.forEach((item) =>{
       this.sendGetReviewsRequest(item).subscribe((data: Review[]) => {
-        console.log(data);
         data.forEach((subItem: Review) => {
           this.reviews.push(subItem);
         });
       })
     });
-    // console.log(this.reviews);
+    console.log(this.reviews);
   }
 
   sendGetReviewsRequest(subject: Subject): Observable<Review[]> {
-    const options = subject ? 
-    {params : new HttpParams().set('Name', subject.Name)} : {};
     let body = {
       'Name': subject.Name,
       'MaxReviews': 10000,
     }
-
-    // console.log( this.http.post<any>(`http://localhost:3000/get-subject-reviews`, options));
 
     return this.http.post<Review[]>(`http://localhost:3000/get-subject-reviews`, body);
   }
