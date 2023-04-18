@@ -10,6 +10,11 @@
 - Added handler functions for fetching data by author, whether it be just their posts or some basic statistics about their post history.
 - Added functionality for users being able to like and dislike posts and track "Up" counters
 - Added corresponding test functions for each thing implemented, as well as postman test cases.
+- Updated README with new setup instructions.
+- Added backend command-line options to README.
+- Removed added database file to .gitignore because it was causing merge conflicts before.
+- Changed print statements from fmt to log.
+- Added log message to print contents of http requests.
 
 ## Testing (Unit and Functional)
 ### Frontend
@@ -83,6 +88,10 @@ There are two types of objects the backend is designed to handle: "subjects" and
 ### Available HTTP Requests
 | Action | Method | URL | Body | Return value |
 | --- | --- | --- | --- | --- |
+| Create User | `POST` | `/sign-up` | `{ "Username": "name", "Password": "12345" }` | http.StatusCreated |
+| Login | `POST` | `/login` | `{ "Username": "name", "Password": "12345" }` | New cookie |
+| Logout | `DELETE` | `/logout` | None (user cookie should be in header) | http.StatusOK |
+| Get User Stats | `GET` | `/get-user-stats` | `{ "User": "name" }` | `{ "Posts": 10, "TotalScore": 22 }` |
 | Create subject | `POST` | `/create-subject` | `{ "Name": "Subject name" }` | JSON of the new subject |
 | Create Review | `POST` | `/create-review` | Review JSON, but without ID | JSON of the new review |
 | Get Subjects | `GET` | `/get-subjects` | N/A | JSON array of Subjects |
@@ -92,6 +101,7 @@ There are two types of objects the backend is designed to handle: "subjects" and
 | Update Review | `PUT` | `/update-review` | Review JSON | http.StatusOK (200) |
 | Get Subjects by Author | `GET` | `/get-subjects-by-author` | `{ "Author": <string> }` | http.StatusOK |
 | Get User Stats | `GET` | `/get-user-stats` | `{ "Author": <string> }` | http.StatusOK |
+| Update Review Ups | `PUT` | `/update-ups` | `{ "ReviewID": <ID number>, "Up": <negative for down, 0 or positive for up> }` | Review JSON |
 
 ### Additional Information
 Subjects are referenced by their Name attribute and reviews are referenced by their ID.
