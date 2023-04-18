@@ -97,7 +97,7 @@ There are two types of objects the backend is designed to handle: "subjects" and
 | Create Review | `POST` | `/create-review` | Review JSON, but without ID | JSON of the new review |
 | Get Subjects | `GET` | `/get-subjects` | N/A | JSON array of Subjects |
 | Delete Subject | `DELETE` | `/delete-subject` | `{ "Name": "Subject name" }` | http.StatusOK (200) |
-| Get all of Subject's Reviews | `GET` | `/get-subject-reviews` | `{ "Name": "Subject name" }` | JSON array of reviews |
+| Get all of Subject's Reviews | `POST` | `/get-subject-reviews` | `{ "Name": "Subject name" }` | JSON array of reviews |
 | Delete Review | `DELETE` | `/delete-review` | `{ "ID": 1234 }` | http.StatusOK (200) |
 | Update Review | `PUT` | `/update-review` | Review JSON | http.StatusOK (200) |
 | Get Subjects by Author | `GET` | `/get-subjects-by-author` | `{ "Author": <string> }` | http.StatusOK |
