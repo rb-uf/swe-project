@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import { FormBuilder } from '@angular/forms';
+import { Review } from '../review.service';
+import { Observable } from 'rxjs';
 
 export interface Subject {
   Name: string;
@@ -13,8 +15,9 @@ export interface Subject {
 })
 export class SubjectComponent {
 
-  subjects = [];
+  subjects: Subject[]= [];
 
+  reviews: Review[] = [];
   constructor(
     private http: HttpClient,
     private fb: FormBuilder,
@@ -32,14 +35,26 @@ export class SubjectComponent {
   }
 
   getSelectedReviews(subjects: string[]) {
-    var subjectsObject: Subject = {
-      Name: subjects[0], //todo: needs to send all subjects
-    }
-    console.log(subjects);
-    return this.http.get<any>(`http://localhost:3000/get-subject-reviews/${subjectsObject.Name}`).subscribe(data => { 
-      console.log(data);
-      this.subjects = data;
-    })
+    let selectedSubjects: Subject[] = []
+    subjects.forEach(function(item){
+      let selectedSubject: Subject = {Name: item}
+      selectedSubjects.push(selectedSubject)
+
+    });
+    console.log(selectedSubjects);
+    selectedSubjects.forEach((item) =>{
+      this.sendGetReviewsRequest(selectedSubjects[0]).subscribe((data: any) => {
+        this.reviews.push(data);
+      })
+    });
+
+  }
+
+  sendGetReviewsRequest(subject: Subject): Observable<Review[]> {
+    const options = subject ? 
+    {params : new HttpParams().set('Name', subject.Name)} : {};
+    
+    return this.http.get<Review[]>(`http://localhost:3000/get-subject-reviews/`, options);
   }
 
   subjectForm = this.fb.group({
