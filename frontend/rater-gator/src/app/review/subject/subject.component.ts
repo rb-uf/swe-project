@@ -112,7 +112,7 @@ export class SubjectComponent {
       'ID': reviewID,
     }
     console.log("Delete review with ID: ", body);
-    this.http.put<any>('http://localhost:3000/delete-review', body).subscribe(data => {
+    this.http.post<any>('http://localhost:3000/delete-review', body).subscribe(data => {
 
     });
   }
