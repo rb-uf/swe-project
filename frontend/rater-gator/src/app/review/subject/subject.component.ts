@@ -35,21 +35,15 @@ export class SubjectComponent {
     })
   }
 
-  getSelectedReviews(subjects: string[]) {
-    let selectedSubjects: Subject[] = []
-    subjects.forEach(function(item){
-      let selectedSubject: Subject = {Name: item}
-      selectedSubjects.push(selectedSubject)
+  getSelectedReviews(subject: string) {
+      let selectedSubject: Subject = {Name: subject}
 
-    });
-
-    selectedSubjects.forEach((item) =>{
-      this.sendGetReviewsRequest(item).subscribe((data: Review[]) => {
+      this.sendGetReviewsRequest(selectedSubject).subscribe((data: Review[]) => {
         data.forEach((subItem: Review) => {
           this.reviews.push(subItem);
         });
       })
-    });
+
     console.log(this.reviews);
   }
 
@@ -83,8 +77,9 @@ export class SubjectComponent {
     this.getAllSubjects();
   }
 
-  onChange(selectedOptions: string[]) {
+  onChange(selectedOption: string) {
+    this.reviews = [];
     //console.log(selectedOptions);
-    this.getSelectedReviews(selectedOptions);
+    this.getSelectedReviews(selectedOption);
   }
 }
