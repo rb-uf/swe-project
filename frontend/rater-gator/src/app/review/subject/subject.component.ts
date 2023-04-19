@@ -106,13 +106,14 @@ export class SubjectComponent {
     this.getSelectedReviews(selectedOption);
   }
 
-  onDeleteClick(reviewID: number) { //(click)="onDeleteClick(review.ID)"
+  onDeleteClick(reviewID: any) { //(click)="onDeleteClick(review.ID)"
     let body = {
       'ID': reviewID,
     }
-    //this.http.delete<any>('http://localhost:3000/delete-review', body).subscribe(data => {
+    console.log("Delete review with ID: ", body);
+    this.http.put<any>('http://localhost:3000/delete-review', body).subscribe(data => {
 
-    //});
+    });
   }
 
   onEditClick(reviewID: any) { //(click)="onEditClick(review.ID)"

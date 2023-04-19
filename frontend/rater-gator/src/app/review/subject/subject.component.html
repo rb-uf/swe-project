@@ -65,6 +65,6 @@
     <b>Author:</b> {{review.Author}}
     <br>
     <button mat-raised-button color="accent" (click)="onEditClick(review['ID'])">Edit</button>
-    <button mat-raised-button color="warn">Delete</button>
+    <button mat-raised-button color="warn" (click)="onDeleteClick(review['ID'])">Delete</button>
     <br>
 </div>
