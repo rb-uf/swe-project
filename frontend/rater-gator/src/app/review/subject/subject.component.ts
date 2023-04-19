@@ -68,12 +68,9 @@ export class SubjectComponent {
   });
 
   onEditSubmit(): void {
-    let editedReview: Review = {
+    let editedReview = {
       'ID': <number>this.editReviewID,
-      'Subject': <string>this.editForm.value.subject,
-      'Rating': +<string>this.editForm.value.rating,
       'Text': <string>this.editForm.value.description,
-      'Author': <string>this.editForm.value.author,
     }
     console.log("Edited review: ", editedReview);
     this.editForm.reset();
@@ -83,8 +80,12 @@ export class SubjectComponent {
     this.editForm.reset();
   }
 
-  editReview(editedReview: Review) {
-    return this.http.put<any>('http://localhost:3000/update-review', editedReview);
+  editReview(editedReview: any) {
+    let body = {
+      'ID': editedReview.ID,
+      'NewText': editedReview.Text,
+    }
+    return this.http.put<any>('http://localhost:3000/update-review', body);
   }
 
   onSubmit(): void {
