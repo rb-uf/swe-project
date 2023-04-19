@@ -13,6 +13,7 @@ export interface Review {
   'Rating': number,
   'Text': string,
   'Author': string,
+  'ID'?: number,
 }
 
 @Injectable({

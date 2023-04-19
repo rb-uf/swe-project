@@ -16,8 +16,10 @@ export interface Subject {
 export class SubjectComponent {
 
   subjects: Subject[]= [];
-
   reviews: Review[] = [];
+  showEdit: boolean = false;
+  editReviewID: number = -1;
+
   constructor(
     private http: HttpClient,
     private fb: FormBuilder,
@@ -58,6 +60,33 @@ export class SubjectComponent {
     Name: '',
   })
 
+  editForm = this.fb.group({
+    subject: '',
+    rating: '',
+    description: '',
+    author: '',
+  });
+
+  onEditSubmit(): void {
+    let editedReview: Review = {
+      'ID': <number>this.editReviewID,
+      'Subject': <string>this.editForm.value.subject,
+      'Rating': +<string>this.editForm.value.rating,
+      'Text': <string>this.editForm.value.description,
+      'Author': <string>this.editForm.value.author,
+    }
+    console.log("Edited review: ", editedReview);
+    this.editForm.reset();
+    this.editReview(editedReview).subscribe(data => {
+      console.log(data);
+    }); //response returned here
+    this.editForm.reset();
+  }
+
+  editReview(editedReview: Review) {
+    return this.http.put<any>('http://localhost:3000/update-review', editedReview);
+  }
+
   onSubmit(): void {
     let newSubject = {
       Name: <string>this.subjectForm.value.Name,
@@ -75,5 +104,19 @@ export class SubjectComponent {
   onChange(selectedOption: string) {
     this.reviews = [];
     this.getSelectedReviews(selectedOption);
+  }
+
+  onDeleteClick(reviewID: number) { //(click)="onDeleteClick(review.ID)"
+    let body = {
+      'ID': reviewID,
+    }
+    //this.http.delete<any>('http://localhost:3000/delete-review', body).subscribe(data => {
+
+    //});
+  }
+
+  onEditClick(reviewID: any) { //(click)="onEditClick(review.ID)"
+    this.showEdit = !this.showEdit;
+    this.editReviewID = reviewID;
   }
 }

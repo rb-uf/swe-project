@@ -16,6 +16,43 @@
     <button mat-raised-button color="primary">Add Location</button>
 </form>
 
+<div *ngIf="showEdit">
+    <hr>
+    <h2>Edit Review:</h2>
+<form [formGroup]="editForm" (ngSubmit)="onEditSubmit()">
+
+    <div>
+        <label for="subject">
+            Location:
+        </label>
+        <input id="subject" type="text" formControlName="subject">
+    </div>
+
+    <div>
+        <label for="rating">
+            Rating:
+        </label>
+        <input id="rating" type="number" formControlName="rating">
+    </div>
+
+    <div>
+        <label for="description">
+            Description:
+        </label>
+        <input id="description" type="text" formControlName="description">
+    </div>
+
+    <div>
+        <label for="author">
+            Name:
+        </label>
+        <input id="author" type="text" formControlName="author">
+    </div>
+
+    <button mat-raised-button color="primary">Edit Review</button>
+</form>
+</div>
+
 <hr>
 
 <div *ngFor="let review of reviews">
@@ -27,5 +64,7 @@
     <br>
     <b>Author:</b> {{review.Author}}
     <br>
+    <button mat-raised-button color="accent" (click)="onEditClick(review['ID'])">Edit</button>
+    <button mat-raised-button color="warn">Delete</button>
     <br>
 </div>
