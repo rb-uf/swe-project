@@ -1,11 +1,20 @@
+<style>
+    .center {
+        margin: auto;
+        width: 5%;
+    }
+</style>
+
 <p>
     <mat-toolbar color="primary">
-        <a routerLink="/">
-            <span>Rater Gator</span>
-        </a>
+        <span class="center">
+            <a routerLink="/">
+                <span>Rater Gator</span>
+            </a>
+        </span>
         <span class="example-spacer"></span>
         <a routerLink="/add-review">
-            <button mat-icon-button>
+            <button mat-icon-button color="basic" class="example-icon favorite-icon">
                 <mat-icon>add</mat-icon>
             </button>
         </a>

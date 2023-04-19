@@ -8,7 +8,7 @@
       <option *ngFor="let subject of subjects" [value]="subject['Name']">{{subject['Name']}}</option>
     </select>
     <a routerLink="/subjects">
-      <button class="button" >Add New Location</button>
+      <button mat-raised-button color="primary" class="button" >Add New Location</button>
     </a>
   </div>
 
@@ -33,6 +33,6 @@
     <input id="Author" type="text" formControlName="Author">
   </div>
 
-  <button class="button" type="submit">Submit</button>
+  <button mat-raised-button color="primary" class="button" type="submit">Submit</button>
 
 </form>
