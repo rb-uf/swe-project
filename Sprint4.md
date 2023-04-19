@@ -91,17 +91,16 @@ There are two types of objects the backend is designed to handle: "subjects" and
 | --- | --- | --- | --- | --- |
 | Create User | `POST` | `/sign-up` | `{ "Username": "name", "Password": "12345" }` | http.StatusCreated |
 | Login | `POST` | `/login` | `{ "Username": "name", "Password": "12345" }` | New cookie |
-| Logout | `DELETE` | `/logout` | None (user cookie should be in header) | http.StatusOK |
+| Logout | `POST` | `/logout` | None (user cookie should be in header) | http.StatusOK |
 | Get User Stats | `POST` | `/get-user-stats` | `{ "User": "name" }` | `{ "Posts": 10, "TotalScore": 22 }` |
 | Create subject | `POST` | `/create-subject` | `{ "Name": "Subject name" }` | JSON of the new subject |
 | Create Review | `POST` | `/create-review` | Review JSON, but without ID | JSON of the new review |
 | Get Subjects | `GET` | `/get-subjects` | N/A | JSON array of Subjects |
-| Delete Subject | `DELETE` | `/delete-subject` | `{ "Name": "Subject name" }` | http.StatusOK (200) |
+| Delete Subject | `POST` | `/delete-subject` | `{ "Name": "Subject name" }` | http.StatusOK (200) |
 | Get all of Subject's Reviews | `POST` | `/get-subject-reviews` | `{ "Name": "Subject name", "MaxReviews": 10000 }` | JSON array of reviews |
-| Delete Review | `DELETE` | `/delete-review` | `{ "ID": 1234 }` | http.StatusOK (200) |
-| Update Review | `PUT` | `/update-review` | Review JSON | http.StatusOK (200) |
-| Get Subjects by Author | `GET` | `/get-subjects-by-author` | `{ "Author": <string> }` | http.StatusOK |
-| Get User Stats | `POST` | `/get-user-stats` | `{ "Author": <string> }` | http.StatusOK |
+| Delete Review | `POST` | `/delete-review` | Review JSON | http.StatusOK (200) |
+| Update Review | `PUT` | `/update-review` | { "ID": int, "Text": string } | http.StatusOK (200) |
+| Get Subjects by Author | `POST` | `/get-subjects-by-author` | `{ "Author": <string> }` | http.StatusOK |
 | Update Review Ups | `PUT` | `/update-ups` | `{ "ReviewID": <ID number>, "Up": <negative for down, 0 or positive for up> }` | Review JSON |
 
 ### Additional Information
