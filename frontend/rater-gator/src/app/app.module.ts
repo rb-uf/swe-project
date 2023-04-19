@@ -17,7 +17,6 @@ import { SubjectComponent } from './review/subject/subject.component';
 import { ToolbarComponent } from './toolbar/toolbar.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import {MatSelectModule} from '@angular/material/select';
-import { ReviewListComponent } from './review-list/review-list.component';
 
 
 @NgModule({
@@ -28,7 +27,6 @@ import { ReviewListComponent } from './review-list/review-list.component';
     CreateReviewComponent,
     SubjectComponent,
     ToolbarComponent,
-    ReviewListComponent,
   ],
   imports: [
     BrowserModule,

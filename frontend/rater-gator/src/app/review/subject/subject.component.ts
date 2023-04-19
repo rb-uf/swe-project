@@ -25,12 +25,10 @@ export class SubjectComponent {
 
   ngOnInit() {
     this.getAllSubjects();
-
   }
 
   getAllSubjects() {
     return this.http.get<any>('http://localhost:3000/get-subjects').subscribe(data => {
-      //console.log(data);
       this.subjects = data;
     })
   }
@@ -44,7 +42,7 @@ export class SubjectComponent {
         });
       })
 
-    console.log(this.reviews);
+    console.log("Reviews: ", this.reviews);
   }
 
   sendGetReviewsRequest(subject: Subject): Observable<Review[]> {
@@ -64,22 +62,18 @@ export class SubjectComponent {
     let newSubject = {
       Name: <string>this.subjectForm.value.Name,
     }
-    //console.log(newSubject);
     this.addSubject(newSubject); //response returned here
     this.subjectForm.reset();
-    //this.loadReviews();
   }
 
   addSubject(newSubject: Subject): any {
     this.http.post<any>('http://localhost:3000/create-subject', newSubject).subscribe(data => {
-      //console.log(data);
     });
     this.getAllSubjects();
   }
 
   onChange(selectedOption: string) {
     this.reviews = [];
-    //console.log(selectedOptions);
     this.getSelectedReviews(selectedOption);
   }
 }
