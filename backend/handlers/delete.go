@@ -7,8 +7,8 @@ import (
 )
 
 /*
- * DeleteSubject: Deletes specified subject by the request packet. For now this has no authentication
- * for who can delete what but when users and account levels are implemented later this will be added to
+ * DeleteSubject: Deletes specified subject by the request packet.
+ * Body should contain a subject object
  */
 
 func DeleteSubject(w http.ResponseWriter, r *http.Request) {
@@ -35,6 +35,12 @@ func DeleteSubject(w http.ResponseWriter, r *http.Request) {
 	log.Println("Subject deleted:", request.Name)
 	w.WriteHeader(200) // OK
 }
+
+/*
+ * DeleteReview: Deletes a specified review by subject by the request packet. Verifies the
+ * user if built with authentication using the cookie.
+ * Body should contain a review object
+ */
 
 func DeleteReview(w http.ResponseWriter, r *http.Request) {
 	// Read request body
