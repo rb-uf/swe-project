@@ -109,7 +109,7 @@ There are two types of objects the backend is designed to handle: "subjects" and
 | Delete Subject | `POST` | `/delete-subject` | `{ "Name": "Subject name" }` | http.StatusOK (200) |
 | Get all of Subject's Reviews | `POST` | `/get-subject-reviews` | `{ "Name": "Subject name", "MaxReviews": 10000 }` | JSON array of reviews |
 | Delete Review | `POST` | `/delete-review` | Review JSON | http.StatusOK (200) |
-| Update Review | `PUT` | `/update-review` | { "ID": int, "Text": string } | http.StatusOK (200) |
+| Update Review | `PUT` | `/update-review` | `{ "ID": int, "Text": string }` | http.StatusOK (200) |
 | Get Subjects by Author | `POST` | `/get-subjects-by-author` | `{ "Author": <string> }` | http.StatusOK |
 | Update Review Ups | `PUT` | `/update-ups` | `{ "ReviewID": <ID number>, "Up": <negative for down, 0 or positive for up> }` | Review JSON |
 
