@@ -28,9 +28,11 @@ https://youtu.be/mHTpg7vP6To
 ## Testing (Unit and Functional)
 ### Frontend
 - Cypress
-  - Test 1: Input a location and a full review with the correct location. Verify that all the inputs were added correctly, then check for errors. No errors show up. 
-  - Test 2: Input a location and a full review with an incorrect location. Verify that all the inputs were added correctly, then check for errors. 1 error shows up.
-  - Test 3: Submit a blank review. No errors show up.
+  - Test 1: Add a new location and verify that it has been added.
+  - Test 2: Add a review and verify that it has been added.
+  - Test 3: Add a second review and verify that it has been added.
+  - Test 4: Delete the first review and verify that is has been deleted. 
+  - Test 5: Delete the second review and verify that is has been deleted. 
 ### Backend
 - In handler_test.go/handler_auth_test.go:
   - TestCreateSubject
