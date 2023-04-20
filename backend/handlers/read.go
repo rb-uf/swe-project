@@ -47,6 +47,7 @@ func GetSubjectReviews(w http.ResponseWriter, r *http.Request) {
 	datamgr.DB.Limit(request.MaxReviews).Find(&reviews, "Subject = ?", request.Name)
 
 	log.Println("Request for reviews of", request.Name, "received.")
+	//log.Println(reviews)
 	WriteResponse(w, reviews, 200)
 }
 

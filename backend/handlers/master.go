@@ -11,21 +11,21 @@ func MasterHandler(r *mux.Router, frontendPath string) {
 	// Routes for user requests
 	r.HandleFunc("/sign-up", CreateUser).Methods("POST")
 	r.HandleFunc("/login", Login).Methods("POST")
-	r.HandleFunc("/logout", Logout).Methods("DELETE")
-	r.HandleFunc("/get-user-stats", GetUserStats).Methods("GET")
+	r.HandleFunc("/logout", Logout).Methods("POST")
+	r.HandleFunc("/get-user-stats", GetUserStats).Methods("POST")
 
 	// Handle "subject" requests
 	r.HandleFunc("/create-subject", CreateSubject).Methods("POST")
-	r.HandleFunc("/get-subject/{name}", GetSubject).Methods("GET")
+	r.HandleFunc("/get-subject/{name}", GetSubject).Methods("POST")
 	r.HandleFunc("/get-subjects", GetSubjects).Methods("GET")
-	r.HandleFunc("/delete-subject", DeleteSubject).Methods("DELETE")
+	r.HandleFunc("/delete-subject", DeleteSubject).Methods("POST")
 
 	// Handle "review" requests
 	r.HandleFunc("/create-review", CreateReview).Methods("POST")
 	r.HandleFunc("/get-subject-reviews", GetSubjectReviews).Methods("POST")
-	r.HandleFunc("/get-reviews-by-subjects", GetReviewsBySubjects).Methods("GET")
-	r.HandleFunc("/get-reviews-by-author", GetReviewsByAuthor).Methods("GET")
-	r.HandleFunc("/delete-review", DeleteReview).Methods("DELETE")
+	r.HandleFunc("/get-reviews-by-subjects", GetReviewsBySubjects).Methods("POST")
+	r.HandleFunc("/get-reviews-by-author", GetReviewsByAuthor).Methods("POST")
+	r.HandleFunc("/delete-review", DeleteReview).Methods("POST")
 	r.HandleFunc("/update-review", UpdateReview).Methods("PUT")
 	r.HandleFunc("/update-ups", UpdateReviewUps).Methods("PUT")
 

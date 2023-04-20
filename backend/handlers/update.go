@@ -9,7 +9,14 @@ import (
 /*
  * A user should be able to edit their post's text. I think the location should not be editable
  * Input should be review ID, and new text string to replace the old text field
+ * Request format:
+ * {
+ * 		ID	uint
+ *		Text string
+ * }
+ * and the text of the review with ID == ID is replaced with the text in the packet
  */
+
 func UpdateReview(w http.ResponseWriter, r *http.Request) {
 	// Read body
 	request := struct {
