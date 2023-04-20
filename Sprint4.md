@@ -1,6 +1,7 @@
 # Sprint 4
 
 ## Demo Video
+[https://youtu.be/I4ba3PUEHiU](https://youtu.be/I4ba3PUEHiU)
 
 ## Work Completed
 ### Frontend
@@ -27,9 +28,11 @@
 ## Testing (Unit and Functional)
 ### Frontend
 - Cypress
-  - Test 1: Input a location and a full review with the correct location. Verify that all the inputs were added correctly, then check for errors. No errors show up. 
-  - Test 2: Input a location and a full review with an incorrect location. Verify that all the inputs were added correctly, then check for errors. 1 error shows up.
-  - Test 3: Submit a blank review. No errors show up.
+  - Test 1: Add a new location and verify that it has been added.
+  - Test 2: Add a review and verify that it has been added.
+  - Test 3: Add a second review and verify that it has been added.
+  - Test 4: Delete the first review and verify that is has been deleted. 
+  - Test 5: Delete the second review and verify that is has been deleted. 
 ### Backend
 - In handler_test.go/handler_auth_test.go:
   - TestCreateSubject
@@ -106,7 +109,7 @@ There are two types of objects the backend is designed to handle: "subjects" and
 | Delete Subject | `POST` | `/delete-subject` | `{ "Name": "Subject name" }` | http.StatusOK (200) |
 | Get all of Subject's Reviews | `POST` | `/get-subject-reviews` | `{ "Name": "Subject name", "MaxReviews": 10000 }` | JSON array of reviews |
 | Delete Review | `POST` | `/delete-review` | Review JSON | http.StatusOK (200) |
-| Update Review | `PUT` | `/update-review` | { "ID": int, "Text": string } | http.StatusOK (200) |
+| Update Review | `PUT` | `/update-review` | `{ "ID": int, "Text": string }` | http.StatusOK (200) |
 | Get Subjects by Author | `POST` | `/get-subjects-by-author` | `{ "Author": <string> }` | http.StatusOK |
 | Update Review Ups | `PUT` | `/update-ups` | `{ "ReviewID": <ID number>, "Up": <negative for down, 0 or positive for up> }` | Review JSON |
 
