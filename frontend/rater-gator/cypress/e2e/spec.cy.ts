@@ -5,81 +5,132 @@
 //https://docs.cypress.io/guides/component-testing/angular/quickstart
 
 describe('Test 1', () => {
-  it('Creating a new review', () => {
-    cy.visit('http://localhost:4200/');
+  it('Adding a new location', () => {
+    cy.visit('http://localhost:3000/');
 
-    cy.get("input[id='location']", { timeout: 10000 }) // can also use cy.contains("Location") 
-      .type("Lib West"); 
-    cy.get("input[id='location']")
-      .should('have.value', "Lib West"); 
+    cy.get("mat-select[id='subjectSelect']").click().wait(3000).focus().type('{esc}');
 
-    cy.get("input[id='rating']")
-      .type("4"); 
-    cy.get("input[id='rating']") 
-      .should('have.value', "4"); 
-
-    cy.get("input[id='description']") 
-      .type("this is a teste"); 
-    cy.get("input[id='description']") 
-      .should('have.value',"this is a teste"); 
-
-    cy.get("input[id='author']") 
-      .type("Ya boi"); 
-    cy.get("input[id='author']") 
-      .should('have.value',"Ya boi"); 
-
-    cy.contains("Submit Review") 
-      .click(); 
-    
+    cy.get("input[id='Name']", { timeout: 10000 }) // can also use cy.contains("Location") 
+      .type("Turlington"); 
+      cy.contains("Add Location") 
+      .click();
+      
+    cy.get("mat-select[id='subjectSelect']").click().wait(5000);
   });
 });
 
 describe('Step 2', () => {
-  it('Creating another review', () => {
-    cy.visit('http://localhost:4200/');
+  it('adding a review', () => {
 
-    cy.get("input[id='location']", { timeout: 10000 }) // can also use cy.contains("Location") 
-      .type("Carelton"); 
-    cy.get("input[id='location']")
-      .should('have.value', "Carelton"); 
+      cy.visit('http://localhost:3000/');
 
-    cy.get("input[id='rating']")
-      .type("This is not a number"); 
-    cy.get("input[id='rating']") 
-      .should('have.value', "This is not a number"); 
+      cy.get('button[class*="example-icon"]').click();
+  
+      cy.get("input[id='subject']", { timeout: 10000 }) // can also use cy.contains("Location") 
+        .type("Turlington"); 
+      cy.get("input[id='subject']")
+        .should('have.value', "Turlington"); 
+  
+      cy.get("input[id='rating']")
+        .type("2"); 
+      cy.get("input[id='rating']") 
+        .should('have.value', "2"); 
+  
+      cy.get("input[id='description']") 
+        .type("this is a testeeee"); 
+      cy.get("input[id='description']") 
+        .should('have.value',"this is a testeeee"); 
+  
+      cy.get("input[id='author']") 
+        .type("hey"); 
+      cy.get("input[id='author']") 
+        .should('have.value',"hey"); 
 
-    cy.get("input[id='description']") 
-      .type("These chairs don't work"); 
-    cy.get("input[id='description']") 
-      .should('have.value',"These chairs don't work"); 
+        cy.wait(3000);
+  
+      cy.contains("Submit Review") 
+        .click();
+      
+        cy.contains("Rater Gator") 
+        .click();
 
-    cy.get("input[id='author']") 
-      .type("Devala"); 
-    cy.get("input[id='author']") 
-      .should('have.value',"Devala"); 
+        cy.wait(3000);
+      
+      cy.get("mat-select[id='subjectSelect']").click().get('mat-option').contains('Turlington').click();
 
-    cy.contains("Submit Review") 
-      .click(); 
+      cy.wait(5000);
     
   });
 });
 
 describe('Step 3', () => {
-  it('Creating a third review', () => {
-    cy.visit('http://localhost:4200/');
+  it('adding a second review', () => {
 
-    cy.get("input[id='description']") 
-      .type("this is a test3"); 
-    cy.get("input[id='description']") 
-      .should('have.value',"this is a test3"); 
+      cy.visit('http://localhost:3000/');
 
-    cy.get("input[id='author']") 
-      .type("Emmet"); 
-    cy.get("input[id='author']") 
-      .should('have.value',"Emmet"); 
+      cy.get('button[class*="example-icon"]').click();
+  
+      cy.get("input[id='subject']", { timeout: 10000 }) // can also use cy.contains("Location") 
+        .type("Turlington"); 
+      cy.get("input[id='subject']")
+        .should('have.value', "Turlington"); 
+  
+      cy.get("input[id='rating']")
+        .type("3"); 
+      cy.get("input[id='rating']") 
+        .should('have.value', "3"); 
+  
+      cy.get("input[id='description']") 
+        .type("this is another testeeee"); 
+      cy.get("input[id='description']") 
+        .should('have.value',"this is another testeeee"); 
+  
+      cy.get("input[id='author']") 
+        .type("Devala"); 
+      cy.get("input[id='author']") 
+        .should('have.value',"Devala"); 
 
-    cy.contains("Submit Review") 
-      .click(); 
+        cy.wait(3000);
+  
+      cy.contains("Submit Review") 
+        .click();
+      
+        cy.contains("Rater Gator") 
+        .click();
+
+        cy.wait(3000);
+      
+      cy.get("mat-select[id='subjectSelect']").click().get('mat-option').contains('Turlington').click();
+
+      cy.wait(5000);
     
+  });
+});
+
+describe('Step 4', () => {
+  it('Deleting first review', () => {
+    
+      cy.visit('http://localhost:3000/');
+      cy.get("mat-select[id='subjectSelect']").click().get('mat-option').contains('Turlington').click();
+      cy.contains("Delete").click(); 
+      cy.wait(5000);
+
+      cy.reload().wait(1000);
+      cy.get("mat-select[id='subjectSelect']").click().get('mat-option').contains('Turlington').click();
+      cy.wait(5000);
+  });
+});
+
+describe('Step 5', () => {
+  it('Deleting a review', () => {
+    
+      cy.visit('http://localhost:3000/');
+      cy.get("mat-select[id='subjectSelect']").click().get('mat-option').contains('Turlington').click();
+      cy.contains("Delete").click(); 
+      cy.wait(5000);
+
+      cy.reload().wait(1000);
+      cy.get("mat-select[id='subjectSelect']").click().get('mat-option').contains('Turlington').click();
+      cy.wait(5000);
   });
 });

@@ -1,7 +1,7 @@
 <h2>Location:</h2>
 <mat-form-field>
     <mat-label>Location</mat-label>
-    <mat-select multiple id="subjectSelect" #mySelect (selectionChange)="onChange(mySelect.value)">
+    <mat-select id="subjectSelect" #mySelect (selectionChange)="onChange(mySelect.value)">
         <mat-option *ngFor="let subject of subjects" [value]="subject['Name']">{{subject['Name']}}</mat-option>
     </mat-select>
 </mat-form-field>
@@ -15,3 +15,56 @@
     </div>
     <button mat-raised-button color="primary">Add Location</button>
 </form>
+
+<div *ngIf="showEdit">
+    <hr>
+    <h2>Edit Review:</h2>
+<form [formGroup]="editForm" (ngSubmit)="onEditSubmit()">
+
+    <div>
+        <label for="subject">
+            Location:
+        </label>
+        <input id="subject" type="text" formControlName="subject">
+    </div>
+
+    <div>
+        <label for="rating">
+            Rating:
+        </label>
+        <input id="rating" type="number" formControlName="rating">
+    </div>
+
+    <div>
+        <label for="description">
+            Description:
+        </label>
+        <input id="description" type="text" formControlName="description">
+    </div>
+
+    <div>
+        <label for="author">
+            Name:
+        </label>
+        <input id="author" type="text" formControlName="author">
+    </div>
+
+    <button mat-raised-button color="primary">Edit Review</button>
+</form>
+</div>
+
+<hr>
+
+<div *ngFor="let review of reviews">
+    <b>Location:</b> {{review.Subject}}
+    <br>
+    <b>Rating:</b> {{review.Rating}}
+    <br>
+    <b>Description:</b> {{review.Text}}
+    <br>
+    <b>Author:</b> {{review.Author}}
+    <br>
+    <button mat-raised-button color="accent" (click)="onEditClick(review['ID'])">Edit</button>
+    <button mat-raised-button color="warn" (click)="onDeleteClick(review['ID'])">Delete</button>
+    <br>
+</div>

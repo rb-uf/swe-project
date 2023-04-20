@@ -9,10 +9,11 @@ import { Subject } from './subject/subject.component';
 
 // review object, has 4 properties of user-entered info
 export interface Review {
-  subject: string;
-  rating: number;
-  description: string;
-  author: string;
+  'Subject': string,
+  'Rating': number,
+  'Text': string,
+  'Author': string,
+  'ID'?: number,
 }
 
 @Injectable({
@@ -28,23 +29,10 @@ export class ReviewService {
     private http: HttpClient,
   ) { }
 
-  // reviews list accessor
-  getReviews(): Review[] {
-    let subject: Subject = {
-      Name: "Marston:"
-    }
-    //this.http.get<any>('http://localhost:3000/get-subject-reviews', subject).subscribe(data => {
-      //console.log(data);
-      //this._reviews = data;
-    //})
-    return this._reviews;
-  }
-
   postReview(review: Review)  {
     this.http.post<any>('http://localhost:3000/create-review', review).subscribe(data => {
-      console.log(data);
+      console.log("New review inserted: ", data);
     });
-    this.getReviews();
   }
   
 }

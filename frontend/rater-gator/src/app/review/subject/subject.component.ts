@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import { FormBuilder } from '@angular/forms';
+import { Review } from '../review.service';
+import { Observable } from 'rxjs';
 
 export interface Subject {
   Name: string;
@@ -13,7 +15,10 @@ export interface Subject {
 })
 export class SubjectComponent {
 
-  subjects = [];
+  subjects: Subject[]= [];
+  reviews: Review[] = [];
+  showEdit: boolean = false;
+  editReviewID: number = -1;
 
   constructor(
     private http: HttpClient,
@@ -26,45 +31,94 @@ export class SubjectComponent {
 
   getAllSubjects() {
     return this.http.get<any>('http://localhost:3000/get-subjects').subscribe(data => {
-      console.log(data);
       this.subjects = data;
     })
   }
 
-  getSelectedReviews(subjects: string[]) {
-    var subjectsObject: Subject = {
-      Name: subjects[0], //todo: needs to send all subjects
+  getSelectedReviews(subject: string) {
+      let selectedSubject: Subject = {Name: subject}
+
+      this.sendGetReviewsRequest(selectedSubject).subscribe((data: Review[]) => {
+        data.forEach((subItem: Review) => {
+          this.reviews.push(subItem);
+        });
+      })
+
+    console.log("Reviews: ", this.reviews);
+  }
+
+  sendGetReviewsRequest(subject: Subject): Observable<Review[]> {
+    let body = {
+      'Name': subject.Name,
+      'MaxReviews': 10000,
     }
-    console.log(subjects);
-    return this.http.get<any>(`http://localhost:3000/get-subject-reviews/${subjectsObject.Name}`).subscribe(data => { 
-      console.log(data);
-      this.subjects = data;
-    })
+
+    return this.http.post<Review[]>(`http://localhost:3000/get-subject-reviews`, body);
   }
 
   subjectForm = this.fb.group({
     Name: '',
   })
 
+  editForm = this.fb.group({
+    subject: '',
+    rating: '',
+    description: '',
+    author: '',
+  });
+
+  onEditSubmit(): void {
+    let editedReview = {
+      'ID': <number>this.editReviewID,
+      'Text': <string>this.editForm.value.description,
+    }
+    console.log("Edited review: ", editedReview);
+    this.editForm.reset();
+    this.editReview(editedReview).subscribe(data => {
+      console.log(data);
+    }); //response returned here
+    this.editForm.reset();
+  }
+
+  editReview(editedReview: any) {
+    let body = {
+      'ID': editedReview.ID,
+      'NewText': editedReview.Text,
+    }
+    return this.http.put<any>('http://localhost:3000/update-review', body);
+  }
+
   onSubmit(): void {
     let newSubject = {
       Name: <string>this.subjectForm.value.Name,
     }
-    console.log(newSubject);
     this.addSubject(newSubject); //response returned here
     this.subjectForm.reset();
-    //this.loadReviews();
   }
 
   addSubject(newSubject: Subject): any {
     this.http.post<any>('http://localhost:3000/create-subject', newSubject).subscribe(data => {
-      console.log(data);
     });
     this.getAllSubjects();
   }
 
-  onChange(selectedOptions: string[]) {
-    console.log(selectedOptions);
-    this.getSelectedReviews(selectedOptions);
+  onChange(selectedOption: string) {
+    this.reviews = [];
+    this.getSelectedReviews(selectedOption);
+  }
+
+  onDeleteClick(reviewID: any) { //(click)="onDeleteClick(review.ID)"
+    let body = {
+      'ID': reviewID,
+    }
+    console.log("Delete review with ID: ", body);
+    this.http.post<any>('http://localhost:3000/delete-review', body).subscribe(data => {
+
+    });
+  }
+
+  onEditClick(reviewID: any) { //(click)="onEditClick(review.ID)"
+    this.showEdit = !this.showEdit;
+    this.editReviewID = reviewID;
   }
 }

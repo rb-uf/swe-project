@@ -16,7 +16,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { SubjectComponent } from './review/subject/subject.component';
 import { ToolbarComponent } from './toolbar/toolbar.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import {MatSelectModule} from '@angular/material/select';
+import { MatSelectModule} from '@angular/material/select';
+import { AppRoutingModule } from './app-routing.module';
 
 
 @NgModule({
@@ -38,6 +39,7 @@ import {MatSelectModule} from '@angular/material/select';
     MatIconModule,
     MatFormFieldModule,
     MatSelectModule,
+    AppRoutingModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

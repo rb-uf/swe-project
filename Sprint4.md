@@ -4,6 +4,13 @@
 
 ## Work Completed
 ### Frontend
+- Fixed selector to render review list display.
+- Added edit review description toggle, edit review display, and edit review HTTP request to server.
+- Added component routing to to the app module with default route '/'.
+- Added page navigation with component routing.
+- Moved new review page to /add-review route. AddReviewComponent created from review component.
+- Added delete review functionality.
+- Removed log messages for creating subjects and reviews.
 
 ### Backend
 - Added command-line arguments for setting the database path, frontend path, and port number.
@@ -22,7 +29,7 @@
 - Cypress
   - Test 1: Input a location and a full review with the correct location. Verify that all the inputs were added correctly, then check for errors. No errors show up. 
   - Test 2: Input a location and a full review with an incorrect location. Verify that all the inputs were added correctly, then check for errors. 1 error shows up.
-  - Test 3: Submit a black review. No errors show up.
+  - Test 3: Submit a blank review. No errors show up.
 ### Backend
 - In handler_test.go/handler_auth_test.go:
   - TestCreateSubject
